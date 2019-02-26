@@ -4,7 +4,7 @@ Adds new functionality to the Arma 3 chat system with emojis, history viewer, me
 Video demo: https://youtu.be/RBhJ8USHqOk
 
 # Download
-- [Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=)
+- [Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1667280668)
 - [Github Releases](https://github.com/ConnorAU/A3ExtendedChat/releases)
 
 # Developer Info
