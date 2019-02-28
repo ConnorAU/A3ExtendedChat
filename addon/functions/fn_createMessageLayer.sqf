@@ -24,7 +24,7 @@ VAR_MESSAGE_FEED_POS = [
 ];
 
 VAR_MESSAGE_FEED_POS set [3,
-	(((VAR_MESSAGE_FEED_POS#1 - safezoney)) + ((VAR_MESSAGE_FEED_POS#3)*6))
+	(VAR_MESSAGE_FEED_POS#1 - safezoney) + ((VAR_MESSAGE_FEED_POS#3)*6)
 ];
 VAR_MESSAGE_FEED_POS set [1,safezoney];
 
