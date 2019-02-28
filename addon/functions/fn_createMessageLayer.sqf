@@ -52,4 +52,15 @@ _ctrlGroupBG ctrlCommit 0;
 
 addMissionEventHandler ["EachFrame",{call FUNC(repetitiveTasks)}];
 
+if !(_this#0) then {
+	{
+		diag_log _x;
+		["systemChat",[_x]] call FUNC(sendMessage);
+	} forEach [
+		format["ExtendedChat is not fully supported by this mission: %1.%2",missionName,worldName],
+		"This will result in scripted chat messages not appearing and broken text communication in custom radio channels",
+		"Visit the github for setup instructions: https://github.com/ConnorAU/A3ExtendedChat"
+	];
+};
+
 [] spawn FUNC(motd);

@@ -10,17 +10,20 @@
 
 #include "_defines.inc"
 
-if (getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1) exitWith {
-	private _isMainMenu = false;
-	private _mission = format["%1.%2",missionName,worldName];
-	{
-		if ([_mission,getText(_x >> "directory")] call BIS_fnc_inString) exitWith {
-			_isMainMenu = true;
-		};
-	} count ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes"));
-	
-	if !_isMainMenu then {	
-		private _log = format["ExtendedChat is not %3 this mission: %1.%2",missionName,worldName,["supported by","enabled for"] select (isNumber(missionConfigFile >> QUOTE(VAR(enabled))))];
+private _isMainMenu = false;
+private _mission = format["%1.%2",missionName,worldName];
+{
+	if ([_mission,getText(_x >> "directory")] call BIS_fnc_inString) exitWith {
+		_isMainMenu = true;
+	};
+} count ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes"));
+if _isMainMenu exitWith {};
+
+private _isNumber = isNumber(missionConfigFile >> QUOTE(VAR(enabled)));
+if (_isNumber && {getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1}) exitWith {
+	[] spawn {
+		waitUntil {!isNull findDisplay 46};
+		private _log = format["ExtendedChat is disabled in this mission: %1.%2",missionName,worldName];
 		systemChat _log;
 		diag_log _log;
 	};
@@ -37,7 +40,7 @@ if hasInterface then {
 
 	["init"] call FUNC(settings);
 
-	[] spawn FUNC(createMessageLayer);
+	[_isNumber] spawn FUNC(createMessageLayer);
 
 	[] spawn {
 		waitUntil {player isKindOf "CAManBase"};
