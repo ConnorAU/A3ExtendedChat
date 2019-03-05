@@ -26,7 +26,7 @@ params [
 
 if (isServer && {_channelID == -1}) then {
 	if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
-		["log",[_channelID,_text,_senderName,_senderUID]] call FUNC(log);
+		["text",[_channelID,_text,_senderName,_senderUID]] call FUNC(log);
 	};
 };
 

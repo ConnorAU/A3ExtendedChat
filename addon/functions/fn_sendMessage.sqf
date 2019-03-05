@@ -36,16 +36,7 @@ private _arguments = switch (tolower _mode) do {
 			_channelID,
 			[
 				"SafeStructuredText",
-				[
-					"ClientNamePrefix",
-					[
-						_sender,
-						_channelID,
-						if (_channelID < 6) then {""} else {
-							["get",[_channelID - 5,1]] call FUNC(radioChannelCustom)
-						}
-					]
-				] call FUNC(commonTask)
+				["ClientNamePrefix",[_sender,_channelID]] call FUNC(commonTask)
 			] call FUNC(commonTask),
 			getPlayerUID _sender,
 			side group _sender,

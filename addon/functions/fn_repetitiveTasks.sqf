@@ -192,11 +192,13 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 	};
 };
 
-// Update VOIP speakers ctrl 
-#define VAR_UPDATE_VOIP_TICK FUNC_SUBVAR(voip_update_tick)
-if (VAR_ENABLE_VOIP_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOTE(VAR_UPDATE_VOIP_TICK),0])}) then {
-	VAR_UPDATE_VOIP_TICK = diag_tickTime + 0.1;
+// Update VON speakers ctrl 
+#define VAR_UPDATE_VON_TICK FUNC_SUBVAR(von_update_tick)
+#define VAR_UPDATE_VON_ISSPEAKING FUNC_SUBVAR(von_is_speaking)
+if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOTE(VAR_UPDATE_VON_TICK),0])}) then {
+	VAR_UPDATE_VON_TICK = diag_tickTime + 0.1;
 	private _speakers = [];
+	private _playerIsSpeaking = false;
 
 	{
 		private _channel = getPlayerChannel _x;
@@ -212,6 +214,10 @@ if (VAR_ENABLE_VOIP_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUO
 				_colour call BIS_fnc_colorRGBAtoHTML,
 				["SafeStructuredText",UNIT_NAME(_x)] call FUNC(commonTask)
 			];
+
+			if (_x == player) then {
+				_playerIsSpeaking = true;
+			};
 		};
 		false
 	} count allPlayers;
@@ -223,7 +229,7 @@ if (VAR_ENABLE_VOIP_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUO
 	] joinString "";
 
 	USE_DISPLAY(DISPLAY(VAR_MESSAGE_FEED_DISPLAY));
-	private _ctrlVoipSpeaker = _display getVariable [QUOTE(VAR_VOIP_SPEAKERS_CTRL),controlNull];
+	private _ctrlVoipSpeaker = _display getVariable [QUOTE(VAR_VON_SPEAKERS_CTRL),controlNull];
 	private _ctrlVoipSpeakerPos = ctrlPosition _ctrlVoipSpeaker;
 	_ctrlVoipSpeaker ctrlShow false;
 	_ctrlVoipSpeaker ctrlSetStructuredText parseText _text;
@@ -241,4 +247,23 @@ if (VAR_ENABLE_VOIP_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUO
 	_ctrlVoipSpeaker ctrlCommit 0;
 
 	_ctrlVoipSpeaker ctrlShow true;
+
+	if !_playerIsSpeaking then {
+		// incase direct chat is being used
+		_playerIsSpeaking = !isNull findDisplay 55 && !isNull findDisplay 63;
+	};
+
+	private _isSpeaking = missionNamespace getVariable [QUOTE(VAR_UPDATE_VON_ISSPEAKING),false];
+	if !(_isSpeaking isEqualTo _playerIsSpeaking) then {
+		VAR_UPDATE_VON_ISSPEAKING = !_isSpeaking;
+		[
+			"voice",
+			[
+				VAR_UPDATE_VON_ISSPEAKING,
+				currentChannel,
+				["ClientNamePrefix",[player,currentChannel]] call FUNC(commonTask),
+				getplayerUID player
+			]
+		] remoteExecCall [QUOTE(FUNC(log)),2];
+	};
 };

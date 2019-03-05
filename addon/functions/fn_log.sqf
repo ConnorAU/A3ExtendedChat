@@ -34,7 +34,7 @@ switch _mode do {
 		missionNameSpace setVariable [_variable,_value];
 		_value
 	};
-	case "log":{
+	case "text":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) exitWith {};
 		_params params [
 			["_channelID",-10,[0]],
@@ -62,5 +62,32 @@ switch _mode do {
 
 		// text _log so it dequotes the log string
 		"ExtendedChat" callExtension [format["%1 %2",_channelID,_channel],[text _log]];
+	};
+	case "voice":{
+		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) exitWith {};
+		_params params [
+			["_active",true,[true]],
+			["_channelID",-10,[0]],
+			["_name","",[""]],
+			["_pid","",[""]]
+		];
+
+		// dont log channels like system as it cant be spoken into
+		if (_channelID < 0 || _channelID > 15) exitWith {};
+		if !(missionNameSpace getVariable [VAL_ENABLE_LOG_VAR(_channelID),true]) exitWith {};
+
+		private _channel = if (_channelID < 6) then {
+			["ChannelName",_channelID] call FUNC(commonTask);
+		} else {
+			["get",[_channelID - 5,1]] call FUNC(radioChannelCustom);
+		};
+		private _log = format[
+			"(%1) %2 %4 speaking in %3",
+			_pid,_name,_channel,
+			["stopped","started"] select _active				
+		];
+
+		// text _log so it dequotes the log string
+		"ExtendedChat" callExtension [format["%1 %2 VON",_channelID,_channel],[text _log]];
 	};
 };

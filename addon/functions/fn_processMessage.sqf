@@ -30,7 +30,7 @@ private _pid = getPlayerUID player;
 private _commandPrefix = ["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings);
 if ([_text,_commandPrefix] call FUNC(stringPrefix)) exitWith {
 	if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
-		["log",[-2,_text,UNIT_NAME(player),_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
+		["text",[-2,_text,UNIT_NAME(player),_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
 	};
 
 	[_text] call FUNC(processCommand);
@@ -39,11 +39,8 @@ if ([_text,_commandPrefix] call FUNC(stringPrefix)) exitWith {
 
 // send log from here so it contains original unstructured text
 if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
-	private _channelName = if (_currentChannel < 6) then {""} else {
-		["get",[_currentChannel - 5,1]] call FUNC(radioChannelCustom);
-	};
-	private _name = ["ClientNamePrefix",[player,_currentChannel,_channelName]] call FUNC(commonTask);
-	["log",[_currentChannel,_text,_name,_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
+	private _name = ["ClientNamePrefix",[player,_currentChannel]] call FUNC(commonTask);
+	["text",[_currentChannel,_text,_name,_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
 };
 
 // replace bad characters and format emojis

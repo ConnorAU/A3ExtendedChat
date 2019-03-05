@@ -36,7 +36,7 @@ if hasInterface then {
 	VAR_MESSAGE_FEED_CTRLS = [];
 	VAR_NEW_MESSAGE_PENDING = false;
 	VAR_ENABLE_LOGGING = false;
-	VAR_ENABLE_VOIP_CTRL = difficultyOption "vonID" > 0;
+	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
 
 	VAR_ENABLE_EMOJIS = getNumber(missionConfigFile >> QUOTE(VAR(emojis))) > 0;
 

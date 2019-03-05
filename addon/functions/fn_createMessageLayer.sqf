@@ -31,7 +31,7 @@ VAR_MESSAGE_FEED_POS set [1,safezoney];
 disableSerialization;
 USE_DISPLAY(THIS_DISPLAY);
 
-// VOIP active speakers ctrl
+// VON active speakers ctrl
 private _ctrlVoipSpeakers = _display ctrlCreate ["ctrlStructuredText",-1];
 _ctrlVoipSpeakers ctrlSetBackgroundColor [0.1,0.1,0.1,0.5];
 _ctrlVoipSpeakers ctrlSetPosition [
@@ -40,7 +40,7 @@ _ctrlVoipSpeakers ctrlSetPosition [
 	0,0
 ];
 _ctrlVoipSpeakers ctrlCommit 0;
-_display setVariable [QUOTE(VAR_VOIP_SPEAKERS_CTRL),_ctrlVoipSpeakers];
+_display setVariable [QUOTE(VAR_VON_SPEAKERS_CTRL),_ctrlVoipSpeakers];
 
 // highlight feed position
 /*

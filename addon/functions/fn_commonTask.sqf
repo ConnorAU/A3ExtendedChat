@@ -64,7 +64,7 @@ switch _mode do {
 		[_name,localize "str_a3_rscdisplaydynamicgroups_you"] select (_uid == getPlayerUID player && {isStreamFriendlyUIEnabled})
 	};
 	case "ClientNamePrefix":{
-		_params params ["_unit","_channelID","_channelName"];
+		_params params ["_unit","_channelID"];
 		if (_channelID < 6) then {
 			private _prefix = switch _channelID do {
 				case 0:{["SideName",side group _unit] call THIS_FUNC};
@@ -76,6 +76,7 @@ switch _mode do {
 				format["(%1) %2",_prefix,UNIT_NAME(_unit)];
 			} else {UNIT_NAME(_unit)};
 		} else {
+			private _channelName = ["get",[_channelID - 5,1]] call FUNC(radioChannelCustom);
 			private _channelCallsign = ["get",[_channelID - 5,2]] call FUNC(radioChannelCustom);
 			if ([_channelCallsign,"$STR_"] call FUNC(stringPrefix)) then {
 				_channelCallsign = localize _channelCallsign;

@@ -13,13 +13,13 @@
 #define VAR_MESSAGE_FEED_DISPLAY VAR(message_feed_display)
 #define VAR_MESSAGE_FEED_POS VAR(message_feed_pos)
 #define VAR_COMMAND_CODE_PREFIX VAR(_command_)
-#define VAR_VOIP_SPEAKERS_CTRL VAR(ctrl_voip_speakers)
+#define VAR_VON_SPEAKERS_CTRL VAR(ctrl_von_speakers)
 #define VAR_UNIT_NAME VAR(unit_name)
 #define VAR_MESSAGE_SENT_COOLDOWN VAR(message_sent_cooldown)
 
 #define VAR_ENABLE_EMOJIS VAR(enable_emojis)
 #define VAR_ENABLE_LOGGING VAR(enable_logging)
-#define VAR_ENABLE_VOIP_CTRL VAR(enable_voip_ctrl)
+#define VAR_ENABLE_VON_CTRL VAR(enable_von_ctrl)
 
 // ~ Operations
 #define QUOTE(a) #a
