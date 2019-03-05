@@ -8,10 +8,10 @@
 
 #include "functions\_defines.inc"
 
-class ExtendedChat {
+class CAU_ExtendedChat {
     tag=QUOTE(FUNC_PREFIX);
 	class Functions {
-        file = "ExtendedChat\functions";
+        file = "cau\extendedchat\functions";
 		class addCommand {};
 		class addMessage {};
 		class commonTask {};

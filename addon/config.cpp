@@ -7,7 +7,7 @@
 └──────────────────────────────────────────────────────*/
 
 class CfgPatches {
-	class ExtendedChat {
+	class CAU_ExtendedChat {
         name="ExtendedChat";
         author="Connor";
         url="https://steamcommunity.com/id/_connor";
