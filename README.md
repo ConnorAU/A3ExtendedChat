@@ -9,6 +9,4 @@ Adds new functionality to the Arma 3 chat system with emojis, history viewer, me
 - [Discord](https://discord.gg/DMkxetD)
 
 # License
-This work is licensed under CUP-License (CUP-L), Version 1.0  
-http://cup-arma3.org/license  
 https://github.com/ConnorAU/A3ExtendedChat/blob/master/LICENSE
