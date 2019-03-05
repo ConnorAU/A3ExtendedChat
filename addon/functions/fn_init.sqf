@@ -24,8 +24,10 @@ if (_isNumber && {getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1}) exi
 	[] spawn {
 		waitUntil {!isNull findDisplay 46};
 		private _log = format["ExtendedChat is disabled in this mission: %1.%2",missionName,worldName];
-		systemChat _log;
 		diag_log _log;
+		if (["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings)) then {
+			systemChat _log;
+		};
 	};
 };
 

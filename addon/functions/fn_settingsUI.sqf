@@ -13,23 +13,24 @@
 #include "_defines.inc"
 
 #define DIALOG_W 120
-#define DIALOG_H 77
+#define DIALOG_H 82
 
-#define IDC_BUTTON_SAVE_SETTINGS 	1
-#define IDC_EDIT_COMMAND_PREFIX		2
-#define IDC_COMBO_MAX_SAVED_LOGS 	3
-#define IDC_COMBO_MAX_PRINTED_LOGS	4
-#define IDC_COMBO_PRINTED_LOG_TTL	5
-#define IDC_CB_LOG_CONNECT			6
-#define IDC_CB_LOG_DISCONNECT		7
-#define IDC_CB_LOG_KILLED			8
-#define IDC_CB_CHANNEL_GLOBAL		9
-#define IDC_CB_CHANNEL_SIDE			10
-#define IDC_CB_CHANNEL_COMMAND		11
-#define IDC_CB_CHANNEL_GROUP		12
-#define IDC_CB_CHANNEL_VEHICLE		13
-#define IDC_CB_CHANNEL_DIRECT		14
-#define IDC_CB_CHANNEL_CUSTOM		15
+#define IDC_BUTTON_SAVE_SETTINGS 			1
+#define IDC_EDIT_COMMAND_PREFIX				2
+#define IDC_COMBO_MAX_SAVED_LOGS 			3
+#define IDC_COMBO_MAX_PRINTED_LOGS			4
+#define IDC_COMBO_PRINTED_LOG_TTL			5
+#define IDC_CB_LOG_CONNECT					6
+#define IDC_CB_LOG_DISCONNECT				7
+#define IDC_CB_LOG_KILLED					8
+#define IDC_CB_CHANNEL_UNSUPPORTED_MISSION	9
+#define IDC_CB_CHANNEL_GLOBAL				10
+#define IDC_CB_CHANNEL_SIDE					11
+#define IDC_CB_CHANNEL_COMMAND				12
+#define IDC_CB_CHANNEL_GROUP				13
+#define IDC_CB_CHANNEL_VEHICLE				14
+#define IDC_CB_CHANNEL_DIRECT				15
+#define IDC_CB_CHANNEL_CUSTOM				16
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -389,9 +390,33 @@ switch _mode do {
 				}
 			],
 			[
+				"ctrlCheckbox",IDC_CB_CHANNEL_UNSUPPORTED_MISSION,[
+					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*4)),
+					PX_WA(SIZE_M),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings));
+					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*4)),
+					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_unsupported_mission_log_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_unsupported_mission_log_desc";
+				}
+			],
+			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GLOBAL,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*5)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*6)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -403,7 +428,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*5)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*6)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -418,7 +443,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_SIDE,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*6)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*7)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -430,7 +455,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*6)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*7)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -445,7 +470,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_COMMAND,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*7)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*8)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -457,7 +482,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*7)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*8)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -472,7 +497,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GROUP,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*8)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*9)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -484,7 +509,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*8)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*9)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -499,7 +524,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_VEHICLE,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*9)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*10)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -511,7 +536,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*9)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*10)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -526,7 +551,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_DIRECT,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*10)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*11)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -538,7 +563,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*10)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*11)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -553,7 +578,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_CUSTOM,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*11)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*12)),
 					PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -565,7 +590,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*11)),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*12)),
 					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
 					PX_HA(SIZE_M)
 				],
@@ -599,6 +624,7 @@ switch _mode do {
 		USE_CTRL(_ctrlCBLogConnect,IDC_CB_LOG_CONNECT);
 		USE_CTRL(_ctrlCBLogDisconnect,IDC_CB_LOG_DISCONNECT);
 		USE_CTRL(_ctrlCBLogKilled,IDC_CB_LOG_KILLED);
+		USE_CTRL(_ctrlCBLogUnsupportedMission,IDC_CB_CHANNEL_UNSUPPORTED_MISSION);
 		USE_CTRL(_ctrlCBShowGlobal,IDC_CB_CHANNEL_GLOBAL);
 		USE_CTRL(_ctrlCBShowSide,IDC_CB_CHANNEL_SIDE);
 		USE_CTRL(_ctrlCBShowCommand,IDC_CB_CHANNEL_COMMAND);
@@ -626,6 +652,7 @@ switch _mode do {
 		["set",[VAL_SETTINGS_INDEX_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_KILL,cbChecked _ctrlCBLogKilled]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION,cbChecked _ctrlCBLogUnsupportedMission]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_GLOBAL,cbChecked _ctrlCBShowGlobal]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_SIDE,cbChecked _ctrlCBShowSide]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_COMMAND,cbChecked _ctrlCBShowCommand]] call FUNC(settings);
@@ -636,7 +663,7 @@ switch _mode do {
 
 		saveProfileNamespace;
 
-		["systemChat",[format["[Extended Chat] %1",localize "STR_CAU_xChat_settings_saved_alert"]]] call FUNC(sendMessage);
+		["systemChat",[format["Extended Chat: %1",localize "STR_CAU_xChat_settings_saved_alert"]]] call FUNC(sendMessage);
 
 		true
 	};

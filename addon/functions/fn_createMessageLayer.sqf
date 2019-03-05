@@ -53,13 +53,17 @@ _ctrlGroupBG ctrlCommit 0;
 addMissionEventHandler ["EachFrame",{call FUNC(repetitiveTasks)}];
 
 if !(_this#0) then {
+	private _printWarning = ["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings);
 	{
 		diag_log _x;
-		["systemChat",[_x]] call FUNC(sendMessage);
+		if _printWarning then {
+			["systemChat",[_x]] call FUNC(sendMessage);
+		};
 	} forEach [
 		format["ExtendedChat is not fully supported by this mission: %1.%2",missionName,worldName],
-		"This will result in scripted chat messages not appearing and broken text communication in custom radio channels",
-		"Visit the github for setup instructions: https://github.com/ConnorAU/A3ExtendedChat"
+		"This may result in chat messages not appearing and broken text communication in custom radio channels",
+		"Visit the github for setup instructions: https://github.com/ConnorAU/A3ExtendedChat",
+		"You can disable this warning log in the ExtendedChat settings menu"
 	];
 };
 
