@@ -43,14 +43,14 @@ switch _mode do {
 				if (!_correctSize || !_correctFormat) then {
 					_resetArray = true;
 				} else {
-					_settings set [0,"v2"];
+					_settings set [0,"v1.1"];
 					_settings = [_settings,[true],VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call BIS_fnc_arrayInsert;
 					
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
 				};
 			};
-			case "v2":{
+			case "v1.1":{
 				private _correctSize = count _settings == 16;
 				private _correctFormat = _settings params ["",
 					["_VAL_SETTINGS_INDEX_COMMAND_PREFIX","",[""]],
@@ -111,7 +111,7 @@ switch _mode do {
 	case "get":{
 		private _settings = profileNameSpace getVariable [VAR_SETTINGS,[]];
 		private _default = [
-			"v2",	// Array format version
+			"v1.1",	// Array format version
 			"#",	// VAL_SETTINGS_INDEX_COMMAND_PREFIX
 			500, 	// VAL_SETTINGS_INDEX_MAX_SAVED
 			10, 	// VAL_SETTINGS_INDEX_MAX_PRINTED
