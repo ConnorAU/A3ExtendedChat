@@ -45,7 +45,7 @@ if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
 
 // replace bad characters and format emojis
 private _textSafe = ["SafeStructuredText",_text] call FUNC(commonTask);
-_textSafe = ["format",_textSafe] call FUNC(emoji);
+_textSafe = ["formatCondition",_textSafe] call FUNC(emoji);
 
 [_command,[_textSafe,player,_currentChannel]] remoteExecCall [QUOTE(FUNC(sendMessage))];
 

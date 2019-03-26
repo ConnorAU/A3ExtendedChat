@@ -138,7 +138,7 @@ switch _mode do {
 		];
 	};
 	case "ButtonClick":{
-		_params params ["","","_keyword","_shortcut","","_ctrlCharCountVar"];
+		_params params ["","","_keyword","_shortcut","","","_ctrlCharCountVar"];
 
 		// needs to be a seperate display so the mouse cursor will show up
 		USE_DISPLAY(findDisplay 24);
@@ -184,13 +184,14 @@ switch _mode do {
 
 
 	case "getList":{
-		if !(issionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {[]};
+		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {[]};
+		private _force = _params param [0,false,[true]];
 		private _addedKeywords = [];
 		private _emojis = [];
 		{
 			private _forEachI = _forEachIndex;
 			{
-				if ([] call compile getText(_x >> "condition")) then {
+				if (_force || {[] call compile getText(_x >> "condition")}) then {
 					private _keyword = getText(_x >> "keyword");
 					if !(_keyWord in _addedKeywords) then {
 						_addedKeywords pushback getText(_x >> "keyword");
@@ -199,7 +200,8 @@ switch _mode do {
 							gettext(_x >> "icon"),
 							_keyword,
 							gettext(_x >> "shortcut"),
-							_forEachI == 0
+							_forEachI == 0,
+							getText(_x >> "condition")
 						];
 					};
 				};
@@ -211,7 +213,28 @@ switch _mode do {
 		];
 		_emojis
 	};
-	case "format":{
+	case "getImage":{
+		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {""};
+		private _emojis = ["getList"] call THIS_FUNC;
+		private _index = _emojis findIf {(_x#2) == _params};
+		if (_index == -1) exitWith {""};
+		format["<img color='#FFFFFF' image='%1'/>",_emojis#_index#1];
+	};
+	case "formatCondition":{
+		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
+		{
+			_x params ["","_icon","_keyword","_shortcut","","_condition"];
+			_keyword = ":"+_keyword+":";
+			if (_shortcut != "") then {
+				_params = [_params,["SafeStructuredText",_shortcut] call FUNC(commonTask),_keyword,true] call FUNC(stringReplace);
+			};
+			if !([] call compile _condition) then {
+				_params = [_params,_keyword,"",true] call FUNC(stringReplace);
+			};
+		} count (["getList",true] call THIS_FUNC);
+		_params
+	};
+	case "formatImages":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
 		{
 			_x params ["","_icon","_keyword","_shortcut"];
@@ -219,8 +242,8 @@ switch _mode do {
 			if (_shortcut != "") then {
 				_params = [_params,["SafeStructuredText",_shortcut] call FUNC(commonTask),_keyword,true] call FUNC(stringReplace);
 			};
-			_params = [_params,_keyword,format["<img color='#FFFFFF' image='%1'/>",_icon],true] call FUNC(stringReplace);
-		} count (["getList"] call THIS_FUNC);
+			_params = [_params,_keyword,["getImage",_x#2] call THIS_FUNC,true] call FUNC(stringReplace);
+		} count (["getList",true] call THIS_FUNC);
 		_params
 	};
 };

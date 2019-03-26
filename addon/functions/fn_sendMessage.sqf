@@ -19,6 +19,9 @@ _params params [
 	["_channelID",-1,[0]]
 ];
 
+_message = ["formatImages",_message] call FUNC(emoji);
+if (_message == "") exitWith {};
+
 private _arguments = switch (tolower _mode) do {
 	case "systemchat":{[_message]};
 	case "globalchat";

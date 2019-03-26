@@ -6,8 +6,6 @@
 │   Please do not modify or remove this comment block   │
 └──────────────────────────────────────────────────────*/
 
-// TODO: localize names
-
 class CfgEmoji {
     // Main
     class 100 {
