@@ -121,7 +121,7 @@ switch _mode do {
 					PX_HA(DIALOG_H) - PX_HS(4) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
 				],
 				{
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.2] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
 				}
 			],
 			[
@@ -133,7 +133,7 @@ switch _mode do {
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_title";
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.4] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
 				}
 			],
 			[
@@ -294,7 +294,7 @@ switch _mode do {
 					PX_HA(DIALOG_H) - PX_HS(4) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
 				],
 				{
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.2] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
 				}
 			],
 			[
@@ -306,7 +306,7 @@ switch _mode do {
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_title";
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.4] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
 				}
 			],
 			[

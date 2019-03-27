@@ -34,7 +34,7 @@ switch _mode do {
 					[0,0,0,0.4]
 				] select (_fnc_scriptNameParent == QUOTE(FUNC(addMessage)));
 			}; 
-		}) apply {[_x] call BIS_fnc_parseNumber};
+		}) call BIS_fnc_colorConfigToRGBA;
 	};
 	case "ChannelName":{
 		switch _params do {

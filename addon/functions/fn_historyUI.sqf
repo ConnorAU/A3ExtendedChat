@@ -106,7 +106,7 @@ switch _mode do {
 					PX_HA(SIZE_M) + PX_HS((SIZE_M*10.5))
 				],
 				{
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.2] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
 				}
 			],
 			[
@@ -118,7 +118,7 @@ switch _mode do {
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_history_filter_title";
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.4] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
 				}
 			],
 			[
@@ -354,7 +354,7 @@ switch _mode do {
 				{
 					_ctrl ctrlSetFont FONT_NORMAL;
 					_ctrl ctrlSetFontHeight PX_HS(4.32);
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.4] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
 					_ctrl ctrlAddEventHandler ["KeyDown",{["EditSearchModified",_this] call THIS_FUNC}];
 				}
 			],
@@ -403,7 +403,7 @@ switch _mode do {
 					PX_HA(DIALOG_H) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2)) - PX_HS(4)
 				],
 				{
-					_ctrl ctrlSetBackgroundColor ([COLOR_OVERLAY_RGB,0.2] apply {[_x] call BIS_fnc_parseNumber});
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
 				}
 			],
 			[
