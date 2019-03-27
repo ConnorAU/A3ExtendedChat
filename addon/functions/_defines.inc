@@ -12,6 +12,7 @@
 #define VAR_MESSAGE_FEED_CTRLS VAR(message_feed_ctrls)
 #define VAR_MESSAGE_FEED_DISPLAY VAR(message_feed_display)
 #define VAR_MESSAGE_FEED_POS VAR(message_feed_pos)
+#define VAR_MESSAGE_FEED_SHOWN VAR(message_feed_shown)
 #define VAR_COMMAND_CODE_PREFIX VAR(_command_)
 #define VAR_VON_SPEAKERS_CTRL VAR(ctrl_von_speakers)
 #define VAR_UNIT_NAME VAR(unit_name)

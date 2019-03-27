@@ -178,6 +178,8 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 					_ctrl ctrlSetFade 1;
 					_ctrl setVariable [VAR_UPDATE_MESSAGES_CTRL_STATE,2];
 					_ctrl setVariable [VAR_UPDATE_MESSAGES_CTRL_TICK,diag_tickTime + 0.5];
+				} else {
+					_ctrl ctrlSetFade 0;
 				};
 			};
 			case 2:{ // expired
@@ -188,6 +190,9 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 			};
 		};
 
+		if !VAR_MESSAGE_FEED_SHOWN then {
+			_ctrl ctrlSetFade 1;
+		};
 		_ctrl ctrlCommit 0.2;
 	};
 };
