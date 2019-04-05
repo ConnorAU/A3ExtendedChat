@@ -35,7 +35,7 @@ SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "init":{
-		USE_DISPLAY(findDisplay 49 createDisplay "RscDisplayEmpty");
+		USE_DISPLAY(_params createDisplay "RscDisplayEmpty");
 		uiNamespace setVariable [QUOTE(DISPLAY_NAME),_display];
 
 		{

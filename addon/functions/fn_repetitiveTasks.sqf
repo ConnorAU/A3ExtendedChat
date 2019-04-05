@@ -106,6 +106,15 @@ if (!isNull _display) then {
 				[_ctrlEdit,_ctrlCharCount] call (_ctrlCharCount getVariable ["update",{}]);
 			};
 		}];
+
+		// add keydown event to open the history viewer
+		// _ctrlEdit does not register PgUp/PgDn key presses
+		_display displayAddEventHandler ["KeyDown",{
+			params ["_display","_key"];
+			if (_key in [DIK_PGUP,DIK_PGDN]) then {
+				["init",_display] call FUNC(historyUI);
+			};
+		}];
 	};
 };
 
@@ -128,7 +137,7 @@ if (!isNull _display) then {
 		_ctrlHistory ctrlSetFont FONT_SEMIBOLD;
 		_ctrlHistory ctrlSetBackgroundColor _buttonColour;
 		_ctrlHistory ctrlSetPosition _buttonPos;
-		_ctrlHistory ctrlAddEventHandler ["ButtonClick",{["init"] call FUNC(historyUI)}];
+		_ctrlHistory ctrlAddEventHandler ["ButtonClick",{["init",ctrlParent(_this#0)] call FUNC(historyUI)}];
 		_ctrlHistory ctrlCommit 0;
 
 		_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PX_HA(1)];
