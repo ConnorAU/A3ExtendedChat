@@ -19,6 +19,9 @@ private _mission = format["%1.%2",missionName,worldName];
 } count ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes"));
 if _isMainMenu exitWith {};
 
+if (missionNamespace getVariable [QUOTE(VAR(initialized)),false]) exitWith {};
+VAR(initialized) = true;
+
 private _isNumber = isNumber(missionConfigFile >> QUOTE(VAR(enabled)));
 if (_isNumber && {getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1}) exitWith {
 	[] spawn {
