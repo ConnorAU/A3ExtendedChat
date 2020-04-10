@@ -15,7 +15,7 @@ SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "ChannelColour":{
-		(switch _params do {
+		["colorConfigToRGBA",switch _params do {
 			case 0:{getArray(configFile >> "RscChatListDefault" >> "colorGlobalChannel")};
 			case 1:{getArray(configFile >> "RscChatListDefault" >> "colorSideChannel")};
 			case 2:{getArray(configFile >> "RscChatListDefault" >> "colorCommandChannel")};
@@ -34,7 +34,7 @@ switch _mode do {
 					[0,0,0,0.4]
 				] select (_fnc_scriptNameParent == QUOTE(FUNC(addMessage)));
 			}; 
-		}) call BIS_fnc_colorConfigToRGBA;
+		}] call THIS_FUNC;
 	};
 	case "ChannelName":{
 		switch _params do {
@@ -112,5 +112,12 @@ switch _mode do {
 	};
 	case "ScaledFeedTextSize":{
 		(((((safezoneW/safezoneH)min 1.2)/1.2)/25)*0.8)/(PX_HA(4.32))
+	};
+	case "colorConfigToRGBA":{
+		/*
+			BIS_fnc_colorConfigToRGBA uses safe number parsing which doesn't permit 
+			** Reverted to unsafe number parsing
+		*/
+		_params apply {_x call BIS_fnc_parseNumber};
 	};
 };

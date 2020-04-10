@@ -40,12 +40,12 @@ if (!isNull _display) then {
 			nil
 		}];
 
-		private _backgroundColour = [
+		private _backgroundColour = ["colorConfigToRGBA",[
 			"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])",
 			"(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])",
 			"(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])",
 			"(profilenamespace getvariable ['IGUI_BCG_RGB_A',0.8])"
-		] call BIS_fnc_colorConfigToRGBA;
+		]] call FUNC(commonTask);
 
 		// hide background control that spans the screen width
 		private _ctrlChatBG = (allControls _display) select (allControls _display findIf {ctrlIDC _x == -1});
@@ -126,10 +126,10 @@ if (!isNull _display) then {
 		_display setVariable [VAR_INTERRUPT_DISPLAY_BUTTONS,true];
 
 		private _buttonPos = ctrlPosition (_display displayCtrl 2);
-		private _buttonColour = [
+		private _buttonColour = ["colorConfigToRGBA",[
 			COLOR_ACTIVE_RGB,
 			"(profilenamespace getVariable ['GUI_BCG_RGB_A',0.5])"
-		] call BIS_fnc_colorConfigToRGBA;
+		]] call FUNC(commonTask);
 
 		_buttonPos set [1,safezoneY + PX_HA(5)];
 		private _ctrlHistory = _display ctrlCreate ["RscButtonMenu",-1];
