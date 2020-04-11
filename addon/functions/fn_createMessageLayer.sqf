@@ -53,7 +53,7 @@ _ctrlGroupBG ctrlCommit 0;
 addMissionEventHandler ["EachFrame",{call FUNC(repetitiveTasks)}];
 
 // UserInputMenus is used in the settings menu
-if (!isClass(configFile >> "CfgPatches" >> "CAU_UserInputMenus")) then {
+if (!isClass(configFile >> "CfgFunctions" >> "CAU_UserInputMenus") && !isClass(missionConfigFile >> "CfgFunctions" >> "CAU_UserInputMenus")) then {
 	{
 		diag_log text _x;
 		["systemChat",[_x]] call FUNC(sendMessage);
