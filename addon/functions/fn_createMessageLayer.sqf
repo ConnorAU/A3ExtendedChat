@@ -60,7 +60,7 @@ if (!isClass(configFile >> "CfgPatches" >> "CAU_UserInputMenus")) then {
 	} forEach [
 		"ExtendedChat is missing a dependency: UserInputMenus",
 		"Some features may not function as expected",
-		"Visit the github for installation instructions: https://github.com/ConnorAU/A3ExtendedChat"
+		"Visit the github for setup instructions: https://github.com/ConnorAU/A3ExtendedChat"
 	];
 };
 
