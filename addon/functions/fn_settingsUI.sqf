@@ -329,14 +329,14 @@ switch _mode do {
 				],
 				{
 					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings);
-
+					private _fonts = ("true" configClasses (configFile >> "CfgFontFamilies")) apply {configName _x};
+					_fonts sort true;
 					{
-						_ctrl lbAdd configname _x;
-						if (configname _x == _setting) then {
+						_ctrl lbAdd _x;
+						if (_x == _setting) then {
 							_ctrl lbSetCurSel _forEachIndex;
 						};
-					} forEach ("true" configClasses (configFile >> "CfgFontFamilies"));
-					lbSort _ctrl;
+					} forEach _fonts;
 					_ctrl lbAdd ""; // add extra entry because for some reason the last entry is not visible when you scroll down
 					_ctrl ctrlAddEventHandler ["LBSelChanged",{
 						params ["_ctrl","_index"];
