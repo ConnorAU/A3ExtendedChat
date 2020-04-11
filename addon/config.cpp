@@ -13,7 +13,7 @@ class CfgPatches {
         url="https://steamcommunity.com/id/_connor";
 
 		requiredVersion=0.01;
-		requiredAddons[]={};
+		requiredAddons[]={"CAU_UserInputMenus"};
 		units[]={};
 		weapons[]={};
 	};
