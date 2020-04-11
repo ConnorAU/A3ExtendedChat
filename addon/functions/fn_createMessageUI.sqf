@@ -25,7 +25,7 @@ _ctrlMessageContainer ctrlSetPosition [
 ];
 
 private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",2,_ctrlMessageContainer];
-_ctrlMessageBackground ctrlSetBackgroundColor [0.1,0.1,0.1,0.5];
+_ctrlMessageBackground ctrlSetBackgroundColor (["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings));
 _ctrlMessageBackground ctrlSetPosition [0,0,VAR_MESSAGE_FEED_POS#2,0];
 
 private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",3,_ctrlMessageContainer];

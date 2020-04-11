@@ -335,6 +335,25 @@
 				<Turkish></Turkish>
 				-->
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_pending_changes">
+				<Original>Do you wish to discard your unsaved changes?</Original>
+				<English>Do you wish to discard your unsaved changes?</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
 
 			<!-- Configuration Panel -->
 			<Key ID="STR_CAU_xChat_settings_configuration_title">
@@ -528,7 +547,7 @@
 				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_ttl_desc">
-				<Original>The maximum duration of time a message will be visible in the feed. Once a message exceeds the TTL value it will fade out.></Original>
+				<Original>The maximum duration of time a message will be visible in the feed. Once a message exceeds the TTL value it will fade out.</Original>
 				<English>The maximum duration of time a message will be visible in the feed. Once a message exceeds the TTL value it will fade out.</English>
 				<!--
 				<Chinese></Chinese>
@@ -549,6 +568,158 @@
 			<Key ID="STR_CAU_xChat_settings_configuration_message_ttl_option">
 				<Original>%1 seconds</Original>
 				<English>%1 seconds</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_font_label">
+				<Original>Message feed text font</Original>
+				<English>Message feed text font</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_font_desc">
+				<Original>The font type used on text in the message feed.</Original>
+				<English>The font type used on text in the message feed.</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_size_label">
+				<Original>Message feed text size: %1x</Original>
+				<English>Message feed text size: %1x</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_size_desc">
+				<Original>The font size used on text in the message feed.</Original>
+				<English>The font size used on text in the message feed.</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_color_label">
+				<Original>Message feed text color</Original>
+				<English>Message feed text color</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_color_desc">
+				<Original>The font color used on text in the message feed.</Original>
+				<English>The font color used on text in the message feed.</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_label">
+				<Original>Message feed background color</Original>
+				<English>Message feed background color</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_desc">
+				<Original>The background color of messages in the message feed.</Original>
+				<English>The background color of messages in the message feed.</English>
 				<!--
 				<Chinese></Chinese>
 				<French></French>

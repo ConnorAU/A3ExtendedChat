@@ -52,10 +52,22 @@ _ctrlGroupBG ctrlCommit 0;
 
 addMissionEventHandler ["EachFrame",{call FUNC(repetitiveTasks)}];
 
+// UserInputMenus is used in the settings menu
+if (!isClass(configFile >> "CfgPatches" >> "CAU_UserInputMenus")) then {
+	{
+		diag_log text _x;
+		["systemChat",[_x]] call FUNC(sendMessage);
+	} forEach [
+		"ExtendedChat is missing a dependency: UserInputMenus",
+		"Some features may not function as expected",
+		"Visit the github for installation instructions: https://github.com/ConnorAU/A3ExtendedChat"
+	];
+};
+
 if !(_this#0) then {
 	private _printWarning = ["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings);
 	{
-		diag_log _x;
+		diag_log text _x;
 		if _printWarning then {
 			["systemChat",[_x]] call FUNC(sendMessage);
 		};

@@ -88,9 +88,13 @@ if (_isChannelPrintEnabled && {[] call _canPrintCondition}) then {
 
 	_ctrlStripe ctrlSetBackgroundColor _stripeColour;
 	private _finalText = [
-		format["<t size='%1'>",["ScaledFeedTextSize"] call FUNC(commonTask)],
+		format[
+			"<t size='%1' font='%2'>",
+			(["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)),
+			["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
+		],
 		if (_senderName == "") then {""} else {"<t color='#FFFFFF'>"+_senderName+" </t>"},
-		"<t color='#A6A6A6'>"+_text+"</t>",
+		"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>"+_text+"</t>",
 		"</t>"
 	] joinString "";
 	_ctrlText ctrlSetStructuredText parseText _finalText;

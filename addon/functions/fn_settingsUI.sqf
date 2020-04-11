@@ -12,25 +12,31 @@
 #include "_macros.inc"
 #include "_defines.inc"
 
-#define DIALOG_W 120
-#define DIALOG_H 82
+#define DIALOG_W 150
+#define DIALOG_H 104
 
 #define IDC_BUTTON_SAVE_SETTINGS 			1
 #define IDC_EDIT_COMMAND_PREFIX				2
 #define IDC_COMBO_MAX_SAVED_LOGS 			3
 #define IDC_COMBO_MAX_PRINTED_LOGS			4
 #define IDC_COMBO_PRINTED_LOG_TTL			5
-#define IDC_CB_LOG_CONNECT					6
-#define IDC_CB_LOG_DISCONNECT				7
-#define IDC_CB_LOG_KILLED					8
-#define IDC_CB_CHANNEL_UNSUPPORTED_MISSION	9
-#define IDC_CB_CHANNEL_GLOBAL				10
-#define IDC_CB_CHANNEL_SIDE					11
-#define IDC_CB_CHANNEL_COMMAND				12
-#define IDC_CB_CHANNEL_GROUP				13
-#define IDC_CB_CHANNEL_VEHICLE				14
-#define IDC_CB_CHANNEL_DIRECT				15
-#define IDC_CB_CHANNEL_CUSTOM				16
+#define IDC_LABEL_TEXT_FONT					6
+#define IDC_COMBO_TEXT_FONT					7
+#define IDC_LABEL_TEXT_SIZE					8
+#define IDC_SLIDER_TEXT_SIZE				9
+#define IDC_LABEL_TEXT_COLOR				10
+#define IDC_LABEL_FEED_BACKGROUND_COLOR		11
+#define IDC_CB_LOG_CONNECT					13
+#define IDC_CB_LOG_DISCONNECT				14
+#define IDC_CB_LOG_KILLED					15
+#define IDC_CB_CHANNEL_UNSUPPORTED_MISSION	16
+#define IDC_CB_CHANNEL_GLOBAL				17
+#define IDC_CB_CHANNEL_SIDE					18
+#define IDC_CB_CHANNEL_COMMAND				19
+#define IDC_CB_CHANNEL_GROUP				20
+#define IDC_CB_CHANNEL_VEHICLE				21
+#define IDC_CB_CHANNEL_DIRECT				22
+#define IDC_CB_CHANNEL_CUSTOM				23
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -95,7 +101,24 @@ switch _mode do {
 					PX_HA(SIZE_M)
 				],
 				{
-					_ctrl ctrlAddEventHandler ["ButtonClick",{(ctrlParent(_this#0)) closeDisplay 2}];
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlButton,IDC_BUTTON_SAVE_SETTINGS);
+						if (ctrlEnabled _ctrlButton) then {
+							[
+								localize "STR_CAU_xChat_settings_pending_changes",
+								localize "STR_CAU_xChat_settings_title",{
+									if _confirmed then {
+										USE_DISPLAY(THIS_DISPLAY);
+										_display closeDisplay 2;
+									};
+								},"Discard","",_display
+							] call CAU_UserInputMenus_fnc_guiMessage;
+						} else {
+							_display closeDisplay 2
+						};
+					}];
 				}
 			],
 			[
@@ -282,6 +305,175 @@ switch _mode do {
 					};
 
 					_ctrl ctrlAddEventHandler ["LBSelChanged",{["LBSelChanged"] call THIS_FUNC}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_FONT,[
+					CENTER_XA(DIALOG_W) + PX_WS(2),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(6) + PX_HA((SIZE_M*9)),
+					PX_WA((DIALOG_W/2)) - PX_WS(3),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_font_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_font_desc";
+					_ctrl ctrlSetFont (["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings));
+				}
+			],
+			[
+				"ctrlCombo",IDC_COMBO_TEXT_FONT,[
+					CENTER_XA(DIALOG_W) + PX_WS(4),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(6) + PX_HA((SIZE_M*10)),
+					PX_WA((DIALOG_W/2)) - PX_WS(7),
+					PX_HA(SIZE_M)
+				],
+				{
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings);
+
+					{
+						_ctrl lbAdd configname _x;
+						if (configname _x == _setting) then {
+							_ctrl lbSetCurSel _forEachIndex;
+						};
+					} forEach ("true" configClasses (configFile >> "CfgFontFamilies"));
+					lbSort _ctrl;
+					_ctrl lbAdd ""; // add extra entry because for some reason the last entry is not visible when you scroll down
+					_ctrl ctrlAddEventHandler ["LBSelChanged",{
+						params ["_ctrl","_index"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_FONT);
+						private _setting = _ctrl lbText _index;
+						if (_setting != "") then {
+							_ctrlLabel ctrlSetFont (_ctrl lbText _index);
+							["LBSelChanged"] call THIS_FUNC;
+						};
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_SIZE,[
+					CENTER_XA(DIALOG_W) + PX_WS(2),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(7) + PX_HA((SIZE_M*11)),
+					PX_WA((DIALOG_W/2)) - PX_WS(3),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_text_size_label",["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)];
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_size_desc";
+				}
+			],
+			[
+				"ctrlXSliderH",IDC_SLIDER_TEXT_SIZE,[
+					CENTER_XA(DIALOG_W) + PX_WS(4),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(7) + PX_HA((SIZE_M*12)),
+					PX_WA((DIALOG_W/2)) - PX_WS(7),
+					PX_HA(SIZE_M)
+				],
+				{
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings);
+
+					_ctrl sliderSetRange [0.1,5];
+					_ctrl sliderSetSpeed [0.5,0.1];
+					_ctrl sliderSetPosition _setting;
+
+					_ctrl ctrlAddEventHandler ["SliderPosChanged",{
+						params ["_ctrl","_position"];
+						_position = parseNumber(_position toFixed 1);
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_SIZE);
+						_ctrlLabel ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_text_size_label",_position];
+						["SliderPosChanged"] call THIS_FUNC;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_COLOR,[
+					CENTER_XA(DIALOG_W) + PX_WS(2),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(9) + PX_HA((SIZE_M*13)),
+					PX_WA((DIALOG_W/2)) - PX_WS(3),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_color_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_color_desc";
+					
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings);
+					_ctrl ctrlSetTextColor _setting;
+					_ctrl setVariable ["setting",_setting];
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					CENTER_XA(DIALOG_W) + PX_WS(2) + (PX_WA((DIALOG_W/2)) - PX_WS(3)) - PX_WA(22),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(9) + PX_HA((SIZE_M*13)),
+					PX_WA(20),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
+						[
+							_ctrlLabel getVariable ["setting",[]],
+							"Message text color selection",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
+									_ctrlLabel ctrlSetTextColor _colorRGBA1;
+									_ctrlLabel setVariable ["setting",_colorRGBA1];
+									["ColorSelected"] call THIS_FUNC;
+								};
+							},"","",_display
+						] call CAU_UserInputMenus_fnc_colorPicker;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_FEED_BACKGROUND_COLOR,[
+					CENTER_XA(DIALOG_W) + PX_WS(2.5),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(11) + PX_HA((SIZE_M*14)),
+					PX_WA((DIALOG_W/2)) - PX_WS(25.5),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_feed_bg_color_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_feed_bg_color_desc";
+					
+					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings);
+					_ctrl ctrlSetBackgroundColor _setting;
+					_ctrl setVariable ["setting",_setting];
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					CENTER_XA(DIALOG_W) + PX_WS(2) + (PX_WA((DIALOG_W/2)) - PX_WS(3)) - PX_WA(22),
+					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(11) + PX_HA((SIZE_M*14)),
+					PX_WA(20),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
+						[
+							_ctrlLabel getVariable ["setting",[]],
+							"Message background color selection",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
+									_ctrlLabel ctrlSetBackgroundColor _colorRGBA1;
+									_ctrlLabel setVariable ["setting",_colorRGBA1];
+									["ColorSelected"] call THIS_FUNC;
+								};
+							},"","",_display
+						] call CAU_UserInputMenus_fnc_colorPicker;
+					}];
 				}
 			],
 
@@ -607,6 +799,8 @@ switch _mode do {
 
 	case "EditChar";
 	case "CBCheckedChanged";
+	case "SliderPosChanged";
+	case "ColorSelected";
 	case "LBSelChanged":{
 		USE_DISPLAY(THIS_DISPLAY);
 
@@ -621,6 +815,10 @@ switch _mode do {
 		USE_CTRL(_ctrlComboMaxSavedLogs,IDC_COMBO_MAX_SAVED_LOGS);
 		USE_CTRL(_ctrlComboMaxPrintedLogs,IDC_COMBO_MAX_PRINTED_LOGS);
 		USE_CTRL(_ctrlComboPrintedLogTTL,IDC_COMBO_PRINTED_LOG_TTL);
+		USE_CTRL(_ctrlComboTextFont,IDC_COMBO_TEXT_FONT);
+		USE_CTRL(_ctrlSliderTextSize,IDC_SLIDER_TEXT_SIZE);
+		USE_CTRL(_ctrlLabelTextColor,IDC_LABEL_TEXT_COLOR);
+		USE_CTRL(_ctrlLabelBGColor,IDC_LABEL_FEED_BACKGROUND_COLOR);
 		USE_CTRL(_ctrlCBLogConnect,IDC_CB_LOG_CONNECT);
 		USE_CTRL(_ctrlCBLogDisconnect,IDC_CB_LOG_DISCONNECT);
 		USE_CTRL(_ctrlCBLogKilled,IDC_CB_LOG_KILLED);
@@ -648,6 +846,11 @@ switch _mode do {
 		["set",[VAL_SETTINGS_INDEX_MAX_SAVED,_ctrlComboMaxSavedLogs lbValue (lbCurSel _ctrlComboMaxSavedLogs)]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_MAX_PRINTED,_ctrlComboMaxPrintedLogs lbValue (lbCurSel _ctrlComboMaxPrintedLogs)]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_TTL_PRINTED,_ctrlComboPrintedLogTTL lbValue (lbCurSel _ctrlComboPrintedLogTTL)]] call FUNC(settings);
+
+		["set",[VAL_SETTINGS_INDEX_TEXT_FONT,_ctrlComboTextFont lbText (lbCurSel _ctrlComboTextFont)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_TEXT_SIZE,parseNumber(sliderPosition _ctrlSliderTextSize toFixed 1)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_TEXT_COLOR,_ctrlLabelTextColor getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_FEED_BG_COLOR,_ctrlLabelBGColor getVariable ["setting",[]]]] call FUNC(settings);
 
 		["set",[VAL_SETTINGS_INDEX_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
