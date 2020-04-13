@@ -27,7 +27,7 @@
 
 #define SWITCH_SYS_PARAMS params[["_mode","",[""]],["_params",[]]]
 
-#define UNIT_NAME(unit) unit getVariable [QUOTE(VAR_UNIT_NAME),"Error: No name"]
+#define UNIT_NAME(unit) unit getVariable [QUOTE(VAR_UNIT_NAME),name unit]
 
 #ifdef DISPLAY_NAME
     #define THIS_DISPLAY DISPLAY(DISPLAY_NAME)
