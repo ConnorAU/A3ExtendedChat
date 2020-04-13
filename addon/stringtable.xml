@@ -354,6 +354,63 @@
 				<Turkish></Turkish>
 				-->
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_reset_button">
+				<Original>Revert</Original>
+				<English>Revert</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_reset_confirm">
+				<Original>Are you sure you want to revert your settings to the default values?&lt;br/&gt;This action is irreversible.</Original>
+				<English>Are you sure you want to revert your settings to the default values?&lt;br/&gt;This action is irreversible.</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_reset_alert">
+				<Original>Settings reverted to default values</Original>
+				<English>Settings reverted to default values</English>
+				<!--
+				<Chinese></Chinese>
+				<French></French>
+				<Spanish></Spanish>
+				<Italian></Italian>
+				<Polish></Polish>
+				<Russian></Russian>
+				<German></German>
+				<Czech></Czech>
+				<Portuguese></Portuguese>
+				<Korean></Korean>
+				<Chinesesimp></Chinesesimp>
+				<Japanese></Japanese>
+				<Turkish></Turkish>
+				-->
+			</Key>
 
 			<!-- Configuration Panel -->
 			<Key ID="STR_CAU_xChat_settings_configuration_title">

@@ -134,6 +134,35 @@ switch _mode do {
 					_ctrl ctrlAddEventHandler ["ButtonClick",{["ButtonSaveClicked"] call THIS_FUNC}];
 				}
 			],
+			[
+				"ctrlButton",-1,[
+					CENTER_XA(DIALOG_W) + PX_WA(1),
+					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 1)),
+					PX_WA((SIZE_M * 5)),
+					PX_HA(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_reset_button";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						[
+							localize "STR_CAU_xChat_settings_reset_confirm",
+							localize "STR_CAU_xChat_settings_title",{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									_display closeDisplay 2;
+									["reset"] call FUNC(settings);
+									["systemChat",[format["Extended Chat: %1",localize "STR_CAU_xChat_settings_reset_alert"]]] call FUNC(sendMessage);
+									// Can't close one display and open another in the same frame
+									[] spawn {
+										// execute unscheduled
+										isNil {["init"] call THIS_FUNC};
+									};
+								};
+							},"Reset","",THIS_DISPLAY
+						] call CAU_UserInputMenus_fnc_guiMessage;
+					}];
+				}
+			],
 
 		// ~~ Configuration 
 			[

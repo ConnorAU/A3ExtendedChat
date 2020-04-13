@@ -179,4 +179,8 @@ switch _mode do {
 		private _settings = profileNameSpace getVariable [VAR_SETTINGS,[]];
 		_settings set _params;
 	};
+	case "reset":{
+		profileNameSpace setVariable [VAR_SETTINGS,nil];
+		["init"] call THIS_FUNC;
+	};
 };
