@@ -107,7 +107,7 @@ switch _mode do {
 						USE_CTRL(_ctrlButton,IDC_BUTTON_SAVE_SETTINGS);
 						if (ctrlEnabled _ctrlButton) then {
 							[
-								localize "STR_CAU_xChat_settings_pending_changes",
+								[localize "STR_CAU_xChat_settings_pending_changes"],
 								localize "STR_CAU_xChat_settings_title",{
 									if _confirmed then {
 										USE_DISPLAY(THIS_DISPLAY);
@@ -145,7 +145,7 @@ switch _mode do {
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_reset_button";
 					_ctrl ctrlAddEventHandler ["ButtonClick",{
 						[
-							localize "STR_CAU_xChat_settings_reset_confirm",
+							[localize "STR_CAU_xChat_settings_reset_confirm"],
 							localize "STR_CAU_xChat_settings_title",{
 								if _confirmed then {
 									USE_DISPLAY(THIS_DISPLAY);
@@ -445,7 +445,7 @@ switch _mode do {
 						USE_DISPLAY(ctrlParent _ctrl);
 						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
 						[
-							_ctrlLabel getVariable ["setting",[]],
+							[_ctrlLabel getVariable ["setting",[]]],
 							"Message text color selection",
 							{
 								if _confirmed then {
@@ -490,7 +490,7 @@ switch _mode do {
 						USE_DISPLAY(ctrlParent _ctrl);
 						USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
 						[
-							_ctrlLabel getVariable ["setting",[]],
+							[_ctrlLabel getVariable ["setting",[]]],
 							"Message background color selection",
 							{
 								if _confirmed then {
