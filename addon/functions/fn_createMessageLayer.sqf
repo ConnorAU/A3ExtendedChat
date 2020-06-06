@@ -1,10 +1,22 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_createMessageLayer
+
+Description:
+    Creates the message feed display
+
+Parameters:
+	0 : BOOL - Indicates if the system has been enabled in the mission config
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(createMessageLayer)
 #define DISPLAY_NAME VAR_MESSAGE_FEED_DISPLAY
@@ -80,3 +92,5 @@ if !(_this#0) then {
 };
 
 [] spawn FUNC(motd);
+
+nil

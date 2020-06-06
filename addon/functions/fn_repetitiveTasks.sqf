@@ -1,10 +1,22 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_repetitiveTasks
+
+Description:
+	Master function for tasks that must be executed on every frame
+
+Parameters:
+	None
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(repetitiveTasks)
 
@@ -15,7 +27,7 @@
 // hide default chat
 if shownChat then {showChat false;};
 
-// add event to chat box so we can capture the message when sent 
+// add event to chat box so we can capture the message when sent
 // is done in this loop to avoid issues with keyhandlers & config based events
 #define VAR_CHAT_INPUT_EVENT_HANDLER QUOTE(FUNC_SUBVAR(evhID))
 #define VAR_CHAT_INPUT_CHAR_COUNTER QUOTE(FUNC_SUBVAR(char_counter))
@@ -58,7 +70,7 @@ if (!isNull _display) then {
 		_ctrlEdit ctrlSetBackgroundColor [COLOR_BACKGROUND_RGBA];
 		_ctrlEdit ctrlSetPosition _ctrlEditPos;
 		_ctrlEdit ctrlCommit 0;
-		
+
 		// create character counter
 		private _ctrlCharCount = _display ctrlCreate ["ctrlStatic",-1];
 		_ctrlCharCount ctrlSetText format[localize "STR_CAU_xChat_chat_character_count",0];
@@ -75,9 +87,9 @@ if (!isNull _display) then {
 			params ["_ctrlEdit","_ctrlCharCount"];
 			private _thread = _ctrlCharCount getVariable ["thread",scriptNull];
 			terminate _thread;
-		
+
 			_thread = [_ctrlEdit,_ctrlCharCount] spawn {
-				// this event is done in a spawn so it can correctly count the 
+				// this event is done in a spawn so it can correctly count the
 				// _ctrlEdit text after deleting characters
 				params ["_ctrlEdit","_ctrlCharCount"];
 				private _charCount = count ctrlText _ctrlEdit;
@@ -133,7 +145,7 @@ if (!isNull _display) then {
 
 		_buttonPos set [1,safezoneY + PX_HA(5)];
 		private _ctrlHistory = _display ctrlCreate ["RscButtonMenu",-1];
-		_ctrlHistory ctrlSetText localize "STR_CAU_xChat_interrupt_history";		
+		_ctrlHistory ctrlSetText localize "STR_CAU_xChat_interrupt_history";
 		_ctrlHistory ctrlSetFont FONT_SEMIBOLD;
 		_ctrlHistory ctrlSetBackgroundColor _buttonColour;
 		_ctrlHistory ctrlSetPosition _buttonPos;
@@ -142,7 +154,7 @@ if (!isNull _display) then {
 
 		_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PX_HA(1)];
 		private _ctrlSettings = _display ctrlCreate ["RscButtonMenu",-1];
-		_ctrlSettings ctrlSetText localize "STR_CAU_xChat_interrupt_settings";		
+		_ctrlSettings ctrlSetText localize "STR_CAU_xChat_interrupt_settings";
 		_ctrlSettings ctrlSetFont FONT_SEMIBOLD;
 		_ctrlSettings ctrlSetBackgroundColor _buttonColour;
 		_ctrlSettings ctrlSetPosition _buttonPos;
@@ -180,7 +192,7 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 		if ((_activeMessageCtrls - _i) >= _maxMsgsShown) then {
 			_tick = diag_tickTime;
 		};
-		
+
 		switch _state do {
 			case 0:{ // new
 				_ctrl ctrlSetFade 0;
@@ -211,7 +223,7 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 	};
 };
 
-// Update VON speakers ctrl 
+// Update VON speakers ctrl
 #define VAR_UPDATE_VON_TICK FUNC_SUBVAR(von_update_tick)
 #define VAR_UPDATE_VON_ISSPEAKING FUNC_SUBVAR(von_is_speaking)
 if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOTE(VAR_UPDATE_VON_TICK),0])}) then {
@@ -286,3 +298,5 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 		] remoteExecCall [QUOTE(FUNC(log)),2];
 	};
 };
+
+nil

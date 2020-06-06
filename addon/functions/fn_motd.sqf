@@ -1,10 +1,22 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_motd
+
+Description:
+	Prints defined message-of-the-day strings to the feed
+
+Parameters:
+	None
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(motd)
 
@@ -15,3 +27,5 @@
 	uiSleep _delay;
 	["systemChat",[_message]] call FUNC(sendMessage);
 } forEach getArray(missionConfigFile >> QUOTE(VAR(MOTD)));
+
+nil

@@ -1,10 +1,24 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_sendMessage
+
+Description:
+	Prepares sender arguments for addMessage
+
+Parameters:
+	_message   : STRING - The message text
+    _sender    : OBJECT - The sender unit
+    _channelID : NUMBER - The channel index the message was sent in
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(sendMessage)
 
@@ -59,3 +73,5 @@ private _arguments = switch (tolower _mode) do {
 if !(_arguments isEqualTo []) then {
 	_arguments call FUNC(addMessage);
 };
+
+nil

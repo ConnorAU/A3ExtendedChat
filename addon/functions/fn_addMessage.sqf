@@ -1,10 +1,31 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_addMessage
+
+Description:
+	Adds a new message to the feed
+
+Parameters:
+    _text                : STRING - The message text
+    _channelID           : NUMBER - The channnel index the message was sent in
+    _senderName          : STRING - The name of the sender
+    _senderUID           : STRING - The steam uid of the sender
+    _senderSide          : SIDE   - The side of the sender
+    _senderGroup         : GROUP  - The group of the sender
+    _senderVehicle       : OBJECT - The vehicle of the sender
+    _customChannelName   : STRING - The name of the custom channel the message was sent in
+    _customChannelColour : ARRAY  - The color of the custom channel the message was sent in
+    _canPrintCondition   : CODE   - The condition to evaluate before adding the message
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(addMessage)
 
@@ -115,3 +136,5 @@ if (_isChannelPrintEnabled && {[] call _canPrintCondition}) then {
 
 // update history UI if it is open
 ["NewMessageReceived"] call FUNC(historyUI);
+
+nil

@@ -1,12 +1,4 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
-
-// ~ Variables 
+// ~ Variables
 #define VAR_HISTORY VAR(message_history)
 #define VAR_NEW_MESSAGE_PENDING VAR(new_message_pending)
 #define VAR_MESSAGE_FEED_CTRLS VAR(message_feed_ctrls)

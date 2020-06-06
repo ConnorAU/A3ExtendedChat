@@ -1,10 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_settingsUI
+
+Description:
+	Master handler for the settings UI
+
+Parameters:
+	_mode   : STRING - The name of the sub-function
+    _params : ANY    - The arguments provided to the sub-function
+
+Return:
+	ANY - Return type depends on the _mode specified
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(settingsUI)
 #define DISPLAY_NAME VAR(displaySettings)
@@ -164,7 +177,7 @@ switch _mode do {
 				}
 			],
 
-		// ~~ Configuration 
+		// ~~ Configuration
 			[
 				"ctrlStaticBackground",-1,[
 					CENTER_XA(DIALOG_W) + PX_WS(2),
@@ -425,7 +438,7 @@ switch _mode do {
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_color_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_color_desc";
-					
+
 					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings);
 					_ctrl ctrlSetTextColor _setting;
 					_ctrl setVariable ["setting",_setting];
@@ -470,7 +483,7 @@ switch _mode do {
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_feed_bg_color_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_feed_bg_color_desc";
-					
+
 					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings);
 					_ctrl ctrlSetBackgroundColor _setting;
 					_ctrl setVariable ["setting",_setting];
@@ -506,7 +519,7 @@ switch _mode do {
 				}
 			],
 
-		// ~~ Filters 
+		// ~~ Filters
 			[
 				"ctrlStaticBackground",-1,[
 					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WS(1),

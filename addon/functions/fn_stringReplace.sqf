@@ -1,10 +1,25 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_stringReplace
+
+Description:
+	None
+
+Parameters:
+	_input         : STRING - String to search
+    _find          : STRING - String to find
+    _replace       : STRING - String to put in _find's place
+    _caseSensitive : BOOL   - Specifies a case sensitive or case inssensitive search (default: false)
+
+Return:
+	STRING - Modified _input string
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(stringReplace)
 

@@ -1,10 +1,22 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_processCommand
+
+Description:
+	Invokes the requested command with the arguments provided
+
+Parameters:
+	_text : STRING - The complete message text
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(processChatCommand)
 
@@ -19,3 +31,5 @@ private _arguments = _split select [1,count _split];
 
 ["systemChat",[_split#0]] call FUNC(sendMessage);
 _arguments call (missionNameSpace getVariable [QUOTE(VAR_COMMAND_CODE_PREFIX)+_command,{}]);
+
+nil

@@ -1,10 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_commonTask
+
+Description:
+	A single function containing frequently used micro-functions
+
+Parameters:
+	_mode   : STRING - The name of the micro-function
+    _params : ANY    - The arguments provided to the micro-function
+
+Return:
+	ANY - Return type depends on the _mode specified
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(commonTask)
 
@@ -33,7 +46,7 @@ switch _mode do {
 					[0.8,0.1,0.1,1],
 					[0,0,0,0.4]
 				] select (_fnc_scriptNameParent == QUOTE(FUNC(addMessage)));
-			}; 
+			};
 		}] call THIS_FUNC;
 	};
 	case "ChannelName":{
@@ -106,7 +119,7 @@ switch _mode do {
 		} count [
 			["&","&amp;"],
 			["<","&lt;"],
-			[">","&gt;"]	
+			[">","&gt;"]
 		];
 		_params
 	};
@@ -115,7 +128,7 @@ switch _mode do {
 	};
 	case "colorConfigToRGBA":{
 		/*
-			BIS_fnc_colorConfigToRGBA uses safe number parsing which doesn't permit 
+			BIS_fnc_colorConfigToRGBA uses safe number parsing which doesn't permit
 			** Reverted to unsafe number parsing
 		*/
 		_params apply {_x call BIS_fnc_parseNumber};

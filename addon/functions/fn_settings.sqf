@@ -1,10 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_settings
+
+Description:
+	Master handler for the settings system
+
+Parameters:
+	_mode   : STRING - The name of the sub-function
+    _params : ANY    - The arguments provided to the sub-function
+
+Return:
+	ANY - Return type depends on the _mode specified
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(settings)
 
@@ -45,7 +58,7 @@ switch _mode do {
 				} else {
 					_settings set [0,"v1.1"];
 					_settings = [_settings,[true],VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call BIS_fnc_arrayInsert;
-					
+
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
 				};
@@ -78,7 +91,7 @@ switch _mode do {
 							"RobotoCondensedLight",1,
 							[0.651,0.651,0.651,1],[0.1,0.1,0.1,0.5]
 						],VAL_SETTINGS_INDEX_TEXT_FONT] call BIS_fnc_arrayInsert;
-					
+
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
 				};

@@ -1,10 +1,22 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_init
+
+Description:
+	Initializes the mod
+
+Parameters:
+	None
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(init)
 
@@ -66,7 +78,7 @@ if isServer then {
 
 			if (_uid != "") then {
 				[[_uid,_name],{
-					[				
+					[
 						[
 							localize "str_mp_connect","%s",
 							["StreamSafeName",_this] call FUNC(commonTask)
@@ -107,7 +119,7 @@ if (difficultyOption "deathMessages" > 0 && getNumber(missionConfigFile >> QUOTE
 		if (isNull _instigator) then {_instigator = UAVControl vehicle _killer # 0};
 		if (isNull _instigator) then {_instigator = _killer};
 
-		if (_killed isKindOf "CAManBase" && {isPlayer _killed}) then {	
+		if (_killed isKindOf "CAManBase" && {isPlayer _killed}) then {
 			private _killedUID = getPlayerUID _killed;
 			private _instigatorUID = getPlayerUID _instigator;
 			private _text = ["STR_A3_Revive_MSG_KILLED","STR_A3_Revive_MSG_KILLED_BY"] select (_instigator isKindOf "CAManBase" && {_killedUID != _instigatorUID});

@@ -1,10 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_emoji
+
+Description:
+	Master handler for all emoji related tasks
+
+Parameters:
+	_mode   : STRING - The name of the sub-function
+    _params : ANY    - The arguments provided to the sub-function
+
+Return:
+	ANY - Return type depends on the _mode specified
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(emoji)
 #define DISPLAY_NAME VAR(displayEmoji)
@@ -148,11 +161,11 @@ switch _mode do {
 		private _text = ctrlText _ctrlEdit;
 		_text = _text + _append;
 
-		// char limit 
+		// char limit
 		if (count _text <= 150) then {
 			if (count _text < 150) then {
 				// Add a space after the emoji if there is room for it to avoid misinterpretations of shortcuts and keywords
-				_text = _text + " "; 
+				_text = _text + " ";
 			};
 			_ctrlEdit ctrlSetText _text;
 

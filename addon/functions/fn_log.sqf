@@ -1,10 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_log
+
+Description:
+	Master handler for server-side logging
+
+Parameters:
+	_mode   : STRING - The name of the sub-function
+    _params : ANY    - The arguments provided to the sub-function
+
+Return:
+	Nothing
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(log)
 
@@ -84,10 +97,12 @@ switch _mode do {
 		private _log = format[
 			"(%1) %2 %4 speaking in %3",
 			_pid,_name,_channel,
-			["stopped","started"] select _active				
+			["stopped","started"] select _active
 		];
 
 		// text _log so it dequotes the log string
 		"ExtendedChat" callExtension [format["%1 %2 VON",_channelID,_channel],[text _log]];
 	};
 };
+
+nil

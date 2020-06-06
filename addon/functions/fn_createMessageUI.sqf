@@ -1,11 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
- 
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_createMessageUI
+
+Description:
+	Creates a new control group to display a message in the feed
+
+Parameters:
+	None
+
+Return:
+	ARRAY - An array of controls in the newly created control group
+---------------------------------------------------------------------------- */
+
 #define THIS_FUNC FUNC(createMessageUI)
 
 #include "_macros.inc"

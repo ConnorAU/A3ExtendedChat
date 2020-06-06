@@ -1,10 +1,23 @@
-/*──────────────────────────────────────────────────────┐
-│   Author: Connor                                      │
-│   Steam:  https://steamcommunity.com/id/_connor       │
-│   Github: https://github.com/ConnorAU                 │
-│                                                       │
-│   Please do not modify or remove this comment block   │
-└──────────────────────────────────────────────────────*/
+/* ----------------------------------------------------------------------------
+Project:
+	https://github.com/ConnorAU/A3ExtendedChat
+
+Author:
+	ConnorAU - https://github.com/ConnorAU
+
+Function:
+	CAU_xChat_fnc_historyUI
+
+Description:
+	Master handler for the message history UI
+
+Parameters:
+	_mode   : STRING - The name of the sub-function
+    _params : ANY    - The arguments provided to the sub-function
+
+Return:
+	ANY - Return type depends on the _mode specified
+---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(historyUI)
 #define DISPLAY_NAME VAR(displayHistory)
@@ -368,7 +381,7 @@ switch _mode do {
 				{
 					_ctrl ctrlAddEventHandler ["ButtonClick",{["ButtonSearchClicked"] call THIS_FUNC}];
 				}
-			],			
+			],
 			[// Can't colour ctrlButton so doing this as alternative
 				"ctrlStatic",IDC_STATIC_RELOAD,[
 					CENTER_XA(DIALOG_W) + PX_WS(2),
