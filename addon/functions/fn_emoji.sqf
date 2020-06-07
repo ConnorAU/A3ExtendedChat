@@ -63,18 +63,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PX_HA(DIALOG_H),
-					PX_WA(DIALOG_W),
-					PX_HA(DIALOG_H)
+					PXCX(DIALOG_W),
+					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H),
+					PXW(DIALOG_W),
+					PXH(DIALOG_H)
 				]
 			],
 			[
 				"ctrlStaticTitle",-1,[
-					CENTER_XA(DIALOG_W),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PX_HA(DIALOG_H),
-					PX_WA(DIALOG_W),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W),
+					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H),
+					PXW(DIALOG_W),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_emoji_title";
@@ -82,20 +82,20 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFooter",-1,[
-					CENTER_XA(DIALOG_W),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PX_HA((SIZE_M + 2)),
-					PX_WA(DIALOG_W),
-					PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W),
+					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH((SIZE_M + 2)),
+					PXW(DIALOG_W),
+					PXH((SIZE_M + 2))
 				]
 			],
 
 		// ~~ Body,
 			[
 				"ctrlStaticOverlay",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA(2),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PX_HA(DIALOG_H) + PX_HA(SIZE_M) + PX_HA(2),
-					PX_WA((DIALOG_W - 4)),
-					PX_HA((DIALOG_H - 4)) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W) + PXW(2),
+					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W - 4)),
+					PXH((DIALOG_H - 4)) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [0,0,0,1];
@@ -103,19 +103,19 @@ switch _mode do {
 			],
 			[
 				"ctrlControlsGroup",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA(2),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PX_HA(DIALOG_H) + PX_HA(SIZE_M) + PX_HA(2),
-					PX_WA((DIALOG_W - 4)),
-					PX_HA((DIALOG_H - 4)) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W) + PXW(2),
+					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W - 4)),
+					PXH((DIALOG_H - 4)) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				],
 				{
 					USE_DISPLAY(ctrlParent _ctrl);
 					private _ctrlPos = ctrlPosition _ctrl;
 					private _subCtrlPos = [
-						-PX_WA(BUTTON_W),
-						-PX_HA(BUTTON_H),
-						PX_WA(BUTTON_W),
-						PX_HA(BUTTON_H)
+						-PXW(BUTTON_W),
+						-PXH(BUTTON_H),
+						PXW(BUTTON_W),
+						PXH(BUTTON_H)
 					];
 
 					private _emojis = ["getList"] call THIS_FUNC;
@@ -132,9 +132,9 @@ switch _mode do {
 
 						if ((_forEachIndex%EMOJI_W) == 0) then {
 							_subCtrlPos set [0,0];
-							_subCtrlPos set [1,(_subCtrlPos#1)+PX_HA(BUTTON_H)];
+							_subCtrlPos set [1,(_subCtrlPos#1)+PXH(BUTTON_H)];
 						} else {
-							_subCtrlPos set [0,(_subCtrlPos#0)+PX_WA(BUTTON_W)];
+							_subCtrlPos set [0,(_subCtrlPos#0)+PXW(BUTTON_W)];
 						};
 
 						private _subCtrl = _display ctrlCreate ["ctrlButtonPictureKeepAspect",-1,_ctrl];

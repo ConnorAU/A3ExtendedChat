@@ -81,18 +81,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W),
-					CENTER_YA(DIALOG_H),
-					PX_WA(DIALOG_W),
-					PX_HA(DIALOG_H)
+					PXCX(DIALOG_W),
+					PXCY(DIALOG_H),
+					PXW(DIALOG_W),
+					PXH(DIALOG_H)
 				]
 			],
 			[
 				"ctrlStaticTitle",-1,[
-					CENTER_XA(DIALOG_W),
-					CENTER_YA(DIALOG_H),
-					PX_WA(DIALOG_W),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W),
+					PXCY(DIALOG_H),
+					PXW(DIALOG_W),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_title";
@@ -100,18 +100,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFooter",-1,[
-					CENTER_XA(DIALOG_W),
-					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 2)),
-					PX_WA(DIALOG_W),
-					PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W),
+					PXCY(DIALOG_H) + PXH(DIALOG_H) - PXH((SIZE_M + 2)),
+					PXW(DIALOG_W),
+					PXH((SIZE_M + 2))
 				]
 			],
 			[
 				"ctrlButtonClose",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA(DIALOG_W) - PX_WA(((SIZE_M * 5) + 1)),
-					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 1)),
-					PX_WA((SIZE_M * 5)),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(DIALOG_W) - PXW(((SIZE_M * 5) + 1)),
+					PXCY(DIALOG_H) + PXH(DIALOG_H) - PXH((SIZE_M + 1)),
+					PXW((SIZE_M * 5)),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlAddEventHandler ["ButtonClick",{
@@ -136,10 +136,10 @@ switch _mode do {
 			],
 			[
 				"ctrlButton",IDC_BUTTON_SAVE_SETTINGS,[
-					CENTER_XA(DIALOG_W) + PX_WA(DIALOG_W) - PX_WA(((SIZE_M * 5) * 2)) - PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 1)),
-					PX_WA((SIZE_M * 5)),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(DIALOG_W) - PXW(((SIZE_M * 5) * 2)) - PXW(2),
+					PXCY(DIALOG_H) + PXH(DIALOG_H) - PXH((SIZE_M + 1)),
+					PXW((SIZE_M * 5)),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_save_button";
@@ -149,10 +149,10 @@ switch _mode do {
 			],
 			[
 				"ctrlButton",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA(1),
-					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 1)),
-					PX_WA((SIZE_M * 5)),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(1),
+					PXCY(DIALOG_H) + PXH(DIALOG_H) - PXH((SIZE_M + 1)),
+					PXW((SIZE_M * 5)),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_reset_button";
@@ -180,10 +180,10 @@ switch _mode do {
 		// ~~ Configuration
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(DIALOG_H) - PX_HS(4) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
@@ -191,10 +191,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_title";
@@ -203,18 +203,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFrame",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(DIALOG_H) - PX_HS(4) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				]
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA(SIZE_M),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_command_prefix_label";
@@ -223,14 +223,14 @@ switch _mode do {
 			],
 			[
 				"RscEdit",IDC_EDIT_COMMAND_PREFIX,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(2) + PX_HA((SIZE_M*2)),
-					PX_WA((DIALOG_W/2)) - PX_WS(7),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(2) + PXH((SIZE_M*2)),
+					PXW((DIALOG_W/2)) - PXW(7),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetFont FONT_NORMAL;
-					_ctrl ctrlSetFontHeight PX_HS(4.32);
+					_ctrl ctrlSetFontHeight PXH(4.32);
 					_ctrl ctrlSetBackgroundColor [COLOR_TAB_RGBA];
 
 					_ctrl ctrlSetText (["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings));
@@ -240,10 +240,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(3) + PX_HA((SIZE_M*3)),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(3) + PXH((SIZE_M*3)),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_message_history_limit_label";
@@ -252,10 +252,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCombo",IDC_COMBO_MAX_SAVED_LOGS,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(3) + PX_HA((SIZE_M*4)),
-					PX_WA((DIALOG_W/2)) - PX_WS(7),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(3) + PXH((SIZE_M*4)),
+					PXW((DIALOG_W/2)) - PXW(7),
+					PXH(SIZE_M)
 				],
 				{
 					private _setting = ["get",VAL_SETTINGS_INDEX_MAX_SAVED] call FUNC(settings);
@@ -277,10 +277,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(4) + PX_HA((SIZE_M*5)),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(4) + PXH((SIZE_M*5)),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_message_feed_limit_label";
@@ -289,10 +289,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCombo",IDC_COMBO_MAX_PRINTED_LOGS,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(4) + PX_HA((SIZE_M*6)),
-					PX_WA((DIALOG_W/2)) - PX_WS(7),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(4) + PXH((SIZE_M*6)),
+					PXW((DIALOG_W/2)) - PXW(7),
+					PXH(SIZE_M)
 				],
 				{
 					private _setting = ["get",VAL_SETTINGS_INDEX_MAX_PRINTED] call FUNC(settings);
@@ -314,10 +314,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(5) + PX_HA((SIZE_M*7)),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(5) + PXH((SIZE_M*7)),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_message_ttl_label";
@@ -326,10 +326,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCombo",IDC_COMBO_PRINTED_LOG_TTL,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(5) + PX_HA((SIZE_M*8)),
-					PX_WA((DIALOG_W/2)) - PX_WS(7),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(5) + PXH((SIZE_M*8)),
+					PXW((DIALOG_W/2)) - PXW(7),
+					PXH(SIZE_M)
 				],
 				{
 					private _setting = ["get",VAL_SETTINGS_INDEX_TTL_PRINTED] call FUNC(settings);
@@ -351,10 +351,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",IDC_LABEL_TEXT_FONT,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(6) + PX_HA((SIZE_M*9)),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*9)),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_font_label";
@@ -364,10 +364,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCombo",IDC_COMBO_TEXT_FONT,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(6) + PX_HA((SIZE_M*10)),
-					PX_WA((DIALOG_W/2)) - PX_WS(7),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*10)),
+					PXW((DIALOG_W/2)) - PXW(7),
+					PXH(SIZE_M)
 				],
 				{
 					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings);
@@ -394,10 +394,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",IDC_LABEL_TEXT_SIZE,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(7) + PX_HA((SIZE_M*11)),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(7) + PXH((SIZE_M*11)),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_text_size_label",["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)];
@@ -406,10 +406,10 @@ switch _mode do {
 			],
 			[
 				"ctrlXSliderH",IDC_SLIDER_TEXT_SIZE,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(7) + PX_HA((SIZE_M*12)),
-					PX_WA((DIALOG_W/2)) - PX_WS(7),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(7) + PXH((SIZE_M*12)),
+					PXW((DIALOG_W/2)) - PXW(7),
+					PXH(SIZE_M)
 				],
 				{
 					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings);
@@ -430,10 +430,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",IDC_LABEL_TEXT_COLOR,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(9) + PX_HA((SIZE_M*13)),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(9) + PXH((SIZE_M*13)),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_color_label";
@@ -446,10 +446,10 @@ switch _mode do {
 			],
 			[
 				"ctrlButton",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2) + (PX_WA((DIALOG_W/2)) - PX_WS(3)) - PX_WA(22),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(9) + PX_HA((SIZE_M*13)),
-					PX_WA(20),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(9) + PXH((SIZE_M*13)),
+					PXW(20),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
@@ -475,10 +475,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",IDC_LABEL_FEED_BACKGROUND_COLOR,[
-					CENTER_XA(DIALOG_W) + PX_WS(2.5),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(11) + PX_HA((SIZE_M*14)),
-					PX_WA((DIALOG_W/2)) - PX_WS(25.5),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(11) + PXH((SIZE_M*14)),
+					PXW((DIALOG_W/2)) - PXW(25.5),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_feed_bg_color_label";
@@ -491,10 +491,10 @@ switch _mode do {
 			],
 			[
 				"ctrlButton",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2) + (PX_WA((DIALOG_W/2)) - PX_WS(3)) - PX_WA(22),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(11) + PX_HA((SIZE_M*14)),
-					PX_WA(20),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(11) + PXH((SIZE_M*14)),
+					PXW(20),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
@@ -522,10 +522,10 @@ switch _mode do {
 		// ~~ Filters
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WS(1),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(DIALOG_H) - PX_HS(4) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(1),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
@@ -533,10 +533,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WS(1),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(1),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_title";
@@ -545,18 +545,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFrame",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WS(1),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA((DIALOG_W/2)) - PX_WS(3),
-					PX_HA(DIALOG_H) - PX_HS(4) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(1),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/2)) - PXW(3),
+					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				]
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_CONNECT,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA(SIZE_M),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings));
@@ -565,10 +565,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA(SIZE_M),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_connect_log_label";
@@ -577,10 +577,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_DISCONNECT,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*2)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*2)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings));
@@ -589,10 +589,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*2)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*2)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_disconnect_log_label";
@@ -601,10 +601,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_KILLED,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*3)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*3)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings));
@@ -613,10 +613,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*3)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*3)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_kill_log_label";
@@ -625,10 +625,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_UNSUPPORTED_MISSION,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*4)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*4)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings));
@@ -637,10 +637,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA(1) + PX_HA((SIZE_M*4)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*4)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_unsupported_mission_log_label";
@@ -649,10 +649,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GLOBAL,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*6)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call FUNC(settings));
@@ -661,10 +661,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*6)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 0;
@@ -676,10 +676,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_SIDE,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*7)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call FUNC(settings));
@@ -688,10 +688,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*7)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 1;
@@ -703,10 +703,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_COMMAND,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*8)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call FUNC(settings));
@@ -715,10 +715,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*8)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 2;
@@ -730,10 +730,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GROUP,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*9)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GROUP] call FUNC(settings));
@@ -742,10 +742,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*9)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 3;
@@ -757,10 +757,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_VEHICLE,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*10)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_VEHICLE] call FUNC(settings));
@@ -769,10 +769,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*10)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 4;
@@ -784,10 +784,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_DIRECT,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*11)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_DIRECT] call FUNC(settings));
@@ -796,10 +796,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*11)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 5;
@@ -811,10 +811,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_CUSTOM,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*12)),
-					PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*12)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings));
@@ -823,10 +823,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA((DIALOG_W/2)) + PX_WA(2) + PX_WA(SIZE_M) ,
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + PX_HA((SIZE_M*12)),
-					PX_WA((DIALOG_W/2)) - PX_WS(4) - PX_WA(SIZE_M),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*12)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channelID = 6;

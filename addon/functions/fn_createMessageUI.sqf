@@ -41,10 +41,10 @@ _ctrlMessageBackground ctrlSetBackgroundColor (["get",VAL_SETTINGS_INDEX_FEED_BG
 _ctrlMessageBackground ctrlSetPosition [0,0,VAR_MESSAGE_FEED_POS#2,0];
 
 private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",3,_ctrlMessageContainer];
-_ctrlMessageStripe ctrlSetPosition [0,0,PX_WS(0.5),0];
+_ctrlMessageStripe ctrlSetPosition [0,0,PXW(0.5),0];
 
 private _ctrlMessageText = _display ctrlCreate ["ctrlStructuredText",4,_ctrlMessageContainer];
-_ctrlMessageText ctrlSetPosition [PX_WS(0.5),0,VAR_MESSAGE_FEED_POS#2 - PX_WS(1),safezoneH];
+_ctrlMessageText ctrlSetPosition [PXW(0.5),0,VAR_MESSAGE_FEED_POS#2 - PXW(1),safezoneH];
 
 private _allControls = [
 	_ctrlMessageContainer,

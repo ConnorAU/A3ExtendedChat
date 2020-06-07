@@ -143,7 +143,7 @@ if (!isNull _display) then {
 			"(profilenamespace getVariable ['GUI_BCG_RGB_A',0.5])"
 		]] call FUNC(commonTask);
 
-		_buttonPos set [1,safezoneY + PX_HA(5)];
+		_buttonPos set [1,safezoneY + PXH(5)];
 		private _ctrlHistory = _display ctrlCreate ["RscButtonMenu",-1];
 		_ctrlHistory ctrlSetText localize "STR_CAU_xChat_interrupt_history";
 		_ctrlHistory ctrlSetFont FONT_SEMIBOLD;
@@ -152,7 +152,7 @@ if (!isNull _display) then {
 		_ctrlHistory ctrlAddEventHandler ["ButtonClick",{["init",ctrlParent(_this#0)] call FUNC(historyUI)}];
 		_ctrlHistory ctrlCommit 0;
 
-		_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PX_HA(1)];
+		_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PXH(1)];
 		private _ctrlSettings = _display ctrlCreate ["RscButtonMenu",-1];
 		_ctrlSettings ctrlSetText localize "STR_CAU_xChat_interrupt_settings";
 		_ctrlSettings ctrlSetFont FONT_SEMIBOLD;
@@ -185,7 +185,7 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 		private _tick = _ctrl getVariable [VAR_UPDATE_MESSAGES_CTRL_TICK,0];
 
 		private _ctrlPos = ctrlPosition _ctrl;
-		_y = _y - _ctrlPos#3 - PX_HS(0.5);
+		_y = _y - _ctrlPos#3 - PXH(0.5);
 		_ctrlPos set [1,_y];
 		_ctrl ctrlSetPosition _ctrlPos;
 
@@ -269,7 +269,7 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	_ctrlVoipSpeaker ctrlSetPosition _ctrlVoipSpeakerPos;
 	_ctrlVoipSpeaker ctrlCommit 0;
 
-	_ctrlVoipSpeakerPos set [2,(ctrlTextWidth _ctrlVoipSpeaker + PX_WA(0.1)) min (VAR_MESSAGE_FEED_POS#2)];
+	_ctrlVoipSpeakerPos set [2,(ctrlTextWidth _ctrlVoipSpeaker + PXW(0.1)) min (VAR_MESSAGE_FEED_POS#2)];
 	_ctrlVoipSpeaker ctrlSetPosition _ctrlVoipSpeakerPos;
 	_ctrlVoipSpeaker ctrlCommit 0;
 

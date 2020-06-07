@@ -41,18 +41,10 @@
 #ifdef pixelScale
     // Mission UIs were built using small UI scale.
     // These values are used to properly scale UIs for different sizes.
-    #define GRID_W_SCALE (0.00126263 * 8 * 0.50)
-    #define GRID_H_SCALE (0.0016835 * 8 * 0.50)
-
-    #define PX_WA(n) n*GRID_W
-    #define PX_HA(n) n*GRID_H
-    #define CENTER_XA(n) (CENTER_X)-(0.5*(PX_WA(n)))
-    #define CENTER_YA(n) (CENTER_Y)-(0.5*(PX_HA(n)))
-
-    #define PX_WS(n) n*(GRID_W*(GRID_W_SCALE/GRID_W))
-    #define PX_HS(n) n*(GRID_H*(GRID_H_SCALE/GRID_H))
-    #define CENTER_XS(n) (CENTER_X)-(0.5*(PX_WS(n)))
-    #define CENTER_YS(n) (CENTER_Y)-(0.5*(PX_HS(n)))
+    #define PXW(n) (n*GRID_W)
+    #define PXH(n) (n*GRID_H)
+    #define PXCX(n) (CENTER_X-(0.5*PXW(n)))
+    #define PXCY(n) (CENTER_Y-(0.5*PXH(n)))
 #endif
 
 // ~ Settings

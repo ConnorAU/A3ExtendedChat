@@ -124,7 +124,7 @@ switch _mode do {
 		_params
 	};
 	case "ScaledFeedTextSize":{
-		(((((safezoneW/safezoneH)min 1.2)/1.2)/25)*0.8)/(PX_HA(4.32))
+		(((((safezoneW/safezoneH)min 1.2)/1.2)/25)*0.8)/(PXH(4.32))
 	};
 	case "colorConfigToRGBA":{
 		/*

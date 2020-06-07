@@ -125,7 +125,7 @@ if (_isChannelPrintEnabled && {[] call _canPrintCondition}) then {
 		if (_foreachindex == 1) then {
 			_ctrlPos set [2,ctrlTextWidth _ctrlText];
 		};
-		_ctrlPos set [3,ctrlTextHeight _ctrlText + ([0,PX_HA(0.4)] select _containsImg)];
+		_ctrlPos set [3,ctrlTextHeight _ctrlText + ([0,PXH(0.4)] select _containsImg)];
 		_x ctrlSetPosition _ctrlPos;
 		_x ctrlCommit 0;
 	} forEach [_ctrlContainer,_ctrlBackground,_ctrlStripe,_ctrlText];

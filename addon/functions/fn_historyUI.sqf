@@ -73,18 +73,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W),
-					CENTER_YA(DIALOG_H),
-					PX_WA(DIALOG_W),
-					PX_HA(DIALOG_H)
+					PXCX(DIALOG_W),
+					PXCY(DIALOG_H),
+					PXW(DIALOG_W),
+					PXH(DIALOG_H)
 				]
 			],
 			[
 				"ctrlStaticTitle",-1,[
-					CENTER_XA(DIALOG_W),
-					CENTER_YA(DIALOG_H),
-					PX_WA(DIALOG_W),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W),
+					PXCY(DIALOG_H),
+					PXW(DIALOG_W),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_history_title";
@@ -92,18 +92,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFooter",-1,[
-					CENTER_XA(DIALOG_W),
-					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 2)),
-					PX_WA(DIALOG_W),
-					PX_HA((SIZE_M + 2))
+					PXCX(DIALOG_W),
+					PXCY(DIALOG_H) + PXH(DIALOG_H) - PXH((SIZE_M + 2)),
+					PXW(DIALOG_W),
+					PXH((SIZE_M + 2))
 				]
 			],
 			[
 				"ctrlButtonClose",-1,[
-					CENTER_XA(DIALOG_W) + PX_WA(DIALOG_W) - PX_WA(((SIZE_M * 5) + 1)),
-					CENTER_YA(DIALOG_H) + PX_HA(DIALOG_H) - PX_HA((SIZE_M + 1)),
-					PX_WA((SIZE_M * 5)),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(DIALOG_W) - PXW(((SIZE_M * 5) + 1)),
+					PXCY(DIALOG_H) + PXH(DIALOG_H) - PXH((SIZE_M + 1)),
+					PXW((SIZE_M * 5)),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlAddEventHandler ["ButtonClick",{(ctrlParent(_this#0)) closeDisplay 2}];
@@ -113,10 +113,10 @@ switch _mode do {
 		// ~~ Filter Panel
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WS(50),
-					PX_HA(SIZE_M) + PX_HS((SIZE_M*10.5))
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(50),
+					PXH(SIZE_M) + PXH((SIZE_M*10.5))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
@@ -124,10 +124,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WS(50),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(50),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_history_filter_title";
@@ -136,18 +136,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFrame",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WS(50),
-					PX_HA(SIZE_M) + PX_HS((SIZE_M*10.5))
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(50),
+					PXH(SIZE_M) + PXH((SIZE_M*10.5))
 				]
 			],
 			[
 				"ctrlCheckbox",IDC_CB_SYSTEM,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					// system can have hundreds of logs, is best to hide them unless the player wants to see system logs
@@ -160,10 +160,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = -1;
@@ -174,10 +174,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_GLOBAL,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS(SIZE_M),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH(SIZE_M),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call FUNC(settings));
@@ -189,10 +189,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS(SIZE_M),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH(SIZE_M),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 0;
@@ -203,10 +203,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_SIDE,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*2)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*2)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call FUNC(settings));
@@ -215,10 +215,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*2)),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*2)),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 1;
@@ -229,10 +229,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_COMMAND,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*3)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*3)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call FUNC(settings));
@@ -241,10 +241,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*3)),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*3)),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 2;
@@ -255,10 +255,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_GROUP,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*4)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*4)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GROUP] call FUNC(settings));
@@ -267,10 +267,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*4)),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*4)),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 3;
@@ -281,10 +281,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_VEHICLE,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*5)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*5)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_VEHICLE] call FUNC(settings));
@@ -293,10 +293,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*5)),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*5)),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 4;
@@ -307,10 +307,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_DIRECT,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*6)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*6)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_DIRECT] call FUNC(settings));
@@ -319,10 +319,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*6)),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*6)),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 5;
@@ -333,10 +333,10 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CUSTOM,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*7)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*7)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings));
@@ -345,10 +345,10 @@ switch _mode do {
 			],
 			[
 				"ctrlStructuredText",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(SIZE_M),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*7)),
-					PX_WS(50) - PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*7)),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					private _channel = 6;
@@ -359,24 +359,24 @@ switch _mode do {
 			],
 			[// ctrlEdit crashes game when used with ctrlCreate
 				"RscEdit",IDC_EDIT_SEARCH,[
-					CENTER_XA(DIALOG_W) + PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*8.5)),
-					PX_WS(50) - PX_WS(SIZE_M) - PX_WS(4),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*8.5)),
+					PXW(50) - PXW(SIZE_M) - PXW(4),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlSetFont FONT_NORMAL;
-					_ctrl ctrlSetFontHeight PX_HS(4.32);
+					_ctrl ctrlSetFontHeight PXH(4.32);
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
 					_ctrl ctrlAddEventHandler ["KeyDown",{["EditSearchModified",_this] call THIS_FUNC}];
 				}
 			],
 			[
 				"ctrlButtonSearch",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4)	 + PX_WS(50) - PX_WS(SIZE_M) - PX_WS(4),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(4) + PX_HS((SIZE_M*8.5)),
-					PX_WS(SIZE_M),
-					PX_HS(SIZE_M)
+					PXCX(DIALOG_W) + PXW(4)	 + PXW(50) - PXW(SIZE_M) - PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*8.5)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlAddEventHandler ["ButtonClick",{["ButtonSearchClicked"] call THIS_FUNC}];
@@ -384,10 +384,10 @@ switch _mode do {
 			],
 			[// Can't colour ctrlButton so doing this as alternative
 				"ctrlStatic",IDC_STATIC_RELOAD,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(3) + PX_HS((SIZE_M*10.5)),
-					PX_WS(50),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(3) + PXH((SIZE_M*10.5)),
+					PXW(50),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlShow false;
@@ -396,10 +396,10 @@ switch _mode do {
 			],
 			[// Clear button with hover highlight
 				"ctrlButtonFilter",IDC_BUTTON_RELOAD,[
-					CENTER_XA(DIALOG_W) + PX_WS(2),
-					CENTER_YA(DIALOG_H) + PX_HA((SIZE_M*2)) + PX_HS(3) + PX_HS((SIZE_M*10.5)),
-					PX_WS(50),
-					PX_HA(SIZE_M)
+					PXCX(DIALOG_W) + PXW(2),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(3) + PXH((SIZE_M*10.5)),
+					PXW(50),
+					PXH(SIZE_M)
 				],
 				{
 					_ctrl ctrlShow false;
@@ -410,10 +410,10 @@ switch _mode do {
 		// ~~ Message View
 			[
 				"ctrlStaticBackground",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(50),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA(DIALOG_W) - PX_WS(50) - PX_WS(6),
-					PX_HA(DIALOG_H) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2)) - PX_HS(4)
+					PXCX(DIALOG_W) + PXW(4) + PXW(50),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(DIALOG_W) - PXW(50) - PXW(6),
+					PXH(DIALOG_H) - PXH(SIZE_M) - PXH((SIZE_M + 2)) - PXH(4)
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
@@ -421,18 +421,18 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFrame",-1,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(50),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA(DIALOG_W) - PX_WS(50) - PX_WS(6),
-					PX_HA(DIALOG_H) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2)) - PX_HS(4)
+					PXCX(DIALOG_W) + PXW(4) + PXW(50),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(DIALOG_W) - PXW(50) - PXW(6),
+					PXH(DIALOG_H) - PXH(SIZE_M) - PXH((SIZE_M + 2)) - PXH(4)
 				]
 			],
 			[
 				"ctrlStaticPicture",IDC_IMAGE_SPINNER,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(50) + ((PX_WA(DIALOG_W) - PX_WS(50) - PX_WS(6))/2) - PX_WA(7.5),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2) + ((PX_HA(DIALOG_H) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2)) - PX_HS(4))/2) - PX_HA(7.5),
-					PX_WA(15),
-					PX_HA(15)
+					PXCX(DIALOG_W) + PXW(4) + PXW(50) + ((PXW(DIALOG_W) - PXW(50) - PXW(6))/2) - PXW(7.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + ((PXH(DIALOG_H) - PXH(SIZE_M) - PXH((SIZE_M + 2)) - PXH(4))/2) - PXH(7.5),
+					PXW(15),
+					PXH(15)
 				],
 				{
 					_ctrl ctrlShow false;
@@ -447,10 +447,10 @@ switch _mode do {
 			],
 			[
 				"ctrlControlsGroup",IDC_GROUP_MESSAGES,[
-					CENTER_XA(DIALOG_W) + PX_WS(4) + PX_WS(50),
-					CENTER_YA(DIALOG_H) + PX_HA(SIZE_M) + PX_HS(2),
-					PX_WA(DIALOG_W) - PX_WS(50) - PX_WS(6),
-					PX_HA(DIALOG_H) - PX_HA(SIZE_M) - PX_HA((SIZE_M + 2)) - PX_HS(4)
+					PXCX(DIALOG_W) + PXW(4) + PXW(50),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(DIALOG_W) - PXW(50) - PXW(6),
+					PXH(DIALOG_H) - PXH(SIZE_M) - PXH((SIZE_M + 2)) - PXH(4)
 				]
 			]
 		];
@@ -583,7 +583,7 @@ switch _mode do {
 		{ctrlDelete _x} count _oldMessageCtrls;
 
 		private _newMessageCtrls = [];
-		private _y = PX_HA(2);
+		private _y = PXH(2);
 
 		private _historyLen = count VAR_HISTORY - 1;
 		for "_i" from _historyLen to 0 step -1 do {
@@ -629,14 +629,14 @@ switch _mode do {
 				_ctrlMessageContainer ctrlSetPosition _ctrlMessageContainerPos;
 				_ctrlMessageContainer ctrlCommit 0;
 
-				_y = _y + (_ctrlMessageContainerPos#3) + PX_HA(1);
+				_y = _y + (_ctrlMessageContainerPos#3) + PXH(1);
 
 				_newMessageCtrls pushBack _ctrlMessageContainer;
 			};
 		};
 
 		private _ctrlBottomPadding = _display ctrlCreate ["ctrlStatic",-1,_ctrlGroupMessages];
-		_ctrlBottomPadding ctrlSetPosition [0,_y + PX_HA(1),0,0];
+		_ctrlBottomPadding ctrlSetPosition [0,_y + PXH(1),0,0];
 		_ctrlBottomPadding ctrlCommit 0;
 		_newMessageCtrls pushBack _ctrlBottomPadding;
 
@@ -656,18 +656,18 @@ switch _mode do {
 		private _ctrlGroupMessagesPos = ctrlPosition _ctrlGroupMessages;
 
 		private _ctrlMessageContainer = _display ctrlCreate ["ctrlControlsGroupNoScrollbars",-1,_ctrlGroupMessages];
-		private _ctrlMessageContainerPos = [PX_WA(2),_ctrlGroupMessagesPos#3,_ctrlGroupMessagesPos#2 - PX_WA(4),0];
+		private _ctrlMessageContainerPos = [PXW(2),_ctrlGroupMessagesPos#3,_ctrlGroupMessagesPos#2 - PXW(4),0];
 
 		private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",2,_ctrlMessageContainer];
 		_ctrlMessageBackground ctrlSetBackgroundColor [0,0,0,0.2];
-		private _ctrlMessageBackgroundPos = [0,0,_ctrlGroupMessagesPos#2 - PX_WA(4),0];
+		private _ctrlMessageBackgroundPos = [0,0,_ctrlGroupMessagesPos#2 - PXW(4),0];
 
 		private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",3,_ctrlMessageContainer];
 		_ctrlMessageStripe ctrlSetBackgroundColor _channelColour;
-		private _ctrlMessageStripePos = [0,0,PX_WS(0.5),0];
+		private _ctrlMessageStripePos = [0,0,PXW(0.5),0];
 
 		private _ctrlMessageText = _display ctrlCreate ["ctrlStructuredText",4,_ctrlMessageContainer];
-		private _ctrlMessageTextPos = [PX_WS(0.5),PX_HA(1),_ctrlMessageContainerPos#2 - PX_WA(0.5),0];
+		private _ctrlMessageTextPos = [PXW(0.5),PXH(1),_ctrlMessageContainerPos#2 - PXW(0.5),0];
 		_ctrlMessageText ctrlSetPosition _ctrlMessageTextPos;
 		_ctrlMessageText ctrlCommit 0;
 
@@ -704,8 +704,8 @@ switch _mode do {
 		_ctrlMessageText ctrlSetStructuredText parseText _finalText;
 		private _containsImg = ["<img ",_text] call BIS_fnc_inString;
 
-		private _height = ctrlTextHeight _ctrlMessageText + ([0,PX_HA(0.4)] select _containsImg);
-		_ctrlMessageContainerPos set [3,_height + PX_HA(2)];
+		private _height = ctrlTextHeight _ctrlMessageText + ([0,PXH(0.4)] select _containsImg);
+		_ctrlMessageContainerPos set [3,_height + PXH(2)];
 		_ctrlMessageBackgroundPos set [3,_ctrlMessageContainerPos#3];
 		_ctrlMessageStripePos set [3,_ctrlMessageContainerPos#3];
 		_ctrlMessageTextPos set [3,_height];
