@@ -36,6 +36,14 @@
 				<Original>Extended Chat Settings</Original>
 				<English>Extended Chat Settings</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_interrupt_history_ww2">
+				<Original>History</Original>
+				<English>History</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_interrupt_settings_ww2">
+				<Original>Settings</Original>
+				<English>Settings</English>
+			</Key>
 		</Container>
 		<Container name="History_UI">
 			<Key ID="STR_CAU_xChat_history_title">

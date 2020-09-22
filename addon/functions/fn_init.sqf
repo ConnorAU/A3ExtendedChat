@@ -61,33 +61,47 @@ if hasInterface then {
 
 	[_isNumber] spawn FUNC(createMessageLayer);
 
-	// Add buttons to interrupt menu via scripted evh
-	[missionNamespace,"OnGameInterrupt",{
-		params ["_display"];
-		private _buttonPos = ctrlPosition (_display displayCtrl 2);
-		private _buttonColour = ["colorConfigToRGBA",[
-			COLOR_ACTIVE_RGB,
-			"(profilenamespace getVariable ['GUI_BCG_RGB_A',0.5])"
-		]] call FUNC(commonTask);
+	// Add buttons to interrupt menu
+	if isClass(configFile >> "CfgPatches" >> "WW2_Core_f_WW2_UI_InterruptMenu_f") then {
+		// Add via IFA3 interrupt menu framework
+		["cau_extendedchat","Extended Chat"] call WW2_InterruptMenu_fnc_addHeading;
+		[
+			"cau_extendedchat",localize "STR_CAU_xChat_interrupt_history_ww2","",
+			{},{["init",ctrlParent(_this#0)] call FUNC(historyUI)}
+		] call WW2_InterruptMenu_fnc_addButton;
+		[
+			"cau_extendedchat",localize "STR_CAU_xChat_interrupt_settings_ww2","",
+			{},{["init"] call FUNC(settingsUI)}
+		] call WW2_InterruptMenu_fnc_addButton;
+	} else {
+		// Add via scripted eh, fires during onLoad
+		[missionNamespace,"OnGameInterrupt",{
+			params ["_display"];
+			private _buttonPos = ctrlPosition (_display displayCtrl 2);
+			private _buttonColour = ["colorConfigToRGBA",[
+				COLOR_ACTIVE_RGB,
+				"(profilenamespace getVariable ['GUI_BCG_RGB_A',0.5])"
+			]] call FUNC(commonTask);
 
-		_buttonPos set [1,safezoneY + PXH(5)];
-		private _ctrlHistory = _display ctrlCreate ["RscButtonMenu",-1];
-		_ctrlHistory ctrlSetText localize "STR_CAU_xChat_interrupt_history";
-		_ctrlHistory ctrlSetFont FONT_SEMIBOLD;
-		_ctrlHistory ctrlSetBackgroundColor _buttonColour;
-		_ctrlHistory ctrlSetPosition _buttonPos;
-		_ctrlHistory ctrlAddEventHandler ["ButtonClick",{["init",ctrlParent(_this#0)] call FUNC(historyUI)}];
-		_ctrlHistory ctrlCommit 0;
+			_buttonPos set [1,safezoneY + PXH(5)];
+			private _ctrlHistory = _display ctrlCreate ["RscButtonMenu",-1];
+			_ctrlHistory ctrlSetText localize "STR_CAU_xChat_interrupt_history";
+			_ctrlHistory ctrlSetFont FONT_SEMIBOLD;
+			_ctrlHistory ctrlSetBackgroundColor _buttonColour;
+			_ctrlHistory ctrlSetPosition _buttonPos;
+			_ctrlHistory ctrlAddEventHandler ["ButtonClick",{["init",ctrlParent(_this#0)] call FUNC(historyUI)}];
+			_ctrlHistory ctrlCommit 0;
 
-		_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PXH(1)];
-		private _ctrlSettings = _display ctrlCreate ["RscButtonMenu",-1];
-		_ctrlSettings ctrlSetText localize "STR_CAU_xChat_interrupt_settings";
-		_ctrlSettings ctrlSetFont FONT_SEMIBOLD;
-		_ctrlSettings ctrlSetBackgroundColor _buttonColour;
-		_ctrlSettings ctrlSetPosition _buttonPos;
-		_ctrlSettings ctrlAddEventHandler ["ButtonClick",{["init"] call FUNC(settingsUI)}];
-		_ctrlSettings ctrlCommit 0;
-	}] call BIS_fnc_addScriptedEventHandler;
+			_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PXH(1)];
+			private _ctrlSettings = _display ctrlCreate ["RscButtonMenu",-1];
+			_ctrlSettings ctrlSetText localize "STR_CAU_xChat_interrupt_settings";
+			_ctrlSettings ctrlSetFont FONT_SEMIBOLD;
+			_ctrlSettings ctrlSetBackgroundColor _buttonColour;
+			_ctrlSettings ctrlSetPosition _buttonPos;
+			_ctrlSettings ctrlAddEventHandler ["ButtonClick",{["init"] call FUNC(settingsUI)}];
+			_ctrlSettings ctrlCommit 0;
+		}] call BIS_fnc_addScriptedEventHandler;
+	};
 
 	[] spawn {
 		waitUntil {player isKindOf "CAManBase"};
