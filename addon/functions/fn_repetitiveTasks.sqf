@@ -130,39 +130,6 @@ if (!isNull _display) then {
 	};
 };
 
-// add buttons to interrupt menu, in a loop for same reason as above ^
-#define VAR_INTERRUPT_DISPLAY_BUTTONS QUOTE(FUNC_SUBVAR(escReady))
-USE_DISPLAY(findDisplay 49);
-if (!isNull _display) then {
-	if !(_display getVariable [VAR_INTERRUPT_DISPLAY_BUTTONS,false]) then {
-		_display setVariable [VAR_INTERRUPT_DISPLAY_BUTTONS,true];
-
-		private _buttonPos = ctrlPosition (_display displayCtrl 2);
-		private _buttonColour = ["colorConfigToRGBA",[
-			COLOR_ACTIVE_RGB,
-			"(profilenamespace getVariable ['GUI_BCG_RGB_A',0.5])"
-		]] call FUNC(commonTask);
-
-		_buttonPos set [1,safezoneY + PXH(5)];
-		private _ctrlHistory = _display ctrlCreate ["RscButtonMenu",-1];
-		_ctrlHistory ctrlSetText localize "STR_CAU_xChat_interrupt_history";
-		_ctrlHistory ctrlSetFont FONT_SEMIBOLD;
-		_ctrlHistory ctrlSetBackgroundColor _buttonColour;
-		_ctrlHistory ctrlSetPosition _buttonPos;
-		_ctrlHistory ctrlAddEventHandler ["ButtonClick",{["init",ctrlParent(_this#0)] call FUNC(historyUI)}];
-		_ctrlHistory ctrlCommit 0;
-
-		_buttonPos set [1,_buttonPos#1 + _buttonPos#3 + PXH(1)];
-		private _ctrlSettings = _display ctrlCreate ["RscButtonMenu",-1];
-		_ctrlSettings ctrlSetText localize "STR_CAU_xChat_interrupt_settings";
-		_ctrlSettings ctrlSetFont FONT_SEMIBOLD;
-		_ctrlSettings ctrlSetBackgroundColor _buttonColour;
-		_ctrlSettings ctrlSetPosition _buttonPos;
-		_ctrlSettings ctrlAddEventHandler ["ButtonClick",{["init"] call FUNC(settingsUI)}];
-		_ctrlSettings ctrlCommit 0;
-	};
-};
-
 // Handle message controls
 #define VAR_UPDATE_MESSAGES_TICK FUNC_SUBVAR(messages_update_tick)
 #define VAR_UPDATE_MESSAGES_CTRL_STATE QUOTE(FUNC_SUBVAR(ctrl_state))
