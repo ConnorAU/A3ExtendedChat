@@ -5,985 +5,220 @@
 			<Key ID="STR_CAU_xChat_channel_custom">
 				<Original>Custom channel</Original>
 				<English>Custom channel</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_channel_command">
 				<Original>Command Logs</Original>
 				<English>Command Logs</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_channel_system">
 				<Original>System logs</Original>
 				<English>System logs</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 		</Container>
 		<Container name="Chat_UI">
 			<Key ID="STR_CAU_xChat_chat_character_count">
 				<Original>Character count: %1/150</Original>
 				<English>Character count: %1/150</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 		</Container>
 		<Container name="Emoji_UI">
 			<Key ID="STR_CAU_xChat_emoji_title">
 				<Original>Extended Chat Emojis</Original>
 				<English>Extended Chat Emojis</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 		</Container>
 		<Container name="Interrupt_UI">
 			<Key ID="STR_CAU_xChat_interrupt_history">
 				<Original>Extended Chat History</Original>
 				<English>Extended Chat History</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_interrupt_settings">
 				<Original>Extended Chat Settings</Original>
 				<English>Extended Chat Settings</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 		</Container>
 		<Container name="History_UI">
 			<Key ID="STR_CAU_xChat_history_title">
 				<Original>Extended Chat History</Original>
 				<English>Extended Chat History</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_history_filter_title">
 				<Original>Filter Options</Original>
 				<English>Filter Options</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_history_time_past">
 				<Original>%1h %2m ago</Original>
 				<English>%1h %2m ago</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_history_sent_by">
 				<Original>Sent by:</Original>
 				<English>Sent by:</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_history_channel">
 				<Original>Channel:</Original>
 				<English>Channel:</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_history_received">
 				<Original>Received:</Original>
 				<English>Received:</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_history_message">
 				<Original>Message:</Original>
 				<English>Message:</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 		</Container>
 		<Container name="Settings_UI">
 			<Key ID="STR_CAU_xChat_settings_title">
 				<Original>Extended Chat Settings</Original>
 				<English>Extended Chat Settings</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_save_button">
 				<Original>Save Changes</Original>
 				<English>Save Changes</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_saved_alert">
 				<Original>Settings updated</Original>
 				<English>Settings updated</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_pending_changes">
 				<Original>Do you wish to discard your unsaved changes?</Original>
 				<English>Do you wish to discard your unsaved changes?</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_reset_button">
 				<Original>Revert</Original>
 				<English>Revert</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_reset_confirm">
 				<Original>Are you sure you want to revert your settings to the default values?&lt;br/&gt;This action is irreversible.</Original>
 				<English>Are you sure you want to revert your settings to the default values?&lt;br/&gt;This action is irreversible.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_reset_alert">
 				<Original>Settings reverted to default values</Original>
 				<English>Settings reverted to default values</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 
 			<!-- Configuration Panel -->
 			<Key ID="STR_CAU_xChat_settings_configuration_title">
 				<Original>Configuration</Original>
 				<English>Configuration</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_command_prefix_label">
 				<Original>Chat command prefix</Original>
 				<English>Chat command prefix</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_command_prefix_desc">
 				<Original>The character(s) required at the start of your message to use a chat command</Original>
 				<English>The character(s) required at the start of your message to use a chat command</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_history_limit_label">
 				<Original>Message history limit</Original>
 				<English>Message history limit</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_history_limit_desc">
 				<Original>After reaching the maximum value, the oldest message will be removed to allow for a new message to be added. Larger values can cause a decrease in performance.</Original>
 				<English>After reaching the maximum value, the oldest message will be removed to allow for a new message to be added. Larger values can cause a decrease in performance.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_history_limit_option">
 				<Original>%1 messages</Original>
 				<English>%1 messages</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_feed_limit_label">
 				<Original>Message feed limit</Original>
 				<English>Message feed limit</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_feed_limit_desc">
 				<Original>After reaching the maximum value, the oldest message will fade out to make room for the new message. Larger values may result in unexpected UI behaviour.</Original>
 				<English>After reaching the maximum value, the oldest message will fade out to make room for the new message. Larger values may result in unexpected UI behaviour.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_feed_limit_option">
 				<Original>%1 messages</Original>
 				<English>%1 messages</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_ttl_label">
 				<Original>Message feed time-to-live (TTL)</Original>
 				<English>Message feed time-to-live (TTL)</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_ttl_desc">
 				<Original>The maximum duration of time a message will be visible in the feed. Once a message exceeds the TTL value it will fade out.</Original>
 				<English>The maximum duration of time a message will be visible in the feed. Once a message exceeds the TTL value it will fade out.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_message_ttl_option">
 				<Original>%1 seconds</Original>
 				<English>%1 seconds</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_font_label">
 				<Original>Message feed text font</Original>
 				<English>Message feed text font</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_font_desc">
 				<Original>The font type used on text in the message feed.</Original>
 				<English>The font type used on text in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_size_label">
 				<Original>Message feed text size: %1x</Original>
 				<English>Message feed text size: %1x</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_size_desc">
 				<Original>The font size used on text in the message feed.</Original>
 				<English>The font size used on text in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_color_label">
 				<Original>Message feed text color</Original>
 				<English>Message feed text color</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_color_desc">
 				<Original>The font color used on text in the message feed.</Original>
 				<English>The font color used on text in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_label">
 				<Original>Message feed background color</Original>
 				<English>Message feed background color</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_desc">
 				<Original>The background color of messages in the message feed.</Original>
 				<English>The background color of messages in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 
 			<!-- Filters Panel -->
 			<Key ID="STR_CAU_xChat_settings_filter_title">
 				<Original>Filters</Original>
 				<English>Filters</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_connect_log_label">
 				<Original>Player connected logs</Original>
 				<English>Player connected logs</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_connect_log_desc">
 				<Original>Show player connected logs in the message feed.</Original>
 				<English>Show player connected logs in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_disconnect_log_label">
 				<Original>Player disconnected logs</Original>
 				<English>Player disconnected logs</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_disconnect_log_desc">
 				<Original>Show player disconnected logs in the message feed.</Original>
 				<English>Show player disconnected logs in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_label">
 				<Original>Kill logs</Original>
 				<English>Kill logs</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_desc">
 				<Original>Show kill logs in the message feed.</Original>
 				<English>Show kill logs in the message feed.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_unsupported_mission_log_label">
 				<Original>Unsupported mission logs</Original>
 				<English>Unsupported mission logs</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_unsupported_mission_log_desc">
 				<Original>Show warning logs when playing a mission that does not fully support Extended Chat.</Original>
 				<English>Show warning logs when playing a mission that does not fully support Extended Chat.</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_channel_desc">
 				<Original>Show %1 messages in the message feed</Original>
 				<English>Show %1 messages in the message feed</English>
-				<!--
-				<Chinese></Chinese>
-				<French></French>
-				<Spanish></Spanish>
-				<Italian></Italian>
-				<Polish></Polish>
-				<Russian></Russian>
-				<German></German>
-				<Czech></Czech>
-				<Portuguese></Portuguese>
-				<Korean></Korean>
-				<Chinesesimp></Chinesesimp>
-				<Japanese></Japanese>
-				<Turkish></Turkish>
-				-->
 			</Key>
 		</Container>
 	</Package>
