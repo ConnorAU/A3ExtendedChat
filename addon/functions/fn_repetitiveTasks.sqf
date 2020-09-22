@@ -30,7 +30,7 @@ if shownChat then {showChat false;};
 // add event to chat box so we can capture the message when sent
 // is done in this loop to avoid issues with keyhandlers & config based events
 #define VAR_CHAT_INPUT_EVENT_HANDLER QUOTE(FUNC_SUBVAR(evhID))
-#define VAR_CHAT_INPUT_CHAR_COUNTER QUOTE(FUNC_SUBVAR(char_counter))
+#define VAR_CHAT_INPUT_CHAR_COUNTER QUOTE(FUNC_SUBVAR(charCounter))
 USE_DISPLAY(findDisplay 24);
 if (!isNull _display) then {
 
@@ -131,9 +131,9 @@ if (!isNull _display) then {
 };
 
 // Handle message controls
-#define VAR_UPDATE_MESSAGES_TICK FUNC_SUBVAR(messages_update_tick)
-#define VAR_UPDATE_MESSAGES_CTRL_STATE QUOTE(FUNC_SUBVAR(ctrl_state))
-#define VAR_UPDATE_MESSAGES_CTRL_TICK QUOTE(FUNC_SUBVAR(ctrl_tick))
+#define VAR_UPDATE_MESSAGES_TICK FUNC_SUBVAR(messagesUpdateTick)
+#define VAR_UPDATE_MESSAGES_CTRL_STATE QUOTE(FUNC_SUBVAR(ctrlState))
+#define VAR_UPDATE_MESSAGES_CTRL_TICK QUOTE(FUNC_SUBVAR(ctrlTick))
 if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [QUOTE(VAR_UPDATE_MESSAGES_TICK),0])}) then {
 	VAR_UPDATE_MESSAGES_TICK = diag_tickTime + 0.25;
 	VAR_NEW_MESSAGE_PENDING = false;
@@ -191,8 +191,8 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 };
 
 // Update VON speakers ctrl
-#define VAR_UPDATE_VON_TICK FUNC_SUBVAR(von_update_tick)
-#define VAR_UPDATE_VON_ISSPEAKING FUNC_SUBVAR(von_is_speaking)
+#define VAR_UPDATE_VON_TICK FUNC_SUBVAR(vonUpdateTick)
+#define VAR_UPDATE_VON_ISSPEAKING FUNC_SUBVAR(vonIsSpeaking)
 if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOTE(VAR_UPDATE_VON_TICK),0])}) then {
 	VAR_UPDATE_VON_TICK = diag_tickTime + 0.1;
 	private _speakers = [];

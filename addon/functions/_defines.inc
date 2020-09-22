@@ -1,18 +1,18 @@
 // ~ Variables
-#define VAR_HISTORY VAR(message_history)
-#define VAR_NEW_MESSAGE_PENDING VAR(new_message_pending)
-#define VAR_MESSAGE_FEED_CTRLS VAR(message_feed_ctrls)
-#define VAR_MESSAGE_FEED_DISPLAY VAR(message_feed_display)
-#define VAR_MESSAGE_FEED_POS VAR(message_feed_pos)
-#define VAR_MESSAGE_FEED_SHOWN VAR(message_feed_shown)
+#define VAR_HISTORY VAR(messageHistory)
+#define VAR_NEW_MESSAGE_PENDING VAR(newMessagePending)
+#define VAR_MESSAGE_FEED_CTRLS VAR(messageFeedCtrls)
+#define VAR_MESSAGE_FEED_DISPLAY VAR(messageFeedDisplay)
+#define VAR_MESSAGE_FEED_POS VAR(messageFeedPos)
+#define VAR_MESSAGE_FEED_SHOWN VAR(messageFeedShown)
 #define VAR_COMMAND_CODE_PREFIX VAR(_command_)
-#define VAR_VON_SPEAKERS_CTRL VAR(ctrl_von_speakers)
-#define VAR_UNIT_NAME VAR(unit_name)
-#define VAR_MESSAGE_SENT_COOLDOWN VAR(message_sent_cooldown)
+#define VAR_VON_SPEAKERS_CTRL VAR(ctrlVonSpeakers)
+#define VAR_UNIT_NAME VAR(unitName)
+#define VAR_MESSAGE_SENT_COOLDOWN VAR(messageSentCooldown)
 
-#define VAR_ENABLE_EMOJIS VAR(enable_emojis)
-#define VAR_ENABLE_LOGGING VAR(enable_logging)
-#define VAR_ENABLE_VON_CTRL VAR(enable_von_ctrl)
+#define VAR_ENABLE_EMOJIS VAR(enableEmojis)
+#define VAR_ENABLE_LOGGING VAR(enableLogging)
+#define VAR_ENABLE_VON_CTRL VAR(enableVonCtrl)
 
 // ~ Operations
 #define QUOTE(a) #a
