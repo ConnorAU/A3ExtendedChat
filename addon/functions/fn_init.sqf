@@ -113,8 +113,6 @@ if isServer then {
 	private _extensionEnabled = ("ExtendedChat" callExtension "init") == "init";
 	["toggle",_extensionEnabled] call FUNC(log);
 
-	["init"] call FUNC(radioChannelCustom);
-
 	if (getNumber(missionConfigFile >> QUOTE(VAR(connectMessages))) > 0) then {
 		addMissionEventHandler ["PlayerConnected",{
 			params ["","_uid","_name"];
@@ -138,7 +136,6 @@ if isServer then {
 	if (getNumber(missionConfigFile >> QUOTE(VAR(disconnectMessages))) > 0) then {
 		addMissionEventHandler ["PlayerDisconnected",{
 			params ["","_uid","_name","","_owner"];
-			["disconnect",_owner] call FUNC(radioChannelCustom);
 			[[_uid,_name],{
 				[
 					[
