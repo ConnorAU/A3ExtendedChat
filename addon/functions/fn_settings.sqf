@@ -57,7 +57,7 @@ switch _mode do {
 					_resetArray = true;
 				} else {
 					_settings set [0,"v1.1"];
-					_settings = [_settings,[true],VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call BIS_fnc_arrayInsert;
+					_settings = [_settings,[true],8/*VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION*/] call BIS_fnc_arrayInsert;
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
@@ -90,7 +90,7 @@ switch _mode do {
 					_settings = [_settings,[
 							"RobotoCondensedLight",1,
 							[0.651,0.651,0.651,1],[0.1,0.1,0.1,0.5]
-						],VAL_SETTINGS_INDEX_TEXT_FONT] call BIS_fnc_arrayInsert;
+						],5/*VAL_SETTINGS_INDEX_TEXT_FONT*/] call BIS_fnc_arrayInsert;
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
