@@ -30,6 +30,11 @@ private _command = _split#0 select [count _prefix,count(_split#0)];
 private _arguments = _split select [1,count _split];
 
 ["systemChat",[_split#0]] call FUNC(sendMessage);
-_arguments call (missionNameSpace getVariable [QUOTE(VAR_COMMAND_CODE_PREFIX)+_command,{}]);
+
+private _commands = VAR_COMMANDS_ARRAY;
+private _index = _commands findIf {_x#0 == _command};
+if (_index > -1) then {
+	_arguments call (_commands#_index#1);
+};
 
 nil

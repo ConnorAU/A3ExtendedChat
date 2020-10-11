@@ -5,10 +5,11 @@
 #define VAR_MESSAGE_FEED_DISPLAY VAR(messageFeedDisplay)
 #define VAR_MESSAGE_FEED_POS VAR(messageFeedPos)
 #define VAR_MESSAGE_FEED_SHOWN VAR(messageFeedShown)
-#define VAR_COMMAND_CODE_PREFIX VAR(_command_)
+#define VAR_COMMANDS_ARRAY VAR(commands)
 #define VAR_VON_SPEAKERS_CTRL VAR(ctrlVonSpeakers)
 #define VAR_UNIT_NAME VAR(unitName)
 #define VAR_MESSAGE_SENT_COOLDOWN VAR(messageSentCooldown)
+#define VAR_CHAT_OVERLAY_DISPLAY VAR(chatOverlayDisplay)
 
 #define VAR_ENABLE_EMOJIS VAR(enableEmojis)
 #define VAR_ENABLE_LOGGING VAR(enableLogging)

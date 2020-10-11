@@ -234,8 +234,7 @@ switch _mode do {
 					_ctrl ctrlSetBackgroundColor [COLOR_TAB_RGBA];
 
 					_ctrl ctrlSetText (["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings));
-					_ctrl ctrlAddEventHandler ["Char",{["EditChar"] call THIS_FUNC}];
-					_ctrl ctrlAddEventHandler ["IMEChar",{["EditChar"] call THIS_FUNC}];
+					_ctrl ctrlAddEventHandler ["KeyDown",{["KeyDown"] call THIS_FUNC}];
 				}
 			],
 			[
@@ -839,7 +838,7 @@ switch _mode do {
 		];
 	};
 
-	case "EditChar";
+	case "KeyDown";
 	case "CBCheckedChanged";
 	case "SliderPosChanged";
 	case "ColorSelected";
@@ -876,11 +875,18 @@ switch _mode do {
 		_ctrlButtonSave ctrlEnable false;
 
 		private _commandPrefix = ctrlText _ctrlEditCommandPrefix;
+		if (_commandPrefix == "" || {
+			"<" in _commandPrefix ||
+			"&" in _commandPrefix ||
+			"&" in _commandPrefix ||
+			" " in _commandPrefix ||
+			_commandPrefix find ":" == 0
+		}) then {_commandPrefix = nil};
 		[
 			"set",
 			[
 				VAL_SETTINGS_INDEX_COMMAND_PREFIX,
-				[_commandPrefix,nil] select (_commandPrefix in ["","<","&"])
+				if (!isNil "_commandPrefix") then {_commandPrefix}
 			]
 		] call FUNC(settings);
 		_ctrlEditCommandPrefix ctrlSetText (["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings));

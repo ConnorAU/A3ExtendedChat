@@ -23,6 +23,7 @@ class CAU_ExtendedChat {
 		class settingsUI {};
 		class stringPrefix {};
 		class stringReplace {};
+		class suggestionUI {};
 	};
 };
 

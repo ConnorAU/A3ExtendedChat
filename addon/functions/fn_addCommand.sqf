@@ -27,24 +27,16 @@ Return:
 params [["_command","",[""]],["_code",{},[{}]],["_preventOverwrite",true,[true]]];
 
 private _success = false;
-if (_command != "" && str _code != "{}") then {
-	if _preventOverwrite then {
-		private _codeStr = str _code;
-		_codeStr = _codeStr select [1,count _codeStr - 2];
-		_code = compileFinal _codeStr;
-	};
-    private _var = QUOTE(VAR_COMMAND_CODE_PREFIX) + _command;
-    _success = isNil _var;
-    if _success then {
-	    missionNameSpace setVariable [_var,_code];
-    } else {
-        // Attempt to wipe the variable to see if it can be overridden
-        missionNameSpace setVariable [_var,nil];
-        _success = isNil _var;
-        if _success then {
-	        missionNameSpace setVariable [_var,_code];
-        };
-    };
+if (_command != "" && !(_code isEqualTo {})) then {
+	private _commands = VAR_COMMANDS_ARRAY;
+	private _index = _commands findIf {_x#0 == _command};
+
+	// Exit if overwrite prevented
+	if (_index > -1 && {_commands#_index#2}) exitWith {};
+	if (_index == -1) then {_index = count _commands};
+
+	_commands set [_index,[_command,_code,_preventOverwrite]];
+	_success = true;
 };
 
 _success

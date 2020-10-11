@@ -20,7 +20,6 @@ Return:
 ---------------------------------------------------------------------------- */
 
 #define THIS_FUNC FUNC(emoji)
-#define DISPLAY_NAME VAR(displayEmoji)
 
 #include "_macros.inc"
 #include "_defines.inc"
@@ -36,22 +35,38 @@ Return:
 SWITCH_SYS_PARAMS;
 
 switch _mode do {
-	case "initDisplay":{
+	/*case "initDisplay":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {};
-		_params params ["_ctrlEdit","_ctrlCharCountVar"];
 
-		USE_DISPLAY(findDisplay 46 createDisplay "RscDisplayEmpty");
-		uiNamespace setVariable [QUOTE(DISPLAY_NAME),_display];
-
-		(ctrlParent _ctrlEdit) displayAddEventHandler ["Unload",{
-			(uiNamespace getVariable [QUOTE(DISPLAY_NAME),displayNull]) closeDisplay 2;
-		}];
-
+		USE_DISPLAY(findDisplay 24);
+		USE_CTRL(_ctrlEdit,101);
 		private _ctrlEditHeight = ctrlPosition _ctrlEdit#3;
+
+		USE_DISPLAY(DISPLAY(VAR_CHAT_OVERLAY_DISPLAY));
+		private _ctrlCharCounter = _display getVariable ["ctrlCharCount",controlNull];
+
+		private _ctrlGroupMain = _display ctrlCreate ["ctrlControlsGroupNoScrollbars",-1];
+		_ctrlGroupMain ctrlSetPosition [
+			PXCX(DIALOG_W),
+			(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H),
+			PXW(DIALOG_W),
+			PXH(DIALOG_H)
+		];
+		_ctrlGroupMain ctrlCommit 0;
+
+		_ctrlGroupMain ctrlAddEventHandler ["Unload",{
+			diag_log (_this#0);
+			USE_DISPLAY(ctrlParent(_this#0));
+			diag_log _display;
+			private _ctrlList = _display getVariable ["ctrlListSuggestions",controlNull];
+			diag_log _ctrlList;
+			_ctrlList ctrlShow true;
+			_ctrlList ctrlEnable true;
+		}];
 
 		{
 			_x params ["_type","_idc","_position",["_init",{}]];
-			private _ctrl = _display ctrlCreate [_type,_idc];
+			private _ctrl = _display ctrlCreate [_type,_idc,_ctrlGroupMain];
 			_ctrl ctrlSetPosition _position;
 			call _init;
 			_ctrl ctrlCommit 0;
@@ -63,16 +78,14 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticBackground",-1,[
-					PXCX(DIALOG_W),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H),
+					0,0,
 					PXW(DIALOG_W),
 					PXH(DIALOG_H)
 				]
 			],
 			[
 				"ctrlStaticTitle",-1,[
-					PXCX(DIALOG_W),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H),
+					0,0,
 					PXW(DIALOG_W),
 					PXH(SIZE_M)
 				],
@@ -81,9 +94,21 @@ switch _mode do {
 				}
 			],
 			[
+				"ctrlButtonPicture",-1,[
+					PXW((DIALOG_W - SIZE_M)),
+					0,
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText "\a3\3DEN\Data\Displays\Display3DEN\search_end_ca.paa";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{["closeDisplay",[ctrlParentControlsGroup(_this#0)]] call THIS_FUNC}];
+				}
+			],
+			[
 				"ctrlStaticFooter",-1,[
-					PXCX(DIALOG_W),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH((SIZE_M + 2)),
+					0,
+					PXH((DIALOG_H - SIZE_M - 2)),
 					PXW(DIALOG_W),
 					PXH((SIZE_M + 2))
 				]
@@ -92,10 +117,10 @@ switch _mode do {
 		// ~~ Body,
 			[
 				"ctrlStaticOverlay",-1,[
-					PXCX(DIALOG_W) + PXW(2),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(2),
+					PXH((SIZE_M + 2)),
 					PXW((DIALOG_W - 4)),
-					PXH((DIALOG_H - 4)) - PXH(SIZE_M) - PXH((SIZE_M + 2))
+					PXH((DIALOG_H - 4 - SIZE_M - SIZE_M - 2))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [0,0,0,1];
@@ -103,10 +128,10 @@ switch _mode do {
 			],
 			[
 				"ctrlControlsGroup",-1,[
-					PXCX(DIALOG_W) + PXW(2),
-					(safezoney+safezoneh) - _ctrlEditHeight*2.5 - PXH(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW(2),
+					PXH((SIZE_M + 2)),
 					PXW((DIALOG_W - 4)),
-					PXH((DIALOG_H - 4)) - PXH(SIZE_M) - PXH((SIZE_M + 2))
+					PXH((DIALOG_H - 4 - SIZE_M - SIZE_M - 2))
 				],
 				{
 					USE_DISPLAY(ctrlParent _ctrl);
@@ -122,7 +147,7 @@ switch _mode do {
 					private _missionRoot = str missionConfigFile select [0,count str missionConfigFile - 15];
 
 					if (count _emojis == 0) exitWith {
-						(ctrlParent _ctrl) closeDisplay 2;
+						["closeDisplay",[_ctrl]] call THIS_FUNC;
 					};
 
 					//_emojis sort true;
@@ -144,35 +169,53 @@ switch _mode do {
 						_subCtrl ctrlSetPosition _subCtrlPos;
 						_subCtrl ctrlCommit 0;
 
-						_subCtrl ctrlAddEventHandler ["ButtonClick",format["['ButtonClick',%1] call %2",_x + [_ctrlCharCountVar],QUOTE(THIS_FUNC)]];
+						_subCtrl ctrlAddEventHandler ["ButtonClick",format["['ButtonClick',%1] call %2",_x,QUOTE(THIS_FUNC)]];
 					} forEach _emojis;
 				}
 			]
 		];
 	};
+	case "closeDisplay":{
+		_params params ["_ctrlGroupMain"];
+
+		USE_DISPLAY(ctrlParent _ctrlGroupMain);
+		private _ctrlList = _display getVariable ["ctrlListSuggestions",controlNull];
+		_ctrlList ctrlShow true;
+		_ctrlList ctrlEnable true;
+
+		ctrlDelete _ctrlGroupMain;
+	};
 	case "ButtonClick":{
-		_params params ["","","_keyword","_shortcut","","","_ctrlCharCountVar"];
+		_params params ["","","_keyword","_shortcut"];
 
 		// needs to be a seperate display so the mouse cursor will show up
 		USE_DISPLAY(findDisplay 24);
 		USE_CTRL(_ctrlEdit,101);
 
-		private _append = [":"+_keyword+":",_shortcut] select (_shortcut != "");
+		private _insert = [":"+_keyword+":",_shortcut] select (_shortcut != "");
 		private _text = ctrlText _ctrlEdit;
-		_text = _text + _append;
+		ctrlTextSelection _ctrlEdit params ["_curPos","_selection"];
+
+		if (_selection < 0) then {
+			_curPos = _curPos + _selection;
+			_selection = abs _selection;
+		};
+
+		_text = [
+			_text select [0,_curPos],
+			_insert,
+			_text select [_curPos + _selection]
+		] joinString "";
 
 		// char limit
 		if (count _text <= 150) then {
-			if (count _text < 150) then {
-				// Add a space after the emoji if there is room for it to avoid misinterpretations of shortcuts and keywords
-				_text = _text + " ";
-			};
 			_ctrlEdit ctrlSetText _text;
+			_ctrlEdit ctrlSetTextSelection [_curPos + count _insert,0];
 
-			USE_DISPLAY(THIS_DISPLAY);
-			private _ctrlCharCount = _ctrlEdit getVariable [_ctrlCharCountVar,controlNull];
+			USE_DISPLAY(DISPLAY(VAR_CHAT_OVERLAY_DISPLAY));
+			private _ctrlCharCount = _display getVariable ["ctrlCharCount",controlNull];
 			if (!isNull _ctrlCharCount) then {
-				[_ctrlEdit,_ctrlCharCount] call (_ctrlCharCount getVariable ["update",{}]);
+				[_ctrlEdit] call (_ctrlCharCount getVariable ["update",{}]);
 			};
 		} else {
 			_ctrlEdit spawn {
@@ -193,12 +236,28 @@ switch _mode do {
 				};
 			};
 		};
+	};*/
+
+
+	case "isAvailable":{
+		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {false};
+		_params params [["_force",false,[true]]];
+		scopeName _mode;
+		{
+			{
+				if (_force || {[] call compile getText(_x >> "condition")}) then {
+					true breakOut _mode;
+				};
+			} forEach _x; //  list of classes
+		} forEach [
+			"true" configClasses (missionConfigFile >> "CfgEmoji"),
+			"true" configClasses (configFile >> "CfgEmoji")
+		];
+		false
 	};
-
-
 	case "getList":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {[]};
-		private _force = _params param [0,false,[true]];
+		_params params [["_force",false,[true]]];
 		private _addedKeywords = [];
 		private _emojis = [];
 		{

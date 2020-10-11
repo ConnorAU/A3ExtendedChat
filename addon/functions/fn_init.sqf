@@ -50,6 +50,7 @@ if (_isNumber && {getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1}) exi
 if hasInterface then {
 	VAR_HISTORY = [];
 	VAR_MESSAGE_FEED_CTRLS = [];
+	VAR_COMMANDS_ARRAY = [];
 	VAR_MESSAGE_FEED_SHOWN = true;
 	VAR_NEW_MESSAGE_PENDING = false;
 	VAR_ENABLE_LOGGING = false;
