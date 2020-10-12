@@ -35,10 +35,8 @@ switch _mode do {
 			case 3:{getArray(configFile >> "RscChatListDefault" >> "colorGroupChannel")};
 			case 4:{getArray(configFile >> "RscChatListDefault" >> "colorVehicleChannel")};
 			case 5:{getArray(configFile >> "RscChatListDefault" >> "colorDirectChannel")};
-
-			// custom/unknown channels (cant get channel ctrlTextColor from d63c101)
 			case 6;case 7;case 8;case 9;case 10;case 11;case 12;case 13;case 14;
-			case 15:{[1,1,1,1]};
+			case 15:{["get",[_params,0]] call FUNC(radioChannelCustom)};
 
 			default {
 				// red for history view, grey for message feed
@@ -58,7 +56,7 @@ switch _mode do {
 			case 4:{localize "str_channel_vehicle"};
 			case 5:{localize "str_channel_direct"};
 			case 6;case 7;case 8;case 9;case 10;case 11;case 12;case 13;case 14;
-			case 15:{localize "STR_CAU_xChat_channel_custom"};
+			case 15:{["get",[_params-5,1]] call FUNC(radioChannelCustom)}; // TODO: add specific channel check boxes to history ui. force use localize "STR_CAU_xChat_channel_custom" anywhere else
 			case -2:{localize "STR_CAU_xChat_channel_command"}; // chat commands
 			default {localize "STR_CAU_xChat_channel_system"};
 		};

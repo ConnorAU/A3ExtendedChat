@@ -64,7 +64,7 @@ private _canReceiveMessage = if (_senderUID == getPlayerUID player) then {true} 
 		case 4:{_senderVehicle isEqualTo vehicle player};
 		case 5:{_senderVehicle distance player <= 30};
 		case 6;case 7;case 8;case 9;case 11;case 12;case 13;case 14;
-		case 15:{clientOwner in (["get",[_channelID-5,3]] call FUNC(radioChannelCustom))};
+		case 15:{player in (["get",[_channelID-5,3]] call FUNC(radioChannelCustom))};
 		default {false};
 	};
 };
