@@ -6,6 +6,10 @@
 				<Original>Custom channel</Original>
 				<English>Custom channel</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_channels_custom">
+				<Original>Custom channels</Original>
+				<English>Custom channels</English>
+			</Key>
 			<Key ID="STR_CAU_xChat_channel_command">
 				<Original>Command Logs</Original>
 				<English>Command Logs</English>

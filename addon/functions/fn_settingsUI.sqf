@@ -828,11 +828,9 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _channelID = 6;
-					private _channelName = ["ChannelName",_channelID] call FUNC(commonTask);
+					private _channelName = localize "STR_CAU_xChat_channels_custom";
 					_ctrl ctrlSetText _channelName;
 					_ctrl ctrlSetTooltip format[localize "STR_CAU_xChat_settings_filter_channel_desc",_channelName];
-					_ctrl ctrlSetTextColor (["ChannelColour",_channelID] call FUNC(commonTask));
 				}
 			]
 		];
