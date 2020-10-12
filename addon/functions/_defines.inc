@@ -8,6 +8,7 @@
 #define VAR_COMMANDS_ARRAY VAR(commands)
 #define VAR_VON_SPEAKERS_CTRL VAR(ctrlVonSpeakers)
 #define VAR_UNIT_NAME VAR(unitName)
+#define VAR_UNIT_OWNER_ID VAR(unitOwnerID)
 #define VAR_MESSAGE_SENT_COOLDOWN VAR(messageSentCooldown)
 #define VAR_CHAT_OVERLAY_DISPLAY VAR(chatOverlayDisplay)
 

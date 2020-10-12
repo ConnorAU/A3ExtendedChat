@@ -180,7 +180,7 @@ switch _mode do {
 					if (true/*_x != player*/) then {
 						_items pushBack [
 							_x getVariable [QUOTE(VAR_UNIT_NAME),name _x],
-							"","",str clientOwner,
+							"","",str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]),
 							"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
 						];
 					};

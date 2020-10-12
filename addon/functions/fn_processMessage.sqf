@@ -59,6 +59,47 @@ if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
 private _textSafe = ["SafeStructuredText",_text] call FUNC(commonTask);
 _textSafe = ["formatCondition",_textSafe] call FUNC(emoji);
 
+// format mentions
+if (_textSafe find "@" > -1) then {
+	private _textSafeInput = _textSafe;
+	private _textSafeOutput = [];
+	for "_i" from 0 to 1 step 0 do {
+		private _mentionIndex = _textSafeInput find "@";
+		if (_mentionIndex < 0) exitwith {_textSafeOutput pushback _textSafeInput;};
+		_textSafeOutput pushback (_textSafeInput select [0,_mentionIndex]);
+		_textSafeInput = _textSafeInput select [_mentionIndex];
+
+		private _textMentionLength = _textSafeInput find " ";
+		private _textMention = if (_textMentionLength == -1) then {
+			_textSafeInput select [0]
+		} else {
+			_textSafeInput select [0,_textMentionLength]
+		};
+
+		private _textMentionID = _textMention select [1];
+		private _textMentionIDChars = _textMentionID splitString "1234567890";
+		if (count _textMentionIDChars == 0) then {
+			// TODO: highlight message bg
+			// TODO: add options for mention color and bg color
+			{
+				private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
+				if (_unitID isEqualTo _textMentionID) exitWith {
+					_textMention = [
+						"<t color='#8BA6E4'>@",
+						_x getVariable [QUOTE(VAR_UNIT_NAME),name _x],
+						"</t>"
+					] joinString "";
+				};
+			} forEach allPlayers;
+		};
+
+		_textSafeOutput pushback _textMention;
+		_textSafeInput = _textSafeInput select [_textMentionLength];
+	};
+	_textSafe = _textSafeOutput joinString "";
+};
+
+
 [_command,[_textSafe,player,_currentChannel]] remoteExecCall [QUOTE(FUNC(sendMessage))];
 
 missionNamespace setVariable [QUOTE(VAR_MESSAGE_SENT_COOLDOWN),diag_tickTime + 0.1];

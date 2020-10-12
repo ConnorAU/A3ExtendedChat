@@ -107,6 +107,7 @@ if hasInterface then {
 	[] spawn {
 		waitUntil {player isKindOf "CAManBase"};
 		player setVariable [QUOTE(VAR_UNIT_NAME),name player,true];
+		player setVariable [QUOTE(VAR_UNIT_OWNER_ID),clientOwner,true];
 	};
 };
 
@@ -184,6 +185,7 @@ if (difficultyOption "deathMessages" > 0 && getNumber(missionConfigFile >> QUOTE
 			params ["_entity", "_corpse"];
 			if (_entity isKindOf "CAManBase" && {isPlayer _entity}) then {
 				_entity setVariable [QUOTE(VAR_UNIT_NAME),name _entity,true];
+				_entity setVariable [QUOTE(VAR_UNIT_OWNER_ID),owner _entity,true];
 			};
 		}];
 	};
