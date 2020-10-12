@@ -231,7 +231,7 @@ switch _mode do {
 				_items = [
 					[
 						"Insert an emoji",
-						"\cau\extendedchat\images\ico_emoji.paa",
+						"cau\extendedchat\images\ico_emoji.paa",
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',0];['updateItems'] call " + QUOTE(THIS_FUNC),
 						[0.8,0.8,0.8,1],
@@ -239,7 +239,7 @@ switch _mode do {
 					],
 					[
 						"Mention a player",
-						"\cau\extendedchat\images\ico_mention.paa",
+						"cau\extendedchat\images\ico_mention.paa",
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',1];['updateItems'] call " + QUOTE(THIS_FUNC),
 						[0.8,0.8,0.8,1],
@@ -248,7 +248,7 @@ switch _mode do {
 					],
 					[
 						"Insert a command",
-						"\cau\extendedchat\images\ico_command.paa",
+						"cau\extendedchat\images\ico_command.paa",
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',2];['updateItems'] call " + QUOTE(THIS_FUNC),
 						[0.8,0.8,0.8,1],
