@@ -25,7 +25,7 @@ Return:
 {
 	_x params [["_delay",0,[0]],["_message","",[""]]];
 	uiSleep _delay;
-	["systemChat",[_message]] call FUNC(sendMessage);
+	systemChat _message;
 } forEach getArray(missionConfigFile >> QUOTE(VAR(MOTD)));
 
 nil

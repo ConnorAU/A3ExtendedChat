@@ -9,8 +9,8 @@
 #define VAR_VON_SPEAKERS_CTRL VAR(ctrlVonSpeakers)
 #define VAR_UNIT_NAME VAR(unitName)
 #define VAR_UNIT_OWNER_ID VAR(unitOwnerID)
-#define VAR_MESSAGE_SENT_COOLDOWN VAR(messageSentCooldown)
 #define VAR_CHAT_OVERLAY_DISPLAY VAR(chatOverlayDisplay)
+#define VAR_HANDLE_MESSAGE_PRINT_CONDITION VAR(handleChatMessage_printCondition)
 
 #define VAR_ENABLE_EMOJIS VAR(enableEmojis)
 #define VAR_ENABLE_LOGGING VAR(enableLogging)

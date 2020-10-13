@@ -68,7 +68,7 @@ addMissionEventHandler ["EachFrame",{call FUNC(repetitiveTasks)}];
 if (!isClass(configFile >> "CfgFunctions" >> "CAU_UserInputMenus") && !isClass(missionConfigFile >> "CfgFunctions" >> "CAU_UserInputMenus")) then {
 	{
 		diag_log text _x;
-		["systemChat",[_x]] call FUNC(sendMessage);
+		systemChat _x;
 	} forEach [
 		"ExtendedChat is missing a dependency: UserInputMenus",
 		"Some features may not function as expected",
@@ -81,7 +81,7 @@ if !(_this#0) then {
 	{
 		diag_log text _x;
 		if _printWarning then {
-			["systemChat",[_x]] call FUNC(sendMessage);
+			systemChat _x;
 		};
 	} forEach [
 		format["ExtendedChat is not fully supported by this mission: %1.%2",missionName,worldName],

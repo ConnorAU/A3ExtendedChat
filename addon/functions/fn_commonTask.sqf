@@ -43,7 +43,7 @@ switch _mode do {
 				[
 					[0.8,0.1,0.1,1],
 					[0,0,0,0.4]
-				] select (_fnc_scriptNameParent == QUOTE(FUNC(addMessage)));
+				] select (_fnc_scriptNameParent == QUOTE(FUNC(handleChatMessage)));
 			};
 		}] call THIS_FUNC;
 	};

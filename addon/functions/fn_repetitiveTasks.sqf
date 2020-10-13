@@ -33,11 +33,6 @@ if shownChat then {showChat false;};
 USE_DISPLAY(findDisplay 24);
 if (!isNull _display) then {
 
-	// Close chat input if a message was recently sent. Spam prevention.
-	if ((missionNamespace getVariable [QUOTE(VAR_MESSAGE_SENT_COOLDOWN),0]) > diag_tickTime) exitWith {
-		_display closeDisplay 0;
-	};
-
 	// prevent evh adding multiple times
 	USE_CTRL(_ctrlEdit,101);
 	if !(_ctrlEdit getVariable [VAR_CHAT_INITIALIZED,false]) then {
@@ -48,7 +43,6 @@ if (!isNull _display) then {
 			if (_this#1 == 1) then {
 				[_this#0] call FUNC(processMessage);
 			};
-		[ QUOTE(THIS_FUNC) ] call BIS_fnc_recompile; // TODO: remove
 			nil
 		}];
 

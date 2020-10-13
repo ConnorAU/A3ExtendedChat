@@ -23,13 +23,10 @@ Return:
 #include "_macros.inc"
 #include "_defines.inc"
 
-private _isMainMenu = false;
-private _mission = format["%1.%2",missionName,worldName];
-{
-	if ([_mission,getText(_x >> "directory")] call BIS_fnc_inString) exitWith {
-		_isMainMenu = true;
-	};
-} count ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes"));
+private _mission = toLower format["%1.%2",missionName,worldName];
+private _isMainMenu = ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes")) findIf {
+	_mission in toLower getText(_x >> "directory")
+} > -1;
 if _isMainMenu exitWith {};
 
 if (missionNamespace getVariable [QUOTE(VAR(initialized)),false]) exitWith {};
@@ -104,6 +101,8 @@ if hasInterface then {
 		}] call BIS_fnc_addScriptedEventHandler;
 	};
 
+	addMissionEventHandler ["HandleChatMessage",{call FUNC(handleChatMessage)}];
+
 	[] spawn {
 		waitUntil {player isKindOf "CAManBase"};
 		player setVariable [QUOTE(VAR_UNIT_NAME),name player,true];
@@ -121,16 +120,13 @@ if isServer then {
 
 			if (_uid != "") then {
 				[[_uid,_name],{
-					[
-						[
-							localize "str_mp_connect","%s",
-							["StreamSafeName",_this] call FUNC(commonTask)
-						] call FUNC(stringReplace),
-						nil,nil,_this#0,nil,nil,nil,nil,nil,
-						{
-							["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings)
-						}
-					] call FUNC(addMessage);
+					private _message = [
+						localize "str_mp_connect","%s",
+						["StreamSafeName",_this] call FUNC(commonTask)
+					] call FUNC(stringReplace);
+
+					VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings) };
+					systemChat _message;
 				}] remoteExec ["call"];
 			};
 		}];
@@ -139,16 +135,13 @@ if isServer then {
 		addMissionEventHandler ["PlayerDisconnected",{
 			params ["","_uid","_name","","_owner"];
 			[[_uid,_name],{
-				[
-					[
-						localize "str_mp_disconnect","%s",
-						["StreamSafeName",_this] call FUNC(commonTask)
-					] call FUNC(stringReplace),
-					nil,nil,_this#0,nil,nil,nil,nil,nil,
-					{
-						["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings)
-					}
-				] call FUNC(addMessage);
+				private _message = [
+					localize "str_mp_disconnect","%s",
+					["StreamSafeName",_this] call FUNC(commonTask)
+				] call FUNC(stringReplace);
+
+				VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings) };
+				systemChat _message;
 			}] remoteExec ["call"];
 		}];
 	};
@@ -166,17 +159,14 @@ if (difficultyOption "deathMessages" > 0 && getNumber(missionConfigFile >> QUOTE
 			private _instigatorUID = getPlayerUID _instigator;
 			private _text = ["STR_A3_Revive_MSG_KILLED","STR_A3_Revive_MSG_KILLED_BY"] select (_instigator isKindOf "CAManBase" && {_killedUID != _instigatorUID});
 
-			[
-				format[
-					localize _text,
-					["StreamSafeName",[_killedUID,UNIT_NAME(_killed)]] call FUNC(commonTask),
-					["StreamSafeName",[_instigatorUID,UNIT_NAME(_instigator)]] call FUNC(commonTask)
-				],
-				nil,nil,_killedUID,nil,nil,nil,nil,nil,
-				{
-					["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings)
-				}
-			] call FUNC(addMessage);
+			private _message = format[
+				localize _text,
+				["StreamSafeName",[_killedUID,UNIT_NAME(_killed)]] call FUNC(commonTask),
+				["StreamSafeName",[_instigatorUID,UNIT_NAME(_instigator)]] call FUNC(commonTask)
+			];
+
+			VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings) };
+			systemChat _message;
 		};
 	}];
 

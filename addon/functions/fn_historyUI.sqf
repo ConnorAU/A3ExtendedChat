@@ -656,24 +656,20 @@ switch _mode do {
 				terminate _thisScript;
 			};
 
-			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_channelColour","_channelName","_received"];
+			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_received"];
 
 			private _canSeeChannel = _shownChatChannels param [_channel,_shownSystemChannel];
 			private _containsSearchTerm = if _doSearchStrings then {
-				[_searchTerm,_text] call BIS_fnc_inString || {
-					[_searchTerm,_senderName] call BIS_fnc_inString || {
+				tolower _searchTerm in toLower _text || {
+					tolower _searchTerm in toLower _senderName || {
 						_searchTerm == _senderUID
 					}
 				}
 			} else {true};
 
 			if (_canSeeChannel && _containsSearchTerm) then {
-				_channelName = if (_channelName != "") then {_channelName} else {
-					["ChannelName",_channel] call FUNC(commonTask);
-				};
-				private _channelColour = if (count _channelColour == 4) then {_channelColour} else {
-					["ChannelColour",_channel] call FUNC(commonTask);
-				};
+				private _channelName = ["ChannelName",_channel] call FUNC(commonTask);;
+				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);;
 				_senderName = ["StreamSafeName",[_senderUID,_senderName]] call FUNC(commonTask);
 
 				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channelName,_channelColour,_received call _getTimePast,_senderName,_text]] call THIS_FUNC;
@@ -756,9 +752,9 @@ switch _mode do {
 
 		_finalText = "<t size='1.15741'>"+(_finalText joinString "<br/>")+"</t>";
 		_ctrlMessageText ctrlSetStructuredText parseText _finalText;
-		private _containsImg = ["<img ",_text] call BIS_fnc_inString;
+		private _containsImg = "<img " in _text;
 
-		private _height = ctrlTextHeight _ctrlMessageText + ([0,PXH(0.4)] select _containsImg);
+		private _height = ctrlTextHeight _ctrlMessageText + (if _containsImg then {PXH(0.4)} else {0});
 		_ctrlMessageContainerPos set [3,_height + PXH(2)];
 		_ctrlMessageBackgroundPos set [3,_ctrlMessageContainerPos#3];
 		_ctrlMessageStripePos set [3,_ctrlMessageContainerPos#3];

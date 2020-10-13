@@ -296,11 +296,11 @@ switch _mode do {
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
 		{
 			_x params ["","_icon","_keyword","_shortcut","","_condition"];
-			_keyword = ":"+_keyword+":";
-			if (_shortcut != "") then {
-				_params = [_params,["SafeStructuredText",_shortcut] call FUNC(commonTask),_keyword,true] call FUNC(stringReplace);
-			};
 			if !([] call compile _condition) then {
+				_keyword = ":"+_keyword+":";
+				if (_shortcut != "") then {
+					_params = [_params,_shortcut,"",true] call FUNC(stringReplace);
+				};
 				_params = [_params,_keyword,"",true] call FUNC(stringReplace);
 			};
 		} count (["getList",true] call THIS_FUNC);

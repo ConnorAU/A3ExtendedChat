@@ -85,11 +85,7 @@ switch _mode do {
 		if (_channelID < 0 || _channelID > 15) exitWith {};
 		if !(missionNameSpace getVariable [VAL_ENABLE_LOG_VAR(_channelID),true]) exitWith {};
 
-		private _channel = if (_channelID < 6) then {
-			["ChannelName",_channelID] call FUNC(commonTask);
-		} else {
-			["get",[_channelID - 5,1]] call FUNC(radioChannelCustom);
-		};
+		private _channel = ["ChannelName",_channelID] call FUNC(commonTask);
 		private _log = format[
 			"(%1) %2 %4 speaking in %3",
 			_pid,_name,_channel,

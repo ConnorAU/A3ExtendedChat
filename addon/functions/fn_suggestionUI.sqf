@@ -31,8 +31,6 @@ SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "init":{
-		[ QUOTE(THIS_FUNC) ] call BIS_fnc_recompile; // TODO: remove
-
 		_params params ["_display","_ctrlEdit"];
 
 		findDisplay 24 displayAddEventHandler ["Unload",{
@@ -173,16 +171,18 @@ switch _mode do {
 				} forEach _emojis;
 			};
 			case 1:{
-				// TODO: add mentions parsing on receiving end
 				private _players = [];
 				{
 					// TODO: uncomment
 					if (true/*_x != player*/) then {
-						_items pushBack [
-							_x getVariable [QUOTE(VAR_UNIT_NAME),name _x],
-							"","",str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]),
-							"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
-						];
+						private _unitName = _x getVariable [QUOTE(VAR_UNIT_NAME),name _x];
+						private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
+						if (
+							_ctrlListSearchDisplayAll ||
+							{toLower _ctrlEditTextSegmentSearch in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearch == 0}}
+						) then {
+							_items pushBack [_unitName,"","",_unitID,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)];
+						};
 					};
 				} forEach allPlayers;
 				_players sort true;
@@ -244,7 +244,7 @@ switch _mode do {
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',1];['updateItems'] call " + QUOTE(THIS_FUNC),
 						[0.8,0.8,0.8,1],
 						// TODO: uncomment
-						{_ctrlEditTextSegmentType == -1 && {true/*allPlayers findIf {_x != player} > -1*/}} // && has mentions to show
+						{_ctrlEditTextSegmentType == -1 && {true/*allPlayers findIf {_x != player} != -1*/}} // && has mentions to show
 					],
 					[
 						"Insert a command",

@@ -164,7 +164,7 @@ switch _mode do {
 									USE_DISPLAY(THIS_DISPLAY);
 									_display closeDisplay 2;
 									["reset"] call FUNC(settings);
-									["systemChat",[format["Extended Chat: %1",localize "STR_CAU_xChat_settings_reset_alert"]]] call FUNC(sendMessage);
+									systemChat format["Extended Chat: %1",localize "STR_CAU_xChat_settings_reset_alert"];
 									// Can't close one display and open another in the same frame
 									[] spawn {
 										// execute unscheduled
@@ -912,7 +912,7 @@ switch _mode do {
 
 		saveProfileNamespace;
 
-		["systemChat",[format["Extended Chat: %1",localize "STR_CAU_xChat_settings_saved_alert"]]] call FUNC(sendMessage);
+		systemChat format["Extended Chat: %1",localize "STR_CAU_xChat_settings_saved_alert"];
 
 		true
 	};
