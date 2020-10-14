@@ -40,7 +40,13 @@ switch _mode do {
 		private _ctrlList = _display ctrlCreate ["ctrlListbox",-1];
 		_display setVariable ["ctrlListSuggestions",_ctrlList];
 
-		// TODO: keydown tab autocomplete
+		findDisplay 24 displayAddEventHandler ["KeyDown",{
+			// TODO: add setting to choose what key is used
+			if ((_this#1 == DIK_TAB)) then {
+				["KeyDownAutoComplete"] call THIS_FUNC;
+				true
+			};
+		}];
 
 		_ctrlList ctrlAddEventHandler ["LBSelChanged",{["LBSelChanged",_this] call THIS_FUNC}];
 
@@ -58,13 +64,31 @@ switch _mode do {
 
 	case "LBSelChanged":{
 		_params params ["_ctrlList","_index"];
-
 		if (_index == -1) exitWith {};
 
 		private _data = _ctrlList lbData _index;
-		parseSimpleArray _data params ["_event","_data"];
+		if (_data == "") exitWith {};
 
+		// Reset force variable if it is set to command as we can only have one command per message
+		private _ctrlEditTextSegmentTypeForced = _ctrlList getVariable ["ctrlEditTextSegmentTypeForced",-1];
+		if (_ctrlEditTextSegmentTypeForced == 2) then {
+			_ctrlList setVariable ["ctrlEditTextSegmentTypeForced",-1]
+		};
+
+		parseSimpleArray _data params ["_event","_data"];
 		_data call compile _event;
+	};
+	case "KeyDownAutoComplete":{
+		USE_DISPLAY(DISPLAY(VAR_CHAT_OVERLAY_DISPLAY));
+		private _ctrlList = _display getVariable ["ctrlListSuggestions",controlNull];
+
+		private _ctrlEditTextSegmentType = _ctrlList getVariable ["ctrlEditTextSegmentType",-1];
+		private _ctrlEditTextSegmentTypeForced = _ctrlList getVariable ["ctrlEditTextSegmentTypeForced",-1];
+
+		if (_ctrlEditTextSegmentType != -1 || _ctrlEditTextSegmentTypeForced != -1) then {
+			private _index = [1,0] select (_ctrlEditTextSegmentTypeForced == -1);
+			["LBSelChanged",[_ctrlList,_index]] call THIS_FUNC;
+		};
 	};
 
 
@@ -184,9 +208,6 @@ switch _mode do {
 				_items append _players
 			};
 			case 2:{
-				// Wipe force variable incase it is set to command
-				_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',-1];
-
 				private _xChatCommands = [];
 				{
 					if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower(_x#0)}) then {
