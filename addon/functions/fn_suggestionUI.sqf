@@ -162,16 +162,13 @@ switch _mode do {
 		};
 
 		// Define list items
-		private _items = [[
-			"Exit",
-			"\a3\3den\data\controlsgroups\tutorial\close_ca.paa",
-			"","",
-			"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',-1];['updateItems'] call " + QUOTE(THIS_FUNC),
-			[0.8,0.8,0.8,1],
-			{_ctrlEditTextSegmentType != -1}
-		]];
+		private _items = [];
 
 		private _ctrlListSearchDisplayAll = _ctrlEditTextSegmentTypeForced == -1 && {_ctrlEditTextSegmentSearch == ""};
+		private _sortBySearch = {
+			_this sort true;
+			_this apply {_x select [1,count _x]};
+		};
 		switch _ctrlEditTextSegmentType do {
 			case 0:{
 				private _emojis = ["getList"] call FUNC(emoji);
@@ -181,6 +178,7 @@ switch _mode do {
 						{_ctrlEditTextSegmentSearch in toLower(_x#2) || {_ctrlEditTextSegmentSearch in toLower(_x#0)}}
 					) then {
 						_items pushBack [
+							[1,0] select (toLower(_x#2) find _ctrlEditTextSegmentSearch == 0 || {toLower(_x#0) find _ctrlEditTextSegmentSearch == 0}),
 							[_x#0,_x#3],_x#1,
 							format["Keyword: %1%2",_x#2,["",endl+"Shortcut: "+_x#3] select (_x#3 != "")],
 							_x#2,
@@ -188,9 +186,9 @@ switch _mode do {
 						];
 					};
 				} forEach _emojis;
+				_items = _items call _sortBySearch;
 			};
 			case 1:{
-				private _players = [];
 				{
 					private _unitName = ["StreamSafeName",[
 						getPlayerUID _x,
@@ -199,34 +197,33 @@ switch _mode do {
 					private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
 					if (
 						_ctrlListSearchDisplayAll ||
-						{toLower _ctrlEditTextSegmentSearch in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearch == 0}}
+						{_ctrlEditTextSegmentSearch in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearch == 0}}
 					) then {
-						_items pushBack [[_unitName,_unitID],"","",_unitID,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)];
+						_items pushBack [
+							[1,0] select (toLower _unitName find _ctrlEditTextSegmentSearch == 0 || {_unitID find _ctrlEditTextSegmentSearch == 0}),
+							[_unitName,_unitID],"","",_unitID,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
+						];
 					};
 				} forEach allPlayers;
-				_players sort true;
-				_items append _players
+				_items = _items call _sortBySearch;
 			};
 			case 2:{
 				private _votedInAdmin = serverCommandAvailable "#kick";
 				private _loggedInAdmin = serverCommandAvailable "#lock";
 
-				private _xChatCommands = [];
 				{
 					if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower(_x#0)}) then {
-						_xChatCommands pushBack [
+						_items pushBack [
+							[1,0] select (toLower(_x#0) find _ctrlEditTextSegmentSearch == 0),
 							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,"","",
 							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
 					};
 				} forEach VAR_COMMANDS_ARRAY;
-				_xChatCommands sort true;
-				_items append _xChatCommands;
 
 				if isClass(configFile >> "CfgPatches" >> "cba_events") then {
 					private _cbaCommandsNamespace = missionNamespace getVariable ["cba_events_customChatCommands",locationNull];
 
 					if (!isNull _cbaCommandsNamespace) then {
-						private _cbaCommands = [];
 						private _cbaCommandsAccess = ["all"];
 						if (isServer || _votedInAdmin) then {_cbaCommandsAccess pushBack "admin"};
 						if (isServer || _loggedInAdmin) then {_cbaCommandsAccess pushBack "adminlogged"};
@@ -235,20 +232,24 @@ switch _mode do {
 							(_cbaCommandsNamespace getVariable _x) params ["","_access"];
 
 							if (_access in _cbaCommandsAccess) then {
-								_cbaCommands pushBack [["#" + _x,"CBA"],"","","#" + _x,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
+								if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower _x}) then {
+									_items pushBack [
+										[1,0] select (toLower _x find _ctrlEditTextSegmentSearch == 0),
+										["#" + _x,"CBA"],"","","#" + _x,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)
+									];
+								};
 							};
 						} forEach allVariables _cbaCommandsNamespace;
-
-						_cbaCommands sort true;
-						_items append _cbaCommands;
 					};
 				};
 
-				private _a3Commands = [];
 				{
 					if (serverCommandAvailable _x) then {
 						if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower _x}) then {
-							_a3Commands pushBack [[_x,"Arma 3"],"","",_x,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
+							_items pushBack [
+								[1,0] select (toLower _x find _ctrlEditTextSegmentSearch == 1),
+								[_x,"Arma 3"],"","",_x,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)
+							];
 						};
 					};
 				} forEach [
@@ -259,8 +260,8 @@ switch _mode do {
 					"#shutdown","#restartserver","#exec","#beserver","#monitords","#logentities","#exportjipqueue", // logged in admin
 					"#captureframe","#enabletest","#disabletest" // certain game builds
 				];
-				_a3Commands sort true;
-				_items append _a3Commands;
+
+				_items = _items call _sortBySearch;
 			};
 			default {
 				_items = [
@@ -292,8 +293,17 @@ switch _mode do {
 			};
 		};
 
-		// Delete exit item if the type is not forced or if it is the only item
-		if (_ctrlEditTextSegmentType != -1 && {count _items == 1 || _ctrlEditTextSegmentTypeForced == -1}) then {_items deleteAt 0};
+		// Add exit item if the type is forced
+		if (_ctrlEditTextSegmentType != -1 && {count _items > 0 && _ctrlEditTextSegmentTypeForced != -1}) then {
+			_items = [[
+				"Exit",
+				"\a3\3den\data\controlsgroups\tutorial\close_ca.paa",
+				"","",
+				"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',-1];['updateItems'] call " + QUOTE(THIS_FUNC),
+				[0.8,0.8,0.8,1],
+				{_ctrlEditTextSegmentType != -1}
+			]] + _items;
+		};
 
 		// Clear list of existing items
 		lbClear _ctrlList;

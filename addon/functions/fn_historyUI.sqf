@@ -717,7 +717,6 @@ switch _mode do {
 
 	case "CreateMessageCard":{
 		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_receivedTickGame","_receivedDateSys","_senderName","_text","_sentenceType","_mentionBGColor"];
-		diag_log _this;
 
 		disableSerialization;
 		USE_DISPLAY(THIS_DISPLAY);
