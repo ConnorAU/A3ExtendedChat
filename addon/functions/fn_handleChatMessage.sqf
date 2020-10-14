@@ -15,14 +15,14 @@ Parameters:
 	_channelID       : NUMBER - Channel ID
 	_senderID        : NUMBER - Sender's network owner ID
 	_senderNameF     : STRING - Sender's name with formatting specific to the channel (eg: "<SIDE> (<NAME>)" in global)
-	_message         : STRING - Message
+	_message         : STRING - Message content
 	_senderUnit      : OBJECT - Unit object of the sender
 	_senderName      : STRING - Sender's name without formatting
-	_senderStrID     : STRING - Unknown
+	_senderStrID     : STRING - Sender's ID used for marker creation
 	_forceDisplay    : BOOL - Unknown
 	_playerMessage   : BOOL - Unknown
-	_sentenceColor   : NUMBER - 0 = White /w "", 1 = Normal
-	_chatMessageType : NUMBER - 0 = Normal, 1 = Unknown, 2 = Death messages
+	_sentenceType    : NUMBER - 0 = White wrapped with "", 1 = Normal
+	_chatMessageType : NUMBER - 0 = Normal, 1 = SimpleMove messages, 2 = Death messages
 	https://community.bistudio.com/wiki/Arma_3:_Event_Handlers/addMissionEventHandler#HandleChatMessage
 
 Return:
@@ -48,7 +48,7 @@ if (missionNamespace getVariable [QUOTE(VAR_BLOCK_EVENT),false]) exitWith {
 
 params [
 	"_channelID","_senderID","_senderNameF","_message","_senderUnit","_senderName",
-	"_senderStrID","_forceDisplay","_playerMessage","_sentenceColor","_chatMessageType"
+	"_senderStrID","_forceDisplay","_playerMessage","_sentenceType","_chatMessageType"
 ];
 
 // Do nothing if the message is empty
@@ -149,9 +149,9 @@ if ("@" in _messageSafe) then {
 // Add message to history array
 private _senderUID = getPlayerUID _senderUnit;
 private _historyData = [
-	_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime,
+	_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,
 	if _messageMentionsSelf then {["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
-]; // TODO: apply new params
+];
 VAR_HISTORY pushBack _historyData;
 [missionNamespace,QUOTE(VAR(messageAdded)),_historyData] call BIS_fnc_callScriptedEventHandler;
 
@@ -192,6 +192,11 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 	_ctrlStripe ctrlSetBackgroundColor _channelColor;
 
 	// Format message to final state
+	private _messageColor = (["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML;
+	if (_sentenceType == 0) then {
+		_messageColor = "#FFFFFF";
+		_messageSafe = str _messageSafe;
+	};
 	private _messageFinal = [
 		format[
 			"<t size='%1' font='%2'>",
@@ -199,7 +204,7 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 			["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
 		],
 		if (_senderNameSafe == "") then {""} else {"<t color='"+(_channelColor call BIS_fnc_colorRGBAtoHTML)+"'>"+_senderNameSafe+":</t> "},
-		"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>"+_messageSafe+"</t>",
+		"<t color='"+_messageColor+"'>"+_messageSafe+"</t>",
 		"</t>"
 	] joinString "";
 	_ctrlText ctrlSetStructuredText parseText _messageFinal;

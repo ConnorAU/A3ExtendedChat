@@ -642,6 +642,19 @@ switch _mode do {
 			private _minutes = floor((_elapsed / 60) % 60);
 			format[localize "STR_CAU_xChat_history_time_past",_hours,_minutes];
 		};
+		private _formatDate = {
+			params ["_year","_month","_day","_hour","_minute"];
+
+			private _meridiem = ["AM","PM"] select (_hour >= 12);
+			_hour = if (_hour == 0) then {12} else {if (_hour > 12) then {_hour - 12} else {_hour}};
+			if (_minute < 10) then {_minute = "0" + str _minute};
+
+			format [
+				"%1 %2, %3, %4:%5 %6",
+				localize format["str_3den_attributes_date_month%1_text",_month],
+				_day,_year,_hour,_minute,_meridiem
+			];
+		};
 
 		private _oldMessageCtrls = _ctrlGroupMessages getVariable ["controls",[]];
 		{ctrlDelete _x} count _oldMessageCtrls;
@@ -656,7 +669,7 @@ switch _mode do {
 				terminate _thisScript;
 			};
 
-			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_received","_mentionBGColor"];
+			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_receivedTickGame","_receivedDateSys","_sentenceType","_mentionBGColor"];
 
 			private _canSeeChannel = _shownChatChannels param [_channel,_shownSystemChannel];
 			private _containsSearchTerm = if _doSearchStrings then {
@@ -672,7 +685,11 @@ switch _mode do {
 				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);;
 				_senderName = ["StreamSafeName",[_senderUID,_senderName]] call FUNC(commonTask);
 
-				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channel,_channelName,_channelColour,_received call _getTimePast,_senderName,_text,_mentionBGColor]] call THIS_FUNC;
+				private _ctrlMessageContainer = ["CreateMessageCard",[
+					_ctrlGroupMessages,_channel,_channelName,_channelColour,
+					_receivedTickGame call _getTimePast,_receivedDateSys call _formatDate,
+					_senderName,_text,_sentenceType,_mentionBGColor
+				]] call THIS_FUNC;
 
 				private _ctrlMessageContainerPos = ctrlPosition _ctrlMessageContainer;
 				_ctrlMessageContainerPos set [1,_y];
@@ -699,7 +716,7 @@ switch _mode do {
 	};
 
 	case "CreateMessageCard":{
-		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_received","_senderName","_text","_mentionBGColor"];
+		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_receivedTickGame","_receivedDateSys","_senderName","_text","_sentenceType","_mentionBGColor"];
 		diag_log _this;
 
 		disableSerialization;
@@ -729,6 +746,10 @@ switch _mode do {
 			_channelColour = ["ChannelColour",[_channelColour,false]] call FUNC(commonTask);
 		};
 
+		if (_sentenceType == 0) then {
+			_text = "<t color='#FFFFFF'>" + str _text + "</t>";
+		};
+
 		_finalText = [];
 		if (_senderName != "") then {
 			_finalText pushback format[
@@ -749,7 +770,11 @@ switch _mode do {
 			"<t font='%2'>%1</t> %3",
 			localize "STR_CAU_xChat_history_received",
 			FONT_BOLD,
-			_received
+			format[
+				["%1 (%2)","%2"] select isStreamFriendlyUIEnabled,
+				_receivedDateSys,
+				_receivedTickGame
+			]
 		];
 		_finalText pushback format[
 			"<t font='%2'>%1</t><br/><t color='#A6A6A6'>%3</t>",
