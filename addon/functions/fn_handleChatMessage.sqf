@@ -50,10 +50,6 @@ params [
 	"_senderStrID","_forceDisplay","_playerMessage","_sentenceColor","_chatMessageType"
 ];
 
-// TODO: revise when eh is properly implemented
-// Prevent type=2 messages entering the chat (afaik only death messages) until they are fully supported
-if (_chatMessageType == 2) exitWith {true};
-
 // Fire scripted event handler
 private _eventReturns = [missionNamespace,QUOTE(VAR(handleChatMessage)),_this,true] call BIS_fnc_callScriptedEventHandler;
 
@@ -77,6 +73,12 @@ scopeName QUOTE(THIS_FUNC);
 		};
 	};
 } forEach _eventReturns;
+
+// TODO: Delete once HCM EH is fixed and fires kill messages for everyone, not just the victim owner
+// Broadcasts kill messages to everyone as the event handler currently only fires for the victim owner
+if (_channelID == 0 && _chatMessageType == 2 && {getNumber(missionConfigFile >> QUOTE(VAR(deathMessages))) == 1}) exitWith {
+	["systemChat",[_message,nil,nil,VAL_SETTINGS_INDEX_PRINT_KILL]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+};
 
 
 // Replace bad characters and format emojis
@@ -173,7 +175,7 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 			(["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)),
 			["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
 		],
-		if (_senderNameSafe == "") then {""} else {"<t color='#FFFFFF'>"+_senderNameSafe+" </t>"},
+		if (_senderNameSafe == "") then {""} else {"<t color='"+((["ChannelColour",_channelID] call FUNC(commonTask)) call BIS_fnc_colorRGBAtoHTML)+"'>"+_senderNameSafe+":</t> "},
 		"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>"+_messageSafe+"</t>",
 		"</t>"
 	] joinString "";

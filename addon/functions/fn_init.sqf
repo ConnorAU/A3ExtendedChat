@@ -148,35 +148,12 @@ if isServer then {
 };
 
 // add kill log event to everyone
-if (difficultyOption "deathMessages" > 0 && getNumber(missionConfigFile >> QUOTE(VAR(deathMessages))) > 0) then {
-	addMissionEventHandler ["EntityKilled",{
-		params ["_killed", "_killer", "_instigator"];
-		if (isNull _instigator) then {_instigator = UAVControl vehicle _killer # 0};
-		if (isNull _instigator) then {_instigator = _killer};
-
-		if (_killed isKindOf "CAManBase" && {isPlayer _killed}) then {
-			private _killedUID = getPlayerUID _killed;
-			private _instigatorUID = getPlayerUID _instigator;
-			private _text = ["STR_A3_Revive_MSG_KILLED","STR_A3_Revive_MSG_KILLED_BY"] select (_instigator isKindOf "CAManBase" && {_killedUID != _instigatorUID});
-
-			private _message = format[
-				localize _text,
-				["StreamSafeName",[_killedUID,UNIT_NAME(_killed)]] call FUNC(commonTask),
-				["StreamSafeName",[_instigatorUID,UNIT_NAME(_instigator)]] call FUNC(commonTask)
-			];
-
-			VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings) };
-			systemChat _message;
+if isServer then {
+	addMissionEventHandler ["EntityRespawned",{
+		params ["_entity", "_corpse"];
+		if (_entity isKindOf "CAManBase" && {isPlayer _entity}) then {
+			_entity setVariable [QUOTE(VAR_UNIT_NAME),name _entity,true];
+			_entity setVariable [QUOTE(VAR_UNIT_OWNER_ID),owner _entity,true];
 		};
 	}];
-
-	if isServer then {
-		addMissionEventHandler ["EntityRespawned",{
-			params ["_entity", "_corpse"];
-			if (_entity isKindOf "CAManBase" && {isPlayer _entity}) then {
-				_entity setVariable [QUOTE(VAR_UNIT_NAME),name _entity,true];
-				_entity setVariable [QUOTE(VAR_UNIT_OWNER_ID),owner _entity,true];
-			};
-		}];
-	};
 };

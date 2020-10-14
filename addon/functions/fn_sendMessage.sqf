@@ -20,6 +20,7 @@ Parameters:
 	_message   : STRING - The message text
     _sender    : OBJECT - The sender unit
     _channelID : NUMBER - The channel index the message was sent in
+	_setting   : CODE   - Only print if setting filtering is disabled
 
 Return:
 	Nothing
@@ -35,10 +36,12 @@ private _arguments = [];
 _params params [
 	["_message","",[""]],
 	["_sender",objNull,[objNull]],
-	["_channelID",-1,[0]]
+	["_channelID",-1,[0]],
+	["_setting",-1,[0]]
 ];
 
 if (_message == "") exitWith {};
+if (_setting > -1 && {!(["get",_setting] call FUNC(settings))}) exitWith {};
 
 private _arguments = switch (tolower _mode) do {
 	case "systemchat":{systemChat _message};
