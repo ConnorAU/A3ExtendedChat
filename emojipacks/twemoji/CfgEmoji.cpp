@@ -179,7 +179,7 @@ class CfgEmoji {
     class party_popper {
         displayName="$STR_CAU_xChat_EmojiPack_Twemoji_party_popper";
         icon="cau\extendedchat\emojipack\twemoji\images\party_popper.paa";
-        keyword="party_popper";
+        keyword="tada";
         shortcut="";
         condition="true";
     };
