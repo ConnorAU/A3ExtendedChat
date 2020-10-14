@@ -32,16 +32,8 @@ if _isMainMenu exitWith {};
 if (missionNamespace getVariable [QUOTE(VAR(initialized)),false]) exitWith {};
 VAR(initialized) = true;
 
-private _isNumber = isNumber(missionConfigFile >> QUOTE(VAR(enabled)));
-if (_isNumber && {getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1}) exitWith {
-	[] spawn {
-		waitUntil {!isNull findDisplay 46};
-		private _log = format["ExtendedChat is disabled in this mission: %1.%2",missionName,worldName];
-		diag_log _log;
-		if (["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings)) then {
-			systemChat _log;
-		};
-	};
+if !(getMissionConfigValue[QUOTE(VAR(enabled)),1] isEqualTo 1) exitWith {
+	diag_log format["ExtendedChat is disabled in mission %1",str _mission];
 };
 
 if hasInterface then {
@@ -53,11 +45,11 @@ if hasInterface then {
 	VAR_ENABLE_LOGGING = false;
 	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
 
-	VAR_ENABLE_EMOJIS = getNumber(missionConfigFile >> QUOTE(VAR(emojis))) > 0;
+	VAR_ENABLE_EMOJIS =  getMissionConfigValue[QUOTE(VAR(emojis)),1] isEqualTo 1;
 
 	["init"] call FUNC(settings);
 
-	[_isNumber] spawn FUNC(createMessageLayer);
+	[] spawn FUNC(createMessageLayer);
 
 	// Add buttons to interrupt menu
 	if isClass(configFile >> "CfgPatches" >> "WW2_Core_f_WW2_UI_InterruptMenu_f") then {
@@ -114,7 +106,7 @@ if isServer then {
 	private _extensionEnabled = ("ExtendedChat" callExtension "init") == "init";
 	["toggle",_extensionEnabled] call FUNC(log);
 
-	if (getNumber(missionConfigFile >> QUOTE(VAR(connectMessages))) > 0) then {
+	if (getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isEqualTo 1) then {
 		addMissionEventHandler ["PlayerConnected",{
 			params ["","_uid","_name"];
 
@@ -131,7 +123,7 @@ if isServer then {
 			};
 		}];
 	};
-	if (getNumber(missionConfigFile >> QUOTE(VAR(disconnectMessages))) > 0) then {
+	if (getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isEqualTo 1) then {
 		addMissionEventHandler ["PlayerDisconnected",{
 			params ["","_uid","_name","","_owner"];
 			[[_uid,_name],{

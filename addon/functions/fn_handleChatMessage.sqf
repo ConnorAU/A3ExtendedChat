@@ -89,8 +89,10 @@ private _sehBlockPrint = false;
 
 // TODO: Delete once HCM EH is fixed and fires kill messages for everyone, not just the victim owner
 // Broadcasts kill messages to everyone as the event handler currently only fires for the victim owner
-if (_channelID == 0 && _chatMessageType == 2 && {getNumber(missionConfigFile >> QUOTE(VAR(deathMessages))) == 1}) exitWith {
-	["systemChat",[_message,nil,nil,VAL_SETTINGS_INDEX_PRINT_KILL]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+if (_channelID == 0 && _chatMessageType == 2) exitWith {
+	if (getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isEqualTo 1) then {
+		["systemChat",[_message,nil,nil,VAL_SETTINGS_INDEX_PRINT_KILL]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+	};
 };
 
 

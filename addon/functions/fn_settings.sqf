@@ -134,7 +134,7 @@ switch _mode do {
 				};
 			};
 			case "v2":{
-				private _correctSize = count _settings == 22;
+				private _correctSize = count _settings == 21;
 				private _correctFormat = _settings params ["",
 					["_VAL_SETTINGS_INDEX_COMMAND_PREFIX","",[""]],
 					["_VAL_SETTINGS_INDEX_MAX_SAVED",0,[0]],
@@ -149,7 +149,6 @@ switch _mode do {
 					["_VAL_SETTINGS_INDEX_PRINT_CONNECTED",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_DISCONNECTED",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_KILL",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_GLOBAL",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_SIDE",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_COMMAND",true,[true]],
@@ -182,7 +181,6 @@ switch _mode do {
 				["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_KILL] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call THIS_FUNC,
@@ -220,7 +218,6 @@ switch _mode do {
 			true,                             // VAL_SETTINGS_INDEX_PRINT_CONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_DISCONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_KILL
-			true,                             // VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION
 			true,                             // VAL_SETTINGS_INDEX_PRINT_GLOBAL
 			true,                             // VAL_SETTINGS_INDEX_PRINT_SIDE
 			true,                             // VAL_SETTINGS_INDEX_PRINT_COMMAND

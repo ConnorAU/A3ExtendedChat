@@ -210,11 +210,7 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	{
 		private _channel = getPlayerChannel _x;
 		if (_channel != -1) then {
-			private _colour = if (_channel < 6) then {
-				["ChannelColour",_channel] call FUNC(commonTask);
-			} else {
-				["get",[_channel - 5,0]] call FUNC(radioChannelCustom);
-			};
+			private _colour = ["ChannelColour",_channel] call FUNC(commonTask);
 
 			_speakers pushBack format[
 				"<t color='%1'>%2</t>",

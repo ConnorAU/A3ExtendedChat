@@ -229,20 +229,12 @@
 				<English>Show player disconnected logs in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_label">
-				<Original>Kill logs</Original>
-				<English>Kill logs</English>
+				<Original>Death message logs</Original>
+				<English>Death message logs</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_desc">
-				<Original>Show kill logs in the message feed.</Original>
-				<English>Show kill logs in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_filter_unsupported_mission_log_label">
-				<Original>Unsupported mission logs</Original>
-				<English>Unsupported mission logs</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_filter_unsupported_mission_log_desc">
-				<Original>Show warning logs when playing a mission that does not fully support Extended Chat.</Original>
-				<English>Show warning logs when playing a mission that does not fully support Extended Chat.</English>
+				<Original>Show death message logs in the message feed.</Original>
+				<English>Show death message logs in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_channel_desc">
 				<Original>Show %1 messages in the message feed</Original>
