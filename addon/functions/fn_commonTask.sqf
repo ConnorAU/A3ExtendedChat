@@ -28,7 +28,8 @@ SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "ChannelColour":{
-		["colorConfigToRGBA",switch _params do {
+		_params params ["_id",["_systemPrimary",true]];
+		["colorConfigToRGBA",switch _id do {
 			case 0:{getArray(configFile >> "RscChatListDefault" >> "colorGlobalChannel")};
 			case 1:{getArray(configFile >> "RscChatListDefault" >> "colorSideChannel")};
 			case 2:{getArray(configFile >> "RscChatListDefault" >> "colorCommandChannel")};
@@ -43,7 +44,7 @@ switch _mode do {
 				[
 					[0.8,0.1,0.1,1],
 					[0,0,0,0.4]
-				] select (_fnc_scriptNameParent == QUOTE(FUNC(handleChatMessage)));
+				] select _systemPrimary;
 			};
 		}] call THIS_FUNC;
 	};

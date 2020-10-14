@@ -201,7 +201,7 @@ switch _mode do {
 				{
 					private _channel = -1;
 					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
-					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
+					_ctrl ctrlSetTextColor (["ChannelColour",[_channel,false]] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
 			],
@@ -672,7 +672,7 @@ switch _mode do {
 				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);;
 				_senderName = ["StreamSafeName",[_senderUID,_senderName]] call FUNC(commonTask);
 
-				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channelName,_channelColour,_received call _getTimePast,_senderName,_text,_mentionBGColor]] call THIS_FUNC;
+				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channel,_channelName,_channelColour,_received call _getTimePast,_senderName,_text,_mentionBGColor]] call THIS_FUNC;
 
 				private _ctrlMessageContainerPos = ctrlPosition _ctrlMessageContainer;
 				_ctrlMessageContainerPos set [1,_y];
@@ -699,7 +699,7 @@ switch _mode do {
 	};
 
 	case "CreateMessageCard":{
-		_params params ["_ctrlGroupMessages","_channelName","_channelColour","_received","_senderName","_text","_mentionBGColor"];
+		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_received","_senderName","_text","_mentionBGColor"];
 		diag_log _this;
 
 		disableSerialization;
@@ -724,6 +724,10 @@ switch _mode do {
 		private _ctrlMessageTextPos = [PXW(0.5),PXH(1),_ctrlMessageContainerPos#2 - PXW(0.5),0];
 		_ctrlMessageText ctrlSetPosition _ctrlMessageTextPos;
 		_ctrlMessageText ctrlCommit 0;
+
+		if (_channel < 0 || _channel > 15) then {
+			_channelColour = ["ChannelColour",[_channelColour,false]] call FUNC(commonTask);
+		};
 
 		_finalText = [];
 		if (_senderName != "") then {
