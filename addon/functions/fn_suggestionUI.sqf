@@ -208,28 +208,47 @@ switch _mode do {
 				_items append _players
 			};
 			case 2:{
+				private _votedInAdmin = serverCommandAvailable "#kick";
+				private _loggedInAdmin = serverCommandAvailable "#lock";
+
 				private _xChatCommands = [];
 				{
 					if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower(_x#0)}) then {
 						_xChatCommands pushBack [
-							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,
-							"\a3\data_f\images\mod_base_logo_small_ca.paa",
-							"",_x#0,"['insertItem',[2,_data,0]] call " + QUOTE(THIS_FUNC)
-						];
+							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,"","",
+							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
 					};
 				} forEach VAR_COMMANDS_ARRAY;
 				_xChatCommands sort true;
 				_items append _xChatCommands;
 
-				// TODO: add cba commands?
+				if isClass(configFile >> "CfgPatches" >> "cba_events") then {
+					private _cbaCommandsNamespace = missionNamespace getVariable ["cba_events_customChatCommands",locationNull];
 
-				private _votedInAdmin = serverCommandAvailable "#kick";
-				private _loggedInAdmin = serverCommandAvailable "#lock";
+					if (!isNull _cbaCommandsNamespace) then {
+						private _cbaCommands = [];
+						private _cbaCommandsAccess = ["all"];
+						if (isServer || _votedInAdmin) then {_cbaCommandsAccess pushBack "admin"};
+						if (isServer || _loggedInAdmin) then {_cbaCommandsAccess pushBack "adminlogged"};
+
+						{
+							(_cbaCommandsNamespace getVariable _x) params ["","_access"];
+
+							if (_access in _cbaCommandsAccess) then {
+								_cbaCommands pushBack [["#" + _x,"CBA"],"","","#" + _x,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
+							};
+						} forEach allVariables _cbaCommandsNamespace;
+
+						_cbaCommands sort true;
+						_items append _cbaCommands;
+					};
+				};
+
 				private _a3Commands = [];
 				{
 					if (serverCommandAvailable _x) then {
 						if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower _x}) then {
-							_a3Commands pushBack [_x,"","",_x,"['insertItem',[2,_data,1]] call " + QUOTE(THIS_FUNC)];
+							_a3Commands pushBack [[_x,"Arma 3"],"","",_x,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
 						};
 					};
 				} forEach [
@@ -346,18 +365,14 @@ switch _mode do {
 
 
 	case "insertItem":{
-		_params params ["_type","_data","_data2"];
+		_params params ["_type","_data"];
 
 		private _ctrlEdit = findDisplay 24 displayCtrl 101;
 
 		_data = switch _type do {
 			case 0:{":"+_data+":"};
 			case 1:{"@"+_data};
-			case 2:{
-				if (_data2 == 0) then {
-					(["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings)) + _data
-				} else {_data}
-			};
+			//case 2:{_data};
 			default {_data};
 		};
 
