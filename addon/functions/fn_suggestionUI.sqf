@@ -110,14 +110,7 @@ switch _mode do {
 		private _ctrlEditTextSegmentType = [_ctrlEditTextSegmentTypeForced,_ctrlEditTextSegmentTypeCond] select (_ctrlEditTextSegmentTypeForced == -1);
 
 		// Force reset segment type if type has no items to populate the list with
-		if (
-			(_ctrlEditTextSegmentType == 0 && {!(["isAvailable"] call FUNC(emoji))}) ||
-			{
-				// TODO: uncomment
-				(_ctrlEditTextSegmentType == 1 && {false/*allPlayers findIf {_x != player} == -1*/})/* ||
-				{_ctrlEditTextSegmentType == 2 && {false}}*/
-			}
-		) then {_ctrlEditTextSegmentType = -1};
+		if (_ctrlEditTextSegmentType == 0 && {!(["isAvailable"] call FUNC(emoji))}) then {_ctrlEditTextSegmentType = -1};
 
 		// Save segment type to ctrl
 		if ((ctrlText _ctrlEdit == "" || _ctrlEditTextSegment != "") && {_ctrlEditTextSegmentTypeForced == -1}) then {
@@ -164,7 +157,7 @@ switch _mode do {
 						{_ctrlEditTextSegmentSearch in toLower(_x#2) || {_ctrlEditTextSegmentSearch in toLower(_x#0)}}
 					) then {
 						_items pushBack [
-							_x#0,_x#1,
+							[_x#0,_x#3],_x#1,
 							format["Keyword: %1%2",_x#2,["",endl+"Shortcut: "+_x#3] select (_x#3 != "")],
 							_x#2,
 							"['insertItem',[0,_data]] call " + QUOTE(THIS_FUNC)
@@ -175,16 +168,16 @@ switch _mode do {
 			case 1:{
 				private _players = [];
 				{
-					// TODO: uncomment
-					if (true/*_x != player*/) then {
-						private _unitName = _x getVariable [QUOTE(VAR_UNIT_NAME),name _x];
-						private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
-						if (
-							_ctrlListSearchDisplayAll ||
-							{toLower _ctrlEditTextSegmentSearch in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearch == 0}}
-						) then {
-							_items pushBack [_unitName,"","",_unitID,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)];
-						};
+					private _unitName = ["StreamSafeName",[
+						getPlayerUID _x,
+						_x getVariable [QUOTE(VAR_UNIT_NAME),name _x]
+					]] call FUNC(commonTask);
+					private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
+					if (
+						_ctrlListSearchDisplayAll ||
+						{toLower _ctrlEditTextSegmentSearch in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearch == 0}}
+					) then {
+						_items pushBack [[_unitName,_unitID],"","",_unitID,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)];
 					};
 				} forEach allPlayers;
 				_players sort true;
@@ -245,8 +238,7 @@ switch _mode do {
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',1];['updateItems'] call " + QUOTE(THIS_FUNC),
 						[0.8,0.8,0.8,1],
-						// TODO: uncomment
-						{_ctrlEditTextSegmentType == -1 && {true/*allPlayers findIf {_x != player} != -1*/}} // && has mentions to show
+						{_ctrlEditTextSegmentType == -1}
 					],
 					[
 						"Insert a command",
@@ -254,7 +246,7 @@ switch _mode do {
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',2];['updateItems'] call " + QUOTE(THIS_FUNC),
 						[0.8,0.8,0.8,1],
-						{_ctrlEditTextSegmentType == -1 && _ctrlEditTextSelection#0 == 0} // && has commands to show
+						{_ctrlEditTextSegmentType == -1 && _ctrlEditTextSelection#0 == 0}
 					]
 				];
 			};
@@ -270,11 +262,14 @@ switch _mode do {
 		// Add new items to list
 		{
 			_x params ["_text","_image","_tooltip","_data","_event",["_color",[1,1,1,1]],["_condition",{true}]];
+			_text params ["_text",["_textRight",""]];
 			if (call _condition) then {
 				private _index = _ctrlList lbAdd _text;
+				_ctrlList lbSetTextRight [_index,_textRight];
 				_ctrlList lbSetTooltip [_index,_tooltip];
 				_ctrlList lbSetData [_index,str[_event,_data]];
 				_ctrlList lbSetColor [_index,_color];
+				_ctrlList lbSetColorRight [_index,[0.5,0.5,0.5,1]];
 				_ctrlList lbSetPicture [_index,_image];
 				_ctrlList lbSetPictureColor [_index,_color];
 			};
@@ -287,7 +282,10 @@ switch _mode do {
 		private _ctrlListFont = getText(configFile >> "ctrlListbox" >> "font");
 		private _ctrlListMaxWidth = 0;
 		for "_i" from 0 to lbSize _ctrlList - 1 do {
-			_ctrlListMaxWidth = _ctrlListMaxWidth max ((_ctrlList lbText _i) getTextWidth [_ctrlListFont,_ctrlListRowH]);
+			private _rowText = _ctrlList lbText _i;
+			private _rowTextRight = _ctrlList lbTextRight _i;
+			if (_rowTextRight != "") then {_rowText = _rowText + "     " + _rowTextRight};
+			_ctrlListMaxWidth = _ctrlListMaxWidth max (_rowText getTextWidth [_ctrlListFont,_ctrlListRowH]);
 		};
 
 		private _ctrlListH = ((lbSize _ctrlList * _ctrlListRowH) min (10 * _ctrlListRowH)) + PXH(.1);

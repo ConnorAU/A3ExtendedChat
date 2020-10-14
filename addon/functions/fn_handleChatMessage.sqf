@@ -127,7 +127,6 @@ if ("@" in _messageSafe) then {
 				private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
 				if (_unitID isEqualTo _messageMentionID) exitWith {
 					if (_x isEqualTo player) then {_messageMentionsSelf = true};
-					// TODO: use setting to define mention color
 					_messageMention = [
 						"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>@",
 						_x getVariable [QUOTE(VAR_UNIT_NAME),name _x],
