@@ -656,7 +656,7 @@ switch _mode do {
 				terminate _thisScript;
 			};
 
-			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_received"];
+			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_received","_mentionBGColor"];
 
 			private _canSeeChannel = _shownChatChannels param [_channel,_shownSystemChannel];
 			private _containsSearchTerm = if _doSearchStrings then {
@@ -672,7 +672,7 @@ switch _mode do {
 				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);;
 				_senderName = ["StreamSafeName",[_senderUID,_senderName]] call FUNC(commonTask);
 
-				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channelName,_channelColour,_received call _getTimePast,_senderName,_text]] call THIS_FUNC;
+				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channelName,_channelColour,_received call _getTimePast,_senderName,_text,_mentionBGColor]] call THIS_FUNC;
 
 				private _ctrlMessageContainerPos = ctrlPosition _ctrlMessageContainer;
 				_ctrlMessageContainerPos set [1,_y];
@@ -699,7 +699,8 @@ switch _mode do {
 	};
 
 	case "CreateMessageCard":{
-		_params params ["_ctrlGroupMessages","_channelName","_channelColour","_received","_senderName","_text"];
+		_params params ["_ctrlGroupMessages","_channelName","_channelColour","_received","_senderName","_text","_mentionBGColor"];
+		diag_log _this;
 
 		disableSerialization;
 		USE_DISPLAY(THIS_DISPLAY);
@@ -708,15 +709,18 @@ switch _mode do {
 		private _ctrlMessageContainer = _display ctrlCreate ["ctrlControlsGroupNoScrollbars",-1,_ctrlGroupMessages];
 		private _ctrlMessageContainerPos = [PXW(2),_ctrlGroupMessagesPos#3,_ctrlGroupMessagesPos#2 - PXW(4),0];
 
-		private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",2,_ctrlMessageContainer];
+		private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
 		_ctrlMessageBackground ctrlSetBackgroundColor [0,0,0,0.2];
 		private _ctrlMessageBackgroundPos = [0,0,_ctrlGroupMessagesPos#2 - PXW(4),0];
 
-		private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",3,_ctrlMessageContainer];
+		private _ctrlMessageMentionBackground = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
+		_ctrlMessageMentionBackground ctrlSetBackgroundColor _mentionBGColor;
+
+		private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
 		_ctrlMessageStripe ctrlSetBackgroundColor _channelColour;
 		private _ctrlMessageStripePos = [0,0,PXW(0.5),0];
 
-		private _ctrlMessageText = _display ctrlCreate ["ctrlStructuredText",4,_ctrlMessageContainer];
+		private _ctrlMessageText = _display ctrlCreate ["ctrlStructuredText",-1,_ctrlMessageContainer];
 		private _ctrlMessageTextPos = [PXW(0.5),PXH(1),_ctrlMessageContainerPos#2 - PXW(0.5),0];
 		_ctrlMessageText ctrlSetPosition _ctrlMessageTextPos;
 		_ctrlMessageText ctrlCommit 0;
@@ -762,12 +766,14 @@ switch _mode do {
 
 		_ctrlMessageContainer ctrlSetPosition _ctrlMessageContainerPos;
 		_ctrlMessageBackground ctrlSetPosition _ctrlMessageBackgroundPos;
+		_ctrlMessageMentionBackground ctrlSetPosition _ctrlMessageBackgroundPos;
 		_ctrlMessageStripe ctrlSetPosition _ctrlMessageStripePos;
 		_ctrlMessageText ctrlSetPosition _ctrlMessageTextPos;
 
 		{_x ctrlCommit 0;} count [
 			_ctrlMessageContainer,
 			_ctrlMessageBackground,
+			_ctrlMessageMentionBackground,
 			_ctrlMessageStripe,
 			_ctrlMessageText
 		];

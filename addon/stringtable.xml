@@ -175,20 +175,36 @@
 				<English>The font size used on text in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_color_label">
-				<Original>Message feed text color</Original>
-				<English>Message feed text color</English>
+				<Original>Message text color</Original>
+				<English>Message text color</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_color_desc">
 				<Original>The font color used on text in the message feed.</Original>
 				<English>The font color used on text in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_label">
-				<Original>Message feed background color</Original>
-				<English>Message feed background color</English>
+				<Original>Message background color</Original>
+				<English>Message background color</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_desc">
 				<Original>The background color of messages in the message feed.</Original>
 				<English>The background color of messages in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_mention_color_label">
+				<Original>Mention text color</Original>
+				<English>Mention text color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_mention_color_desc">
+				<Original>The font color used on mentions in the message feed.</Original>
+				<English>The font color used on mentions in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_feed_mention_bg_color_label">
+				<Original>Mention background color</Original>
+				<English>Mention background color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_feed_mention_bg_color_desc">
+				<Original>The background color of messages in the message feed when you are mentioned.</Original>
+				<English>The background color of messages in the message feed when you are mentioned.</English>
 			</Key>
 
 			<!-- Filters Panel -->

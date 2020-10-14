@@ -40,6 +40,8 @@ switch _mode do {
 		private _ctrlList = _display ctrlCreate ["ctrlListbox",-1];
 		_display setVariable ["ctrlListSuggestions",_ctrlList];
 
+		// TODO: keydown tab autocomplete
+
 		_ctrlList ctrlAddEventHandler ["LBSelChanged",{["LBSelChanged",_this] call THIS_FUNC}];
 
 		(_display getVariable ["tasks",[]]) pushBack [

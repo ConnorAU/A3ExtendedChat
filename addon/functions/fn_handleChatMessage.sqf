@@ -23,6 +23,7 @@ Parameters:
 	_playerMessage   : BOOL - Unknown
 	_sentenceColor   : NUMBER - 0 = White /w "", 1 = Normal
 	_chatMessageType : NUMBER - 0 = Normal, 1 = Unknown, 2 = Death messages
+	https://community.bistudio.com/wiki/Arma_3:_Event_Handlers/addMissionEventHandler#HandleChatMessage
 
 Return:
 	BOOL - Always true to block a message from being printed to vanilla chat
@@ -35,7 +36,7 @@ Return:
 
 #define VAR_BLOCK_EVENT FUNC_SUBVAR(blockEvent)
 
-// Store print condition to local event handler so any messages send during this event do not use it on themselves.
+// Store print condition to local event handler so any messages sent during this event do not use it on themselves.
 private _printCondition = missionNamespace getVariable [QUOTE(VAR_HANDLE_MESSAGE_PRINT_CONDITION),{true}];
 VAR_HANDLE_MESSAGE_PRINT_CONDITION = nil;
 
@@ -50,6 +51,19 @@ params [
 	"_senderStrID","_forceDisplay","_playerMessage","_sentenceColor","_chatMessageType"
 ];
 
+// Do nothing if the message is empty
+if (_message == "") exitWith {};
+
+// TODO: remove
+// Debug log to find out what exactly causes !_forceDisplay and _playerMessage
+if (!_forceDisplay || _playerMessage) then {
+	diag_log text(QUOTE(THIS_FUNC) + " - '!_forceDisplay || _playerMessage' : " + str _this);
+	if (getPlayerUID player == "76561198090361580") then {
+		VAR_BLOCK_EVENT = true;
+		systemChat format["%1 : '!_forceDisplay || _playerMessage' anomoly",QUOTE(THIS_FUNC)];
+	};
+};
+
 // Fire scripted event handler
 private _eventReturns = [missionNamespace,QUOTE(VAR(handleChatMessage)),_this,true] call BIS_fnc_callScriptedEventHandler;
 
@@ -59,17 +73,16 @@ private _eventReturns = [missionNamespace,QUOTE(VAR(handleChatMessage)),_this,tr
 
 // Apply event return value if one is provided
 // TODO: test
-scopeName QUOTE(THIS_FUNC);
+private _sehBlockPrint = false;
 {
-	if (!isNil "_x") then {
-		if (_x isEqualType "") then {
-			_message = _x;
-			breakTo QUOTE(THIS_FUNC);
-		};
-		if (_x isEqualType [] && {_x isEqualTypeArray ["",""]}) then {
-			_senderNameF = _x#0;
-			_message = _x#1;
-			breakTo QUOTE(THIS_FUNC);
+	if (!isNil "_x") exitWith {
+		switch true do {
+			case (_x isEqualType true):{_sehBlockPrint = _x};
+			case (_x isEqualType ""):{_message = _x};
+			case (_x isEqualType [] && {_x isEqualTypeArray ["",""]}):{
+				_senderNameF = _x#0;
+				_message = _x#1;
+			};
 		};
 	};
 } forEach _eventReturns;
@@ -114,7 +127,7 @@ if ("@" in _messageSafe) then {
 					if (_x isEqualTo player) then {_messageMentionsSelf = true};
 					// TODO: use setting to define mention color
 					_messageMention = [
-						"<t color='#8BA6E4'>@",
+						"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>@",
 						_x getVariable [QUOTE(VAR_UNIT_NAME),name _x],
 						"</t>"
 					] joinString "";
@@ -131,7 +144,10 @@ if ("@" in _messageSafe) then {
 
 // Add message to history array
 private _senderUID = getPlayerUID _senderUnit;
-private _historyData = [_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime]; // TODO: apply new params
+private _historyData = [
+	_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime,
+	if _messageMentionsSelf then {["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
+]; // TODO: apply new params
 VAR_HISTORY pushBack _historyData;
 [missionNamespace,QUOTE(VAR(messageAdded)),_historyData] call BIS_fnc_callScriptedEventHandler;
 
@@ -144,6 +160,9 @@ if (count VAR_HISTORY > _maxHistorySize) then {
 		VAR_HISTORY deleteAt 0;
 	};
 };
+
+// Scripted event return blocked printing message
+if _sehBlockPrint exitWith {};
 
 // Get channel filter setting
 private _isChannelPrintEnabled = switch _channelID do {
@@ -161,12 +180,12 @@ private _isChannelPrintEnabled = switch _channelID do {
 // Check print condition
 if (_isChannelPrintEnabled && {call _printCondition}) then {
 	private _containsImg = "<img " in _messageSafe;
-	private _stripeColour = ["ChannelColour",_channelID] call FUNC(commonTask);
+	private _channelColor = ["ChannelColour",_channelID] call FUNC(commonTask);
 	private _senderNameSafe = ["StreamSafeName",[_senderUID,_senderNameF]] call FUNC(commonTask);
 
 	// Create message control group
-	(call FUNC(createMessageUI)) params ["_ctrlContainer","_ctrlBackground","_ctrlStripe","_ctrlText"];
-	_ctrlStripe ctrlSetBackgroundColor _stripeColour;
+	(call FUNC(createMessageUI)) params ["_ctrlContainer","_ctrlBackground","_ctrlBackgroundMentioned","_ctrlStripe","_ctrlText"];
+	_ctrlStripe ctrlSetBackgroundColor _channelColor;
 
 	// Format message to final state
 	private _messageFinal = [
@@ -175,27 +194,23 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 			(["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)),
 			["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
 		],
-		if (_senderNameSafe == "") then {""} else {"<t color='"+((["ChannelColour",_channelID] call FUNC(commonTask)) call BIS_fnc_colorRGBAtoHTML)+"'>"+_senderNameSafe+":</t> "},
+		if (_senderNameSafe == "") then {""} else {"<t color='"+(_channelColor call BIS_fnc_colorRGBAtoHTML)+"'>"+_senderNameSafe+":</t> "},
 		"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>"+_messageSafe+"</t>",
 		"</t>"
 	] joinString "";
 	_ctrlText ctrlSetStructuredText parseText _messageFinal;
 
-	// Highlight background if self is mentioned
-	if _messageMentionsSelf then {
-		// TODO: play a sound on mention (toggle in settings)?
-		// TODO: Highlight message bg from setting
-		// _ctrlBackground ctrlSetBackgroundColor [];
-	};
+	// Show mentioned background if self is mentioned
+	_ctrlBackgroundMentioned ctrlShow _messageMentionsSelf;
 
 	// Set control positions to fit message
 	{
-		if (_foreachindex == 1) then {
+		if (_foreachindex in [1,2]) then {
 			_x ctrlSetPositionW ctrlTextWidth _ctrlText;
 		};
 		_x ctrlSetPositionH (ctrlTextHeight _ctrlText + (if _containsImg then {PXH(0.4)} else {0}));
 		_x ctrlCommit 0;
-	} forEach [_ctrlContainer,_ctrlBackground,_ctrlStripe,_ctrlText];
+	} forEach [_ctrlContainer,_ctrlBackground,_ctrlBackgroundMentioned,_ctrlStripe,_ctrlText];
 
 	VAR_MESSAGE_FEED_CTRLS pushback _ctrlContainer;
 	VAR_NEW_MESSAGE_PENDING = true;

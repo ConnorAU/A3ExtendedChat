@@ -35,7 +35,7 @@ Return:
 SWITCH_SYS_PARAMS;
 
 switch _mode do {
-	/*case "initDisplay":{
+	/*case "initDisplay":{ // TODO: delete
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {};
 
 		USE_DISPLAY(findDisplay 24);

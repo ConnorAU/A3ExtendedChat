@@ -129,12 +129,12 @@ if (!isNull _display) then {
 		_ctrlCharCount setVariable ["update",_eventCharCountUpdate];
 
 		// add keydown event to open the history viewer
-		_displayOverlay displayAddEventHandler ["KeyDown",{
+		_display displayAddEventHandler ["KeyDown",{
 			params ["_display","_key"];
 			if (_key in [DIK_PGUP,DIK_PGDN]) then {
 				["init",_display] call FUNC(historyUI);
+				true
 			};
-			false
 		}];
 	};
 };
