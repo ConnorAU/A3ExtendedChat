@@ -129,7 +129,10 @@ if ("@" in _messageSafe) then {
 					if (_x isEqualTo player) then {_messageMentionsSelf = true};
 					_messageMention = [
 						"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>@",
-						_x getVariable [QUOTE(VAR_UNIT_NAME),name _x],
+						["StreamSafeName",[
+							getPlayerUID _x,
+							_x getVariable [QUOTE(VAR_UNIT_NAME),name _x]
+						]] call FUNC(commonTask),
 						"</t>"
 					] joinString "";
 				};
