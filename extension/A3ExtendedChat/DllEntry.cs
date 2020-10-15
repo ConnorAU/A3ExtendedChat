@@ -1,6 +1,7 @@
-﻿using RGiesecke.DllExport;
+using RGiesecke.DllExport;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -66,14 +67,10 @@ namespace A3ExtendedChat
             string file = Path.Combine(LogsFilePath, $"{string.Join("_", type.Split(Path.GetInvalidFileNameChars()))}.log");
             string line = $"{DateTime.Now.ToString("T")} - {log}";
 
-            List<string> lines;
-            if (File.Exists(file))
-                lines = new List<string>(File.ReadAllLines(file));
-            else
-                lines = new List<string>() { };
-
-            lines.Add(line);
-            File.WriteAllLines(file, lines);
+			using (StreamWriter stream = File.AppendText(file))
+			{
+				stream.WriteLine(line);
+			}
         }
     }
 }
