@@ -81,6 +81,26 @@ private _sehBlockHistory = false;
 	};
 } forEach _eventReturns;
 
+// Trim whitespace
+private _whitespace = [9,32];
+private _messageChars = toArray _message;
+private _trimIndex = 0;
+
+// Trim start
+{
+	_trimIndex = _forEachIndex;
+	if !(_x in _whitespace) exitWith {};
+} forEach _messageChars;
+_message = _message select [_trimIndex];
+
+// Trim end
+reverse _messageChars;
+{
+	_trimIndex = _forEachIndex;
+	if !(_x in _whitespace) exitWith {};
+} forEach _messageChars;
+_message = _message select [0,count _message - _trimIndex];
+
 // Do nothing if the message is empty
 if (_message == "") exitWith {};
 
@@ -89,8 +109,7 @@ if (_message == "") exitWith {};
 if (!_forceDisplay || _playerMessage) then {
 	diag_log text(QUOTE(THIS_FUNC) + " - '!_forceDisplay || _playerMessage' : " + str _this);
 	if (getPlayerUID player == "76561198090361580") then {
-		VAR_BLOCK_EVENT = true;
-		systemChat format["%1 : '!_forceDisplay || _playerMessage' anomoly",QUOTE(THIS_FUNC)];
+		hint format["%1 : '!_forceDisplay || _playerMessage' anomoly",QUOTE(THIS_FUNC)];
 	};
 };
 
