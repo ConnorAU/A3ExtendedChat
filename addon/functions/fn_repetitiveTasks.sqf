@@ -39,11 +39,23 @@ if (!isNull _display) then {
 
 		// add event to capture sent message text
 		_ctrlEdit setVariable [VAR_CHAT_INITIALIZED,true];
-		_ctrlEdit ctrlAddEventHandler ["Destroy",{
-			if (_this#1 == 1) then {
-				[_this#0] call FUNC(processMessage);
+		_display displayAddEventHandler ["KeyDown",{
+			params ["_display","_key"];
+
+			switch _key do {
+				case DIK_NUMPADENTER;
+				case DIK_RETURN:{
+					[_display displayCtrl 101] call FUNC(processMessage);
+				};
+
+				case DIK_PGUP;
+				case DIK_PGDN:{
+					["init",_display] call FUNC(historyUI);
+					true
+				};
+
+				default {};
 			};
-			nil
 		}];
 
 		// hide background control that spans the screen width
@@ -127,15 +139,6 @@ if (!isNull _display) then {
 		};
 		_ctrlEdit ctrlAddEventHandler ["KeyDown",_eventCharCountUpdate];
 		_ctrlCharCount setVariable ["update",_eventCharCountUpdate];
-
-		// add keydown event to open the history viewer
-		_display displayAddEventHandler ["KeyDown",{
-			params ["_display","_key"];
-			if (_key in [DIK_PGUP,DIK_PGDN]) then {
-				["init",_display] call FUNC(historyUI);
-				true
-			};
-		}];
 	};
 };
 
