@@ -102,8 +102,12 @@ if (_channelID == 0 && _chatMessageType == 2) exitWith {
 	};
 };
 
+// Send log to server if this player sent the message
+if (_senderID isEqualTo clientOwner && {_senderUnit isEqualTo player && {missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]}}) then {
+	["text",[_channelID,_message,_senderNameF,getPlayerUID _senderUnit]] remoteExecCall [QUOTE(FUNC(log)),2];
+};
 
-// Replace bad characters and format emojis
+// Replace bad characters
 private _messageSafe = ["SafeStructuredText",_message] call FUNC(commonTask);
 
 // Format emoji keywords and shortcuts

@@ -63,12 +63,6 @@ if (_commandPrefixFound || _vanillaPrefixFound) exitWith {
 	};
 };
 
-// send log from here so it contains original unstructured text
-if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
-	private _name = ["ClientNamePrefix",[player,_currentChannel]] call FUNC(commonTask);
-	["text",[_currentChannel,_text,_name,_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
-};
-
 // strip emojis from text if condition is not met
 _text = ["formatCondition",_text] call FUNC(emoji);
 

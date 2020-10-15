@@ -411,7 +411,6 @@ switch _mode do {
 			};
 		};
 
-		// TODO: modify to work with ctrlTextSelection selected ranges
 		private _ctrlEditSelIndexLength = 0;
 		private _ctrlEditTextSegment = ["getTextSelectionSegment",[_ctrlEdit]] call THIS_FUNC;
 		private _ctrlEditTextSelPrevChar = _ctrlEditText select [_ctrlEditSelIndexStart - 1,1];
