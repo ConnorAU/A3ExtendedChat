@@ -26,7 +26,7 @@ params ["_text"];
 
 private _split = _text splitString " ";
 private _prefix = ["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings);
-private _command = _split#0 select [count _prefix,count(_split#0)];
+private _command = _split#0 select [count _prefix];
 private _arguments = _split select [1,count _split];
 
 systemChat(_split#0);
