@@ -120,13 +120,15 @@ switch _mode do {
 		if (_text isEqualTo _find) then {
 			_text = _replace;
 		} else {
-			if (["stringPrefix",[_text,format["%1 ",_find],true]] call FUNC(commonTask)) then {
-				_text = _replace + (_text select [count _find]);
+			if (_find in _text) then {
+				if (["stringPrefix",[_text,format["%1 ",_find],true]] call FUNC(commonTask)) then {
+					_text = _replace + (_text select [count _find]);
+				};
+				if (["stringSuffix",[_text,format[" %1",_find],true]] call FUNC(commonTask)) then {
+					_text = (_text select [0,count _text - count _find]) + _replace;
+				};
+				_text = ["stringReplace",[_text,[_find," "," "],_replace,true]] call FUNC(commonTask);
 			};
-			if (["stringSuffix",[_text,format[" %1",_find],true]] call FUNC(commonTask)) then {
-				_text = (_text select [0,count _text - count _find]) + _replace;
-			};
-			_text = ["stringReplace",[_text,[_find," "," "],_replace,true]] call FUNC(commonTask);
 		};
 
 		_text
