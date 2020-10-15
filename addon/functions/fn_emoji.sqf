@@ -95,9 +95,9 @@ switch _mode do {
 			if !([] call compile _condition) then {
 				_keyword = ":"+_keyword+":";
 				if (_shortcut != "") then {
-					_params = ["stringReplace",[_params,_shortcut,"",true]] call FUNC(commonTask);
+					_params = ["formatLogic",[_params,_shortcut,""]] call THIS_FUNC;
 				};
-				_params = ["stringReplace",[_params,_keyword,"",true]] call FUNC(commonTask);
+				_params = ["formatLogic",[_params,_keyword,""]] call THIS_FUNC;
 			};
 		} count (["getList",true] call THIS_FUNC);
 		_params
@@ -105,13 +105,30 @@ switch _mode do {
 	case "formatImages":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
 		{
-			_x params ["","_icon","_keyword","_shortcut"];
+			_x params ["","_icon","_keyword","_shortcut",""];
 			_keyword = ":"+_keyword+":";
 			if (_shortcut != "") then {
-				_params = ["stringReplace",[_params,["SafeStructuredText",_shortcut] call FUNC(commonTask),_keyword,true]] call FUNC(commonTask);
+				_params = ["formatLogic",[_params,["SafeStructuredText",_shortcut] call FUNC(commonTask),_keyword]] call THIS_FUNC;
 			};
-			_params = ["stringReplace",[_params,_keyword,["getImage",_x#2] call THIS_FUNC,true]] call FUNC(commonTask);
+			_params = ["formatLogic",[_params,_keyword,["getImage",_x#2] call THIS_FUNC]] call THIS_FUNC;
 		} count (["getList",true] call THIS_FUNC);
 		_params
+	};
+	case "formatLogic":{
+		_params params ["_text","_find","_replace"];
+
+		if (_text isEqualTo _find) then {
+			_text = _replace;
+		} else {
+			if (["stringPrefix",[_text,format["%1 ",_find],true]] call FUNC(commonTask)) then {
+				_text = _replace + (_text select [count _find]);
+			};
+			if (["stringSuffix",[_text,format[" %1",_find],true]] call FUNC(commonTask)) then {
+				_text = (_text select [0,count _text - count _find]) + _replace;
+			};
+			_text = ["stringReplace",[_text,[_find," "," "],_replace,true]] call FUNC(commonTask);
+		};
+
+		_text
 	};
 };

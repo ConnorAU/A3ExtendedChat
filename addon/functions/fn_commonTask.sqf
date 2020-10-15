@@ -135,23 +135,38 @@ switch _mode do {
 	case "stringPrefix":{
 		_params params ["_input","_find",["_caseSensitive",false]];
 
-		private _index = if _caseSensitive then {_input find _find} else {
-			tolower _input find toLower _find
+		if !_caseSensitive then {
+			_input = toLower _input;
+			_find = toLower _find;
 		};
 
-		_index == 0
+		_input find _find == 0
+	};
+	case "stringSuffix":{
+		_params params ["_input","_find",["_caseSensitive",false]];
+
+		if !_caseSensitive then {
+			_input = toLower _input;
+			_find = toLower _find;
+		};
+
+		(_input select [count _input - count _find,count _find]) isEqualTo _find
 	};
 	case "stringReplace":{
 		_params params ["_input","_find","_replace",["_caseSensitive",false]];
+		_find params ["_find",["_findPrefix",""],["_findSuffix",""]];
+		private _findFull = _findPrefix + _find + _findSuffix;
 		private _findLen = count _find;
-		if !_caseSensitive then {_find = toLower _find};
+		private _findPLen = count _findPrefix;
+		if !_caseSensitive then {_findFull = toLower _findFull};
 		private _output = [];
 		private _index = -1;
 		for "_i" from 0 to 1 step 0 do {
-			_index = if _caseSensitive then {_input find _find} else {
-				tolower _input find _find
+			_index = if _caseSensitive then {_input find _findFull} else {
+				tolower _input find _findFull
 			};
 			if (_index < 0) exitwith {_output pushback _input;};
+			if (_findPrefix != "") then {_index = _index + _findPLen};
 			_output pushback (_input select [0,_index]);
 			_output pushback _replace;
 			_input = _input select [_index + _findLen,count _input];
