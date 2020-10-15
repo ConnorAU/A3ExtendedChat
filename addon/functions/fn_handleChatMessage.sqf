@@ -133,48 +133,13 @@ private _messageSafe = ["SafeStructuredText",_message] call FUNC(commonTask);
 _messageSafe = ["formatImages",_messageSafe] call FUNC(emoji);
 
 // Format mentions
-private _messageMentionsSelf = false;
-if ("@" in _messageSafe) then {
-	private _messageSafeInput = _messageSafe;
-	private _messageSafeOutput = [];
-	for "_i" from 0 to 1 step 0 do {
-		private _mentionIndex = _messageSafeInput find "@";
-		if (_mentionIndex < 0) exitwith {_messageSafeOutput pushback _messageSafeInput;};
-		_messageSafeOutput pushback (_messageSafeInput select [0,_mentionIndex]);
-		_messageSafeInput = _messageSafeInput select [_mentionIndex];
-
-		private _messageMentionLength = _messageSafeInput find " ";
-		private _messageMention = if (_messageMentionLength == -1) then {
-			_messageSafeInput select [0];
-		} else {
-			_messageSafeInput select [0,_messageMentionLength];
-		};
-
-		private _messageMentionID = _messageMention select [1];
-		private _messageMentionIDChars = _messageMentionID splitString "1234567890";
-		if (count _messageMentionIDChars == 0) then {
-			{
-				private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
-				if (_unitID isEqualTo _messageMentionID) exitWith {
-					if (_x isEqualTo player) then {_messageMentionsSelf = true};
-					_messageMention = [
-						"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>@",
-						["StreamSafeName",[
-							getPlayerUID _x,
-							_x getVariable [QUOTE(VAR_UNIT_NAME),name _x]
-						]] call FUNC(commonTask),
-						"</t>"
-					] joinString "";
-				};
-			} forEach allPlayers;
-		};
-
-		_messageSafeOutput pushback _messageMention;
-		_messageSafeInput = _messageSafeInput select [_messageMentionLength];
-	};
-	_messageSafe = _messageSafeOutput joinString "";
-};
-
+private _mentions = ["ParseMentions",[
+	_messageSafe,
+	"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>",
+	"</t>"
+]] call FUNC(commonTask);
+_messageSafe = _mentions#0;
+private _messageMentionsSelf = _mentions#1;
 
 // Add message to history array
 private _senderUID = getPlayerUID _senderUnit;
