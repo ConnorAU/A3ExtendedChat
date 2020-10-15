@@ -41,8 +41,7 @@ switch _mode do {
 		_display setVariable ["ctrlListSuggestions",_ctrlList];
 
 		findDisplay 24 displayAddEventHandler ["KeyDown",{
-			// TODO: add setting to choose what key is used
-			if ((_this#1 == DIK_TAB)) then {
+			if ((_this#1 isEqualTo (["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call FUNC(settings)))) then {
 				["KeyDownAutoComplete"] call THIS_FUNC;
 				true
 			};

@@ -22,6 +22,7 @@ Return:
 #define THIS_FUNC FUNC(settings)
 
 #include "_defines.inc"
+#include "_dikcodes.inc"
 
 SWITCH_SYS_PARAMS;
 
@@ -126,7 +127,8 @@ switch _mode do {
 					_settings set [0,"v2"];
 					_settings = [_settings,[
 						[0.545098,0.65098,0.894118,1],
-						[0.984,0.655,0.071,0.2]
+						[0.984,0.655,0.071,0.2],
+						DIK_TAB
 					],9/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
@@ -134,7 +136,7 @@ switch _mode do {
 				};
 			};
 			case "v2":{
-				private _correctSize = count _settings == 21;
+				private _correctSize = count _settings == 22;
 				private _correctFormat = _settings params ["",
 					["_VAL_SETTINGS_INDEX_COMMAND_PREFIX","",[""]],
 					["_VAL_SETTINGS_INDEX_MAX_SAVED",0,[0]],
@@ -146,6 +148,7 @@ switch _mode do {
 					["_VAL_SETTINGS_INDEX_FEED_BG_COLOR",[],[[]],4],
 					["_VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR",[],[[]],4],
 					["_VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR",[],[[]],4],
+					["_VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND",0,[0]],
 					["_VAL_SETTINGS_INDEX_PRINT_CONNECTED",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_DISCONNECTED",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_KILL",true,[true]],
@@ -178,6 +181,7 @@ switch _mode do {
 				["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call THIS_FUNC,
+				["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_KILL] call THIS_FUNC,
@@ -215,6 +219,7 @@ switch _mode do {
 			[0.1,0.1,0.1,0.5],                // VAL_SETTINGS_INDEX_FEED_BG_COLOR
 			[0.545098,0.65098,0.894118,1],    // VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR
 			[0.984,0.655,0.071,0.2],          // VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR
+			DIK_TAB,                          // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND
 			true,                             // VAL_SETTINGS_INDEX_PRINT_CONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_DISCONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_KILL

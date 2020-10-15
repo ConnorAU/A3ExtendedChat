@@ -26,31 +26,32 @@ Return:
 #include "_defines.inc"
 
 #define DIALOG_W 150
-#define DIALOG_H 118
+#define DIALOG_H 125
 
-#define IDC_BUTTON_SAVE_SETTINGS                   1
-#define IDC_EDIT_COMMAND_PREFIX                    2
-#define IDC_COMBO_MAX_SAVED_LOGS                   3
-#define IDC_COMBO_MAX_PRINTED_LOGS                 4
-#define IDC_COMBO_PRINTED_LOG_TTL                  5
-#define IDC_LABEL_TEXT_FONT                        6
-#define IDC_COMBO_TEXT_FONT                        7
-#define IDC_LABEL_TEXT_SIZE                        8
-#define IDC_SLIDER_TEXT_SIZE                       9
-#define IDC_LABEL_TEXT_COLOR                       10
-#define IDC_LABEL_FEED_BACKGROUND_COLOR            11
-#define IDC_LABEL_TEXT_MENTION_COLOR               12
-#define IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR    13
-#define IDC_CB_LOG_CONNECT                         14
-#define IDC_CB_LOG_DISCONNECT                      15
-#define IDC_CB_LOG_KILLED                          16
-#define IDC_CB_CHANNEL_GLOBAL                      17
-#define IDC_CB_CHANNEL_SIDE                        18
-#define IDC_CB_CHANNEL_COMMAND                     19
-#define IDC_CB_CHANNEL_GROUP                       20
-#define IDC_CB_CHANNEL_VEHICLE                     21
-#define IDC_CB_CHANNEL_DIRECT                      22
-#define IDC_CB_CHANNEL_CUSTOM                      23
+#define IDC_BUTTON_SAVE_SETTINGS                  1
+#define IDC_EDIT_COMMAND_PREFIX                   2
+#define IDC_COMBO_MAX_SAVED_LOGS                  3
+#define IDC_COMBO_MAX_PRINTED_LOGS                4
+#define IDC_COMBO_PRINTED_LOG_TTL                 5
+#define IDC_LABEL_TEXT_FONT                       6
+#define IDC_COMBO_TEXT_FONT                       7
+#define IDC_LABEL_TEXT_SIZE                       8
+#define IDC_SLIDER_TEXT_SIZE                      9
+#define IDC_LABEL_TEXT_COLOR                      10
+#define IDC_LABEL_FEED_BACKGROUND_COLOR           11
+#define IDC_LABEL_TEXT_MENTION_COLOR              12
+#define IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR   13
+#define IDC_LABEL_AUTOCOMPLETE_KEYBIND            14
+#define IDC_CB_LOG_CONNECT                        15
+#define IDC_CB_LOG_DISCONNECT                     16
+#define IDC_CB_LOG_KILLED                         17
+#define IDC_CB_CHANNEL_GLOBAL                     18
+#define IDC_CB_CHANNEL_SIDE                       19
+#define IDC_CB_CHANNEL_COMMAND                    20
+#define IDC_CB_CHANNEL_GROUP                      21
+#define IDC_CB_CHANNEL_VEHICLE                    22
+#define IDC_CB_CHANNEL_DIRECT                     23
+#define IDC_CB_CHANNEL_CUSTOM                     24
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -621,6 +622,63 @@ switch _mode do {
 					}];
 				}
 			],
+			[
+				"ctrlStatic",IDC_LABEL_AUTOCOMPLETE_KEYBIND,[
+					PXCX(DIALOG_W) + PXW(2.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(17) + PXH((SIZE_M*17)),
+					PXW((DIALOG_W/2)) - PXW(25.5),
+					PXH(SIZE_M)
+				],
+				{
+					private _setting = ["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call FUNC(settings);
+					_ctrl setVariable ["setting",_setting];
+
+					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_label",keyName _setting];
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_desc";
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(17) + PXH((SIZE_M*17)),
+					PXW(20),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
+
+						private _active = _ctrlLabel getVariable ["active",false];
+						_active = !_active;
+						_ctrlLabel setVariable ["active",_active];
+
+						if _active then {
+							_ctrl ctrlSetText localize "str_state_stop";
+							_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_edit_tooltip";
+						} else {
+							_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+							_ctrl ctrlSetTooltip "";
+						};
+					}];
+					_display displayAddEventHandler ["KeyDown",{
+						params  ["_display","_key"];
+						USE_CTRL(_ctrlLabel,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
+
+						private _active = _ctrlLabel getVariable ["active",false];
+						if _active exitWith {
+							_ctrlLabel setVariable ["setting",_key];
+							_ctrlLabel ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_label",keyName _key];
+							["KeyDown"] call THIS_FUNC;
+							true
+						};
+
+						false
+					}];
+				}
+			],
 
 		// ~~ Filters
 			[
@@ -940,6 +998,7 @@ switch _mode do {
 		USE_CTRL(_ctrlLabelBGColor,IDC_LABEL_FEED_BACKGROUND_COLOR);
 		USE_CTRL(_ctrlLabelTextMentionColor,IDC_LABEL_TEXT_MENTION_COLOR);
 		USE_CTRL(_ctrlLabelMentionBGColor,IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR);
+		USE_CTRL(_ctrlLabelAutocompleteKeybind,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
 		USE_CTRL(_ctrlCBLogConnect,IDC_CB_LOG_CONNECT);
 		USE_CTRL(_ctrlCBLogDisconnect,IDC_CB_LOG_DISCONNECT);
 		USE_CTRL(_ctrlCBLogKilled,IDC_CB_LOG_KILLED);
@@ -980,6 +1039,8 @@ switch _mode do {
 		["set",[VAL_SETTINGS_INDEX_FEED_BG_COLOR,_ctrlLabelBGColor getVariable ["setting",[]]]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR,_ctrlLabelTextMentionColor getVariable ["setting",[]]]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR,_ctrlLabelMentionBGColor getVariable ["setting",[]]]] call FUNC(settings);
+
+		["set",[VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND,_ctrlLabelAutocompleteKeybind getVariable ["setting",[]]]] call FUNC(settings);
 
 		["set",[VAL_SETTINGS_INDEX_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
