@@ -46,10 +46,40 @@ if (missionNamespace getVariable [QUOTE(VAR_BLOCK_EVENT),false]) exitWith {
 	true
 };
 
+// Fire scripted event handler (before params to avoid privating all the variables)
+private _eventReturns = call {
+	private "_printCondition";
+	[missionNamespace,QUOTE(VAR(handleChatMessage)),_this,true] call BIS_fnc_callScriptedEventHandler;
+};
+
 params [
 	"_channelID","_senderID","_senderNameF","_message","_senderUnit","_senderName",
 	"_senderStrID","_forceDisplay","_playerMessage","_sentenceType","_chatMessageType"
 ];
+
+// Apply event return value if one is provided
+private _sehBlockPrint = false;
+private _sehBlockHistory = false;
+{
+	if (!isNil "_x") exitWith {
+		switch true do {
+			case (_x isEqualType true):{_sehBlockPrint = _x};
+			case (_x isEqualType ""):{_message = _x};
+			case (_x isEqualType []):{
+				switch true do {
+					case (_x isEqualTypeArray ["",""]):{
+						_senderNameF = _x#0;
+						_message = _x#1;
+					};
+					case (_x isEqualTypeArray [true,true]):{
+						_sehBlockPrint = _x#0;
+						_sehBlockHistory = _x#1;
+					};
+				};
+			};
+		};
+	};
+} forEach _eventReturns;
 
 // Do nothing if the message is empty
 if (_message == "") exitWith {};
@@ -63,29 +93,6 @@ if (!_forceDisplay || _playerMessage) then {
 		systemChat format["%1 : '!_forceDisplay || _playerMessage' anomoly",QUOTE(THIS_FUNC)];
 	};
 };
-
-// Fire scripted event handler
-private _eventReturns = [missionNamespace,QUOTE(VAR(handleChatMessage)),_this,true] call BIS_fnc_callScriptedEventHandler;
-
-/*
-[missionNamespace,"CAU_xChat_handleChatMessage",{diag_log _this}] call BIS_fnc_addScriptedEventHandler;
-*/
-
-// Apply event return value if one is provided
-// TODO: test
-private _sehBlockPrint = false;
-{
-	if (!isNil "_x") exitWith {
-		switch true do {
-			case (_x isEqualType true):{_sehBlockPrint = _x};
-			case (_x isEqualType ""):{_message = _x};
-			case (_x isEqualType [] && {_x isEqualTypeArray ["",""]}):{
-				_senderNameF = _x#0;
-				_message = _x#1;
-			};
-		};
-	};
-} forEach _eventReturns;
 
 // TODO: Delete once HCM EH is fixed and fires kill messages for everyone, not just the victim owner
 // Broadcasts kill messages to everyone as the event handler currently only fires for the victim owner
@@ -148,12 +155,13 @@ if ("@" in _messageSafe) then {
 
 // Add message to history array
 private _senderUID = getPlayerUID _senderUnit;
-private _historyData = [
-	_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,
-	if _messageMentionsSelf then {["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
-];
-VAR_HISTORY pushBack _historyData;
-[missionNamespace,QUOTE(VAR(messageAdded)),_historyData] call BIS_fnc_callScriptedEventHandler;
+if !_sehBlockHistory then {
+	private _historyData = [
+		_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,
+		if _messageMentionsSelf then {["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
+	];
+	VAR_HISTORY pushBack _historyData;
+};
 
 // Delete old messages if the array had exceeded the limit
 private _maxHistorySize = ["get",VAL_SETTINGS_INDEX_MAX_SAVED] call FUNC(settings);
