@@ -21,8 +21,6 @@ class CAU_ExtendedChat {
 		class sendMessage {};
 		class settings {};
 		class settingsUI {};
-		class stringPrefix {};
-		class stringReplace {};
 		class suggestionUI {};
 	};
 };

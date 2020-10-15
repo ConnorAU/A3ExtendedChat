@@ -90,11 +90,11 @@ switch _mode do {
 		} else {
 			private _channelName = ["get",[_channelID - 5,1]] call FUNC(radioChannelCustom);
 			private _channelCallsign = ["get",[_channelID - 5,2]] call FUNC(radioChannelCustom);
-			if ([_channelCallsign,"$STR_"] call FUNC(stringPrefix)) then {
+			if (["stringPrefix",[_channelCallsign,"$STR_"]] call THIS_FUNC) then {
 				_channelCallsign = localize _channelCallsign;
 			};
 			{
-				_channelCallsign = [_channelCallsign,_x#0,_x#1] call FUNC(stringReplace);
+				_channelCallsign = ["stringReplace",[_channelCallsign,_x#0,_x#1]] call THIS_FUNC;
 				false
 			} count [
 				["%CHANNEL_LABEL",_channelName],
@@ -113,7 +113,7 @@ switch _mode do {
 	};
 	case "SafeStructuredText":{
 		{
-			_params = [_params,_x#0,_x#1] call FUNC(stringReplace);
+			_params = ["stringReplace",[_params,_x#0,_x#1]] call THIS_FUNC;
 			false
 		} count [
 			["&","&amp;"],
@@ -131,5 +131,31 @@ switch _mode do {
 			** Reverted to unsafe number parsing
 		*/
 		_params apply {_x call BIS_fnc_parseNumber};
+	};
+	case "stringPrefix":{
+		_params params ["_input","_find",["_caseSensitive",false]];
+
+		private _index = if _caseSensitive then {_input find _find} else {
+			tolower _input find toLower _find
+		};
+
+		_index == 0
+	};
+	case "stringReplace":{
+		_params params ["_input","_find","_replace",["_caseSensitive",false]];
+		private _findLen = count _find;
+		if !_caseSensitive then {_find = toLower _find};
+		private _output = [];
+		private _index = -1;
+		for "_i" from 0 to 1 step 0 do {
+			_index = if _caseSensitive then {_input find _find} else {
+				tolower _input find _find
+			};
+			if (_index < 0) exitwith {_output pushback _input;};
+			_output pushback (_input select [0,_index]);
+			_output pushback _replace;
+			_input = _input select [_index + _findLen,count _input];
+		};
+		_output joinString ""
 	};
 };

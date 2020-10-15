@@ -112,10 +112,10 @@ if isServer then {
 
 			if (_uid != "") then {
 				[[_uid,_name],{
-					private _message = [
+					private _message = ["stringReplace",[
 						localize "str_mp_connect","%s",
 						["StreamSafeName",_this] call FUNC(commonTask)
-					] call FUNC(stringReplace);
+					]] call FUNC(commonTask);
 
 					VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings) };
 					systemChat _message;
@@ -127,10 +127,10 @@ if isServer then {
 		addMissionEventHandler ["PlayerDisconnected",{
 			params ["","_uid","_name","","_owner"];
 			[[_uid,_name],{
-				private _message = [
+				private _message = ["stringReplace",[
 					localize "str_mp_disconnect","%s",
 					["StreamSafeName",_this] call FUNC(commonTask)
-				] call FUNC(stringReplace);
+				]] call FUNC(commonTask);
 
 				VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings) };
 				systemChat _message;
