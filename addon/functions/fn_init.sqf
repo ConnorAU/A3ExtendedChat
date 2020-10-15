@@ -138,14 +138,3 @@ if isServer then {
 		}];
 	};
 };
-
-// add kill log event to everyone
-if isServer then {
-	addMissionEventHandler ["EntityRespawned",{
-		params ["_entity", "_corpse"];
-		if (_entity isKindOf "CAManBase" && {isPlayer _entity}) then {
-			_entity setVariable [QUOTE(VAR_UNIT_NAME),name _entity,true];
-			_entity setVariable [QUOTE(VAR_UNIT_OWNER_ID),owner _entity,true];
-		};
-	}];
-};
