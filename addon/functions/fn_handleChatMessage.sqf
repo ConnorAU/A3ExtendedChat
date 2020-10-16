@@ -60,6 +60,7 @@ params [
 // Apply event return value if one is provided
 private _sehBlockPrint = false;
 private _sehBlockHistory = false;
+reverse _eventReturns;
 {
 	if (!isNil "_x") exitWith {
 		switch true do {
