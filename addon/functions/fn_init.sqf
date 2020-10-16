@@ -42,7 +42,7 @@ if hasInterface then {
 	VAR_COMMANDS_ARRAY = [];
 	VAR_MESSAGE_FEED_SHOWN = true;
 	VAR_NEW_MESSAGE_PENDING = false;
-	VAR_ENABLE_LOGGING = false;
+	VAR_ENABLE_LOGGING = missionNamespace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]; // Done like this to use publicVariable before default value
 	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
 
 	VAR_ENABLE_EMOJIS =  getMissionConfigValue[QUOTE(VAR(emojis)),1] isEqualTo 1;
