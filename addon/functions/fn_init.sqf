@@ -144,6 +144,7 @@ if isServer then {
 					private _remoteSettingIndex = switch _forEachIndex do {
 						case 1:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
 						case 2:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
+						case 10:{VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK};
 						default {-1};
 					};
 

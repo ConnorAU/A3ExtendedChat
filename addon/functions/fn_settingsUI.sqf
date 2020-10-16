@@ -44,14 +44,15 @@ Return:
 #define IDC_LABEL_AUTOCOMPLETE_KEYBIND            14
 #define IDC_CB_LOG_CONNECT                        15
 #define IDC_CB_LOG_DISCONNECT                     16
-#define IDC_CB_LOG_KILLED                         17
-#define IDC_CB_CHANNEL_GLOBAL                     18
-#define IDC_CB_CHANNEL_SIDE                       19
-#define IDC_CB_CHANNEL_COMMAND                    20
-#define IDC_CB_CHANNEL_GROUP                      21
-#define IDC_CB_CHANNEL_VEHICLE                    22
-#define IDC_CB_CHANNEL_DIRECT                     23
-#define IDC_CB_CHANNEL_CUSTOM                     24
+#define IDC_CB_LOG_BATTLEYE_KICK                  17
+#define IDC_CB_LOG_KILLED                         18
+#define IDC_CB_CHANNEL_GLOBAL                     19
+#define IDC_CB_CHANNEL_SIDE                       20
+#define IDC_CB_CHANNEL_COMMAND                    21
+#define IDC_CB_CHANNEL_GROUP                      22
+#define IDC_CB_CHANNEL_VEHICLE                    23
+#define IDC_CB_CHANNEL_DIRECT                     24
+#define IDC_CB_CHANNEL_CUSTOM                     25
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -760,14 +761,14 @@ switch _mode do {
 				}
 			],
 			[
-				"ctrlCheckbox",IDC_CB_LOG_KILLED,[
+				"ctrlCheckbox",IDC_CB_LOG_BATTLEYE_KICK,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*3)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -779,6 +780,30 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_battleye_kick_log_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_battleye_kick_log_desc";
+				}
+			],
+			[
+				"ctrlCheckbox",IDC_CB_LOG_KILLED,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*4)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings));
+					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*4)),
+					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_kill_log_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_kill_log_desc";
 				}
@@ -786,7 +811,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GLOBAL,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*5)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -798,7 +823,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*5)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -813,7 +838,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_SIDE,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -825,7 +850,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -840,7 +865,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_COMMAND,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -852,7 +877,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -867,7 +892,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GROUP,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -879,7 +904,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -894,7 +919,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_VEHICLE,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -906,7 +931,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -921,7 +946,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_DIRECT,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -933,7 +958,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -948,7 +973,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_CUSTOM,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*12)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -960,7 +985,7 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*12)),
 					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -1000,6 +1025,7 @@ switch _mode do {
 		USE_CTRL(_ctrlLabelAutocompleteKeybind,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
 		USE_CTRL(_ctrlCBLogConnect,IDC_CB_LOG_CONNECT);
 		USE_CTRL(_ctrlCBLogDisconnect,IDC_CB_LOG_DISCONNECT);
+		USE_CTRL(_ctrlCBLogBattleye,IDC_CB_LOG_BATTLEYE_KICK);
 		USE_CTRL(_ctrlCBLogKilled,IDC_CB_LOG_KILLED);
 		USE_CTRL(_ctrlCBShowGlobal,IDC_CB_CHANNEL_GLOBAL);
 		USE_CTRL(_ctrlCBShowSide,IDC_CB_CHANNEL_SIDE);
@@ -1043,6 +1069,7 @@ switch _mode do {
 
 		["set",[VAL_SETTINGS_INDEX_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK,cbChecked _ctrlCBLogBattleye]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_KILL,cbChecked _ctrlCBLogKilled]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_GLOBAL,cbChecked _ctrlCBShowGlobal]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_SIDE,cbChecked _ctrlCBShowSide]] call FUNC(settings);

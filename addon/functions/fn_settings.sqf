@@ -130,14 +130,15 @@ switch _mode do {
 						[0.984,0.655,0.071,0.2],
 						DIK_TAB
 					],9/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
-					_settings deleteAt 15; // unsupported mission log
+					_settings = [_settings,[true],14/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
+					_settings deleteAt 16; // unsupported mission log
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
 				};
 			};
 			case "v2":{
-				private _correctSize = count _settings == 22;
+				private _correctSize = count _settings == 23;
 				private _correctFormat = _settings params ["",
 					["_VAL_SETTINGS_INDEX_COMMAND_PREFIX","",[""]],
 					["_VAL_SETTINGS_INDEX_MAX_SAVED",0,[0]],
@@ -152,6 +153,7 @@ switch _mode do {
 					["_VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND",0,[0]],
 					["_VAL_SETTINGS_INDEX_PRINT_CONNECTED",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_DISCONNECTED",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_KILL",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_GLOBAL",true,[true]],
 					["_VAL_SETTINGS_INDEX_PRINT_SIDE",true,[true]],
@@ -185,6 +187,7 @@ switch _mode do {
 				["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call THIS_FUNC,
+				["get",VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_KILL] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call THIS_FUNC,
@@ -223,6 +226,7 @@ switch _mode do {
 			DIK_TAB,                          // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND
 			true,                             // VAL_SETTINGS_INDEX_PRINT_CONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_DISCONNECTED
+			true,                             // VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK
 			true,                             // VAL_SETTINGS_INDEX_PRINT_KILL
 			true,                             // VAL_SETTINGS_INDEX_PRINT_GLOBAL
 			true,                             // VAL_SETTINGS_INDEX_PRINT_SIDE

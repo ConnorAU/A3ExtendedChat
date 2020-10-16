@@ -240,6 +240,14 @@
 				<Original>Show player disconnected logs in the message feed.</Original>
 				<English>Show player disconnected logs in the message feed.</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_battleye_kick_log_label">
+				<Original>BattlEye kick/ban logs</Original>
+				<English>BattlEye kick/ban logs</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_battleye_kick_log_desc">
+				<Original>Show BattlEye kick and ban logs in the message feed.</Original>
+				<English>Show BattlEye kick and ban logs in the message feed.</English>
+			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_label">
 				<Original>Death message logs</Original>
 				<English>Death message logs</English>
