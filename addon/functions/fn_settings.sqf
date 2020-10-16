@@ -130,6 +130,7 @@ switch _mode do {
 						[0.984,0.655,0.071,0.2],
 						DIK_TAB
 					],9/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
+					_settings deleteAt 15; // unsupported mission log
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
