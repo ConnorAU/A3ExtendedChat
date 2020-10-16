@@ -1,5 +1,5 @@
 # A3ExtendedChat
-Adds new functionality to the Arma 3 chat system with emojis, history viewer, message filters and commands!
+Adds new functionality to the Arma 3 chat system with emojis, mentions, history viewer, message filters and commands!
 
 # Dependency 
 - [UserInputMenus](https://github.com/ConnorAU/A3UserInputMenus)
