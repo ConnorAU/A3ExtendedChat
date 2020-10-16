@@ -106,35 +106,73 @@ if isServer then {
 	private _extensionEnabled = ("ExtendedChat" callExtension "init") == "init";
 	["toggle",_extensionEnabled] call FUNC(log);
 
-	if (getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isEqualTo 1) then {
-		addMissionEventHandler ["PlayerConnected",{
-			params ["","_uid","_name"];
+	// TODO: remove this event and rework conditions once hcm eh is fixed
+	// TMP workaround for server-side messages only firing on server
+	private _serverMessagesEvent = {
+		params ["_channelID","_senderID","","_message"];
 
-			if (_uid != "") then {
-				[[_uid,_name],{
-					private _message = ["stringReplace",[
-						localize "str_mp_connect","%s",
-						["StreamSafeName",_this] call FUNC(commonTask)
-					]] call FUNC(commonTask);
+		if (_channelID != 16 || _senderID != 2) exitWith {false};
+		private _block = false;
 
-					VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings) };
-					systemChat _message;
-				}] remoteExec ["call"];
+		{
+			private _xSplit = ["stringSplitString",[_x,"%s"]] call FUNC(commonTask);
+			private _match = true;
+			private _inIndex = -1;
+
+			{
+				_match = switch _forEachIndex do {
+					case 0:{["stringPrefix",[_message,_x,true]] call FUNC(commonTask)};
+					case (count _xSplit - 1):{["stringSuffix",[_message,_x,true]] call FUNC(commonTask)};
+					default {
+						private _lastIndex = _inIndex;
+						_inIndex = _message find _x;
+						_inIndex > _lastIndex
+					};
+				};
+
+				if !_match exitWith {};
+			} forEach _xSplit;
+
+			if _match exitWith {
+				private _localCondition = switch _forEachIndex do {
+					case 0:{getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isEqualTo 1};
+					case 1:{getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isEqualTo 1};
+					default {true};
+				};
+
+				if _localCondition then {
+					private _remoteSettingIndex = switch _forEachIndex do {
+						case 0:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
+						case 1:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
+						default {-1};
+					};
+
+					["systemChat",[_message,nil,nil,_remoteSettingIndex]] remoteExecCall [QUOTE(FUNC(sendMessage)),-2];
+
+					if hasInterface then {
+						_block = !(["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings));
+					};
+				};
 			};
-		}];
-	};
-	if (getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isEqualTo 1) then {
-		addMissionEventHandler ["PlayerDisconnected",{
-			params ["","_uid","_name","","_owner"];
-			[[_uid,_name],{
-				private _message = ["stringReplace",[
-					localize "str_mp_disconnect","%s",
-					["StreamSafeName",_this] call FUNC(commonTask)
-				]] call FUNC(commonTask);
+		} forEach [
+			localize "str_mp_connecting",
+			localize "str_mp_connect",
+			localize "str_mp_disconnect",
+			localize "str_mp_banned",
+			localize "str_mp_banned" + ": %s",
+			localize "str_mp_kicked",
+			localize "str_mp_kicked" + ": %s",
+			localize "str_signature_wrong",
+			localize "str_signature_check_timed_out",
+			localize "str_mp_connection_loosing",
+			"Player %s kicked off by BattlEye: %s"
+		];
 
-				VAR_HANDLE_MESSAGE_PRINT_CONDITION = { ["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings) };
-				systemChat _message;
-			}] remoteExec ["call"];
-		}];
+		_block
+	};
+	if hasInterface then {
+		[missionNamespace,QUOTE(VAR(handleChatMessage)),_serverMessagesEvent] call BIS_fnc_addScriptedEventHandler;
+	} else {
+		addMissionEventHandler ["HandleChatMessage",_serverMessagesEvent];
 	};
 };
