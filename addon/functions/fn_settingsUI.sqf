@@ -573,8 +573,7 @@ switch _mode do {
 				],
 				{
 					// BG layer for mention bg color
-					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings);
-					_ctrl ctrlSetBackgroundColor _setting;
+					_ctrl ctrlSetBackgroundColor [0.1,0.1,0.1,0.5];
 				}
 			],
 			[

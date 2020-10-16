@@ -206,7 +206,10 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 	_ctrlText ctrlSetStructuredText parseText _messageFinal;
 
 	// Show mentioned background if self is mentioned
-	_ctrlBackgroundMentioned ctrlShow _messageMentionsSelf;
+	if _messageMentionsSelf then {
+		_ctrlBackgroundMentioned ctrlShow true;
+		_ctrlBackground ctrlSetBackgroundColor [0.1,0.1,0.1,0.5];
+	};
 
 	// Set control positions to fit message
 	{
