@@ -23,43 +23,33 @@ Return:
 #include "_macros.inc"
 #include "_defines.inc"
 
-private _isMainMenu = false;
-private _mission = format["%1.%2",missionName,worldName];
-{
-	if ([_mission,getText(_x >> "directory")] call BIS_fnc_inString) exitWith {
-		_isMainMenu = true;
-	};
-} count ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes"));
+private _mission = toLower format["%1.%2",missionName,worldName];
+private _isMainMenu = ("true" configClasses (configFile >> "CfgMissions" >> "CutScenes")) findIf {
+	_mission in toLower getText(_x >> "directory")
+} > -1;
 if _isMainMenu exitWith {};
 
 if (missionNamespace getVariable [QUOTE(VAR(initialized)),false]) exitWith {};
 VAR(initialized) = true;
 
-private _isNumber = isNumber(missionConfigFile >> QUOTE(VAR(enabled)));
-if (_isNumber && {getNumber(missionConfigFile >> QUOTE(VAR(enabled))) != 1}) exitWith {
-	[] spawn {
-		waitUntil {!isNull findDisplay 46};
-		private _log = format["ExtendedChat is disabled in this mission: %1.%2",missionName,worldName];
-		diag_log _log;
-		if (["get",VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION] call FUNC(settings)) then {
-			systemChat _log;
-		};
-	};
+if !(getMissionConfigValue[QUOTE(VAR(enabled)),1] isEqualTo 1) exitWith {
+	diag_log format["ExtendedChat is disabled in mission %1",str _mission];
 };
 
 if hasInterface then {
 	VAR_HISTORY = [];
 	VAR_MESSAGE_FEED_CTRLS = [];
+	VAR_COMMANDS_ARRAY = [];
 	VAR_MESSAGE_FEED_SHOWN = true;
 	VAR_NEW_MESSAGE_PENDING = false;
-	VAR_ENABLE_LOGGING = false;
+	VAR_ENABLE_LOGGING = missionNamespace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]; // Done like this to use publicVariable before default value
 	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
 
-	VAR_ENABLE_EMOJIS = getNumber(missionConfigFile >> QUOTE(VAR(emojis))) > 0;
+	VAR_ENABLE_EMOJIS =  getMissionConfigValue[QUOTE(VAR(emojis)),1] isEqualTo 1;
 
 	["init"] call FUNC(settings);
 
-	[_isNumber] spawn FUNC(createMessageLayer);
+	[] spawn FUNC(createMessageLayer);
 
 	// Add buttons to interrupt menu
 	if isClass(configFile >> "CfgPatches" >> "WW2_Core_f_WW2_UI_InterruptMenu_f") then {
@@ -103,9 +93,12 @@ if hasInterface then {
 		}] call BIS_fnc_addScriptedEventHandler;
 	};
 
+	addMissionEventHandler ["HandleChatMessage",{call FUNC(handleChatMessage)}];
+
 	[] spawn {
 		waitUntil {player isKindOf "CAManBase"};
 		player setVariable [QUOTE(VAR_UNIT_NAME),name player,true];
+		player setVariable [QUOTE(VAR_UNIT_OWNER_ID),clientOwner,true];
 	};
 };
 
@@ -113,80 +106,74 @@ if isServer then {
 	private _extensionEnabled = ("ExtendedChat" callExtension "init") == "init";
 	["toggle",_extensionEnabled] call FUNC(log);
 
-	["init"] call FUNC(radioChannelCustom);
+	// TODO: remove this event and rework conditions once hcm eh is fixed
+	// TMP workaround for server-side messages only firing on server
+	private _serverMessagesEvent = {
+		params ["_channelID","_senderID","","_message"];
 
-	if (getNumber(missionConfigFile >> QUOTE(VAR(connectMessages))) > 0) then {
-		addMissionEventHandler ["PlayerConnected",{
-			params ["","_uid","_name"];
+		if (_channelID != 16 || _senderID != 2) exitWith {false};
+		private _block = false;
 
-			if (_uid != "") then {
-				[[_uid,_name],{
-					[
-						[
-							localize "str_mp_connect","%s",
-							["StreamSafeName",_this] call FUNC(commonTask)
-						] call FUNC(stringReplace),
-						nil,nil,_this#0,nil,nil,nil,nil,nil,
-						{
-							["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings)
-						}
-					] call FUNC(addMessage);
-				}] remoteExec ["call"];
+		{
+			private _xSplit = ["stringSplitString",[_x,"%s"]] call FUNC(commonTask);
+			private _match = true;
+			private _inIndex = -1;
+
+			{
+				_match = switch _forEachIndex do {
+					case 0:{["stringPrefix",[_message,_x,true]] call FUNC(commonTask)};
+					case (count _xSplit - 1):{["stringSuffix",[_message,_x,true]] call FUNC(commonTask)};
+					default {
+						private _lastIndex = _inIndex;
+						_inIndex = _message find _x;
+						_inIndex > _lastIndex
+					};
+				};
+
+				if !_match exitWith {};
+			} forEach _xSplit;
+
+			if _match exitWith {
+				private _localCondition = switch _forEachIndex do {
+					case 1:{getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isEqualTo 1};
+					case 2:{getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isEqualTo 1};
+					default {true};
+				};
+
+				if _localCondition then {
+					private _remoteSettingIndex = switch _forEachIndex do {
+						case 1:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
+						case 2:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
+						case 10:{VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK};
+						default {-1};
+					};
+
+					["systemChat",[_message,nil,nil,_remoteSettingIndex]] remoteExecCall [QUOTE(FUNC(sendMessage)),-2];
+
+					if hasInterface then {
+						_block = !(["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings));
+					};
+				};
 			};
-		}];
+		} forEach [
+			localize "str_mp_connecting",
+			localize "str_mp_connect",
+			localize "str_mp_disconnect",
+			localize "str_mp_banned",
+			localize "str_mp_banned" + ": %s",
+			localize "str_mp_kicked",
+			localize "str_mp_kicked" + ": %s",
+			localize "str_signature_wrong",
+			localize "str_signature_check_timed_out",
+			localize "str_mp_connection_loosing",
+			"Player %s kicked off by BattlEye: %s"
+		];
+
+		_block
 	};
-	if (getNumber(missionConfigFile >> QUOTE(VAR(disconnectMessages))) > 0) then {
-		addMissionEventHandler ["PlayerDisconnected",{
-			params ["","_uid","_name","","_owner"];
-			["disconnect",_owner] call FUNC(radioChannelCustom);
-			[[_uid,_name],{
-				[
-					[
-						localize "str_mp_disconnect","%s",
-						["StreamSafeName",_this] call FUNC(commonTask)
-					] call FUNC(stringReplace),
-					nil,nil,_this#0,nil,nil,nil,nil,nil,
-					{
-						["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings)
-					}
-				] call FUNC(addMessage);
-			}] remoteExec ["call"];
-		}];
-	};
-};
-
-// add kill log event to everyone
-if (difficultyOption "deathMessages" > 0 && getNumber(missionConfigFile >> QUOTE(VAR(deathMessages))) > 0) then {
-	addMissionEventHandler ["EntityKilled",{
-		params ["_killed", "_killer", "_instigator"];
-		if (isNull _instigator) then {_instigator = UAVControl vehicle _killer # 0};
-		if (isNull _instigator) then {_instigator = _killer};
-
-		if (_killed isKindOf "CAManBase" && {isPlayer _killed}) then {
-			private _killedUID = getPlayerUID _killed;
-			private _instigatorUID = getPlayerUID _instigator;
-			private _text = ["STR_A3_Revive_MSG_KILLED","STR_A3_Revive_MSG_KILLED_BY"] select (_instigator isKindOf "CAManBase" && {_killedUID != _instigatorUID});
-
-			[
-				format[
-					localize _text,
-					["StreamSafeName",[_killedUID,UNIT_NAME(_killed)]] call FUNC(commonTask),
-					["StreamSafeName",[_instigatorUID,UNIT_NAME(_instigator)]] call FUNC(commonTask)
-				],
-				nil,nil,_killedUID,nil,nil,nil,nil,nil,
-				{
-					["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings)
-				}
-			] call FUNC(addMessage);
-		};
-	}];
-
-	if isServer then {
-		addMissionEventHandler ["EntityRespawned",{
-			params ["_entity", "_corpse"];
-			if (_entity isKindOf "CAManBase" && {isPlayer _entity}) then {
-				_entity setVariable [QUOTE(VAR_UNIT_NAME),name _entity,true];
-			};
-		}];
+	if hasInterface then {
+		[missionNamespace,QUOTE(VAR(handleChatMessage)),_serverMessagesEvent] call BIS_fnc_addScriptedEventHandler;
+	} else {
+		addMissionEventHandler ["HandleChatMessage",_serverMessagesEvent];
 	};
 };

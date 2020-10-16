@@ -5,11 +5,11 @@ class CAU_ExtendedChat {
 	class Functions {
         file = "cau\extendedchat\functions";
 		class addCommand {};
-		class addMessage {};
 		class commonTask {};
 		class createMessageLayer {};
 		class createMessageUI {};
 		class emoji {};
+		class handleChatMessage {};
 		class historyUI {};
 		class init {postInit=1;};
 		class log {};
@@ -21,8 +21,7 @@ class CAU_ExtendedChat {
 		class sendMessage {};
 		class settings {};
 		class settingsUI {};
-		class stringPrefix {};
-		class stringReplace {};
+		class suggestionUI {};
 	};
 };
 

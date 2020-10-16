@@ -29,104 +29,116 @@ if shownChat then {showChat false;};
 
 // add event to chat box so we can capture the message when sent
 // is done in this loop to avoid issues with keyhandlers & config based events
-#define VAR_CHAT_INPUT_EVENT_HANDLER QUOTE(FUNC_SUBVAR(evhID))
-#define VAR_CHAT_INPUT_CHAR_COUNTER QUOTE(FUNC_SUBVAR(charCounter))
+#define VAR_CHAT_INITIALIZED QUOTE(FUNC_SUBVAR(chatInitialized))
 USE_DISPLAY(findDisplay 24);
 if (!isNull _display) then {
 
-	// Close chat input if a message was recently sent. Spam prevention.
-	if ((missionNamespace getVariable [QUOTE(VAR_MESSAGE_SENT_COOLDOWN),0]) > diag_tickTime) exitWith {
-		_display closeDisplay 0;
-	};
-
 	// prevent evh adding multiple times
 	USE_CTRL(_ctrlEdit,101);
-	if !(_ctrlEdit getVariable [VAR_CHAT_INPUT_EVENT_HANDLER,false]) then {
+	if !(_ctrlEdit getVariable [VAR_CHAT_INITIALIZED,false]) then {
 
 		// add event to capture sent message text
-		_ctrlEdit setVariable [VAR_CHAT_INPUT_EVENT_HANDLER,true];
-		_ctrlEdit ctrlAddEventHandler ["Destroy",{
-			if (_this#1 == 1) then {
-				[_this#0] call FUNC(processMessage);
+		_ctrlEdit setVariable [VAR_CHAT_INITIALIZED,true];
+		_display displayAddEventHandler ["KeyDown",{
+			params ["_display","_key"];
+
+			switch _key do {
+				case DIK_NUMPADENTER;
+				case DIK_RETURN:{
+					[_display displayCtrl 101] call FUNC(processMessage);
+				};
+
+				case DIK_PGUP;
+				case DIK_PGDN:{
+					["init",_display] call FUNC(historyUI);
+					true
+				};
+
+				default {};
 			};
-			nil
 		}];
 
-		private _backgroundColour = ["colorConfigToRGBA",[
-			"(profilenamespace getvariable ['IGUI_BCG_RGB_R',0])",
-			"(profilenamespace getvariable ['IGUI_BCG_RGB_G',1])",
-			"(profilenamespace getvariable ['IGUI_BCG_RGB_B',1])",
-			"(profilenamespace getvariable ['IGUI_BCG_RGB_A',0.8])"
-		]] call FUNC(commonTask);
-
 		// hide background control that spans the screen width
-		private _ctrlChatBG = (allControls _display) select (allControls _display findIf {ctrlIDC _x == -1});
+		private _ctrlChatBG = (allControls _display) select (allControls _display findIf {ctrlClassName _x == "CA_Background"});
 		_ctrlChatBG ctrlShow false;
+
+		private _displayOverlay = findDisplay 46 createDisplay "RscDisplayEmpty";
+		uiNamespace setVariable [QUOTE(VAR_CHAT_OVERLAY_DISPLAY),_displayOverlay];
+
+		// set up per frame unscheduled task handler
+		private _eventUnscheduledLoop = {
+			params ["_display"];
+			private _tasks = _display getVariable ["tasks",[]];
+
+			{
+				_x params ["_args","_code",["_execute",{true}],["_remove",{true}]];
+				if (_args call _execute) then {_args call _code};
+				if (_args call _remove) then {_tasks set [_forEachIndex,0]};
+			} forEach _tasks;
+
+			_display setVariable ["tasks",_tasks - [0]];
+		};
+		_displayOverlay setVariable ["tasks",[]];
+		_displayOverlay displayAddEventHandler ["MouseMoving",_eventUnscheduledLoop];
+		_displayOverlay displayAddEventHandler ["MouseHolding",_eventUnscheduledLoop];
 
 		// resize the chat ctrl to span the screen width
 		private _ctrlEditPos = ctrlPosition _ctrlEdit;
-		_ctrlEditPos set [2,safezoneW - (_ctrlEditPos#0 - safeZoneX)];
+		//_ctrlEditPos set [2,safezoneW - (_ctrlEditPos#0 - safeZoneX)];
+		//_ctrlEdit ctrlSetPosition _ctrlEditPos;
 		_ctrlEdit ctrlSetFont FONT_NORMAL;
 		_ctrlEdit ctrlSetBackgroundColor [COLOR_BACKGROUND_RGBA];
-		_ctrlEdit ctrlSetPosition _ctrlEditPos;
 		_ctrlEdit ctrlCommit 0;
 
 		// create character counter
-		private _ctrlCharCount = _display ctrlCreate ["ctrlStatic",-1];
+		private _ctrlCharCount = _displayOverlay ctrlCreate ["ctrlStatic",-1];
 		_ctrlCharCount ctrlSetText format[localize "STR_CAU_xChat_chat_character_count",0];
 		_ctrlCharCount ctrlSetFontHeight _ctrlEditPos#3;
-		_ctrlCharCount ctrlSetBackgroundColor _backgroundColour;
-		_ctrlCharCount ctrlSetPosition [_ctrlEditPos#0,_ctrlEditPos#1 - ctrlTextHeight _ctrlCharCount,ctrlTextWidth _ctrlCharCount,ctrlTextHeight _ctrlCharCount];
+		_ctrlCharCount ctrlSetBackgroundColor [
+			profilenamespace getvariable ["IGUI_BCG_RGB_R",0],
+			profilenamespace getvariable ["IGUI_BCG_RGB_G",1],
+			profilenamespace getvariable ["IGUI_BCG_RGB_B",1],
+			profilenamespace getvariable ["IGUI_BCG_RGB_A",0.8]
+		];
+		_ctrlCharCount ctrlSetPosition [
+			_ctrlEditPos#0,
+			_ctrlEditPos#1 - ctrlTextHeight _ctrlCharCount - PXH(.5),
+			ctrlTextWidth _ctrlCharCount,
+			ctrlTextHeight _ctrlCharCount + PXH(.5)
+		];
 		_ctrlCharCount ctrlCommit 0;
-		_ctrlEdit setVariable [VAR_CHAT_INPUT_CHAR_COUNTER,_ctrlCharCount];
+		_displayOverlay setVariable ["ctrlCharCount",_ctrlCharCount];
 
-		if (count (["getList"] call FUNC(emoji)) > 0) then {
-			["initDisplay",[_ctrlEdit,VAR_CHAT_INPUT_CHAR_COUNTER]] call FUNC(emoji);
-		};
-		private _ctrlCharCountUpdate = {
-			params ["_ctrlEdit","_ctrlCharCount"];
-			private _thread = _ctrlCharCount getVariable ["thread",scriptNull];
-			terminate _thread;
+		// intialise suggest ui
+		["init",[_displayOverlay,_ctrlEdit]] call FUNC(suggestionUI);
 
-			_thread = [_ctrlEdit,_ctrlCharCount] spawn {
-				// this event is done in a spawn so it can correctly count the
-				// _ctrlEdit text after deleting characters
-				params ["_ctrlEdit","_ctrlCharCount"];
-				private _charCount = count ctrlText _ctrlEdit;
-				_ctrlCharCount ctrlSetText format[localize "STR_CAU_xChat_chat_character_count",_charCount];
-				_ctrlCharCount ctrlSetTextColor [
-					linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#0,true],
-					linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#1,true],
-					linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#2,true],
-					1
-				];
-				private _ctrlCharCountPos = ctrlPosition _ctrlCharCount;
-				_ctrlCharCountPos set [2,ctrlTextWidth _ctrlCharCount];
-				_ctrlCharCount ctrlSetPosition _ctrlCharCountPos;
-				_ctrlCharCount ctrlCommit 0;
-			};
-
-			_ctrlCharCount setVariable ["thread",_thread];
-		};
-		_ctrlCharCount setVariable ["update",_ctrlCharCountUpdate];
-
-		// add keydown event to update the character counter
-		_ctrlEdit ctrlAddEventHandler ["KeyDown",{
+		// add keydown event to update the character counter text and colour
+		private _eventCharCountUpdate = {
 			params ["_ctrlEdit"];
-			private _ctrlCharCount = _ctrlEdit getVariable [VAR_CHAT_INPUT_CHAR_COUNTER,controlNull];
+			private _display = ctrlParent _ctrlEdit;
+			private _displayOverlay = uiNamespace getVariable [QUOTE(VAR_CHAT_OVERLAY_DISPLAY),displayNull];
+			private _ctrlCharCount = _displayOverlay getVariable ["ctrlCharCount",controlNull];
 			if (!isNull _ctrlCharCount) then {
-				[_ctrlEdit,_ctrlCharCount] call (_ctrlCharCount getVariable ["update",{}]);
+				(_displayOverlay getVariable ["tasks",[]]) pushBack [
+					[_ctrlEdit,_ctrlCharCount],{
+						// Added to as a task to delay execution by at least a frame as the modification to text input doesn't occur until after keyDown
+						params ["_ctrlEdit","_ctrlCharCount"];
+						private _charCount = count ctrlText _ctrlEdit;
+						_ctrlCharCount ctrlSetText format[localize "STR_CAU_xChat_chat_character_count",_charCount];
+						_ctrlCharCount ctrlSetTextColor [
+							linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#0,true],
+							linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#1,true],
+							linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#2,true],
+							1
+						];
+						_ctrlCharCount ctrlSetPositionW ctrlTextWidth _ctrlCharCount;
+						_ctrlCharCount ctrlCommit 0;
+					}
+				];
 			};
-		}];
-
-		// add keydown event to open the history viewer
-		// _ctrlEdit does not register PgUp/PgDn key presses
-		_display displayAddEventHandler ["KeyDown",{
-			params ["_display","_key"];
-			if (_key in [DIK_PGUP,DIK_PGDN]) then {
-				["init",_display] call FUNC(historyUI);
-			};
-		}];
+		};
+		_ctrlEdit ctrlAddEventHandler ["KeyDown",_eventCharCountUpdate];
+		_ctrlCharCount setVariable ["update",_eventCharCountUpdate];
 	};
 };
 
@@ -201,11 +213,7 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	{
 		private _channel = getPlayerChannel _x;
 		if (_channel != -1) then {
-			private _colour = if (_channel < 6) then {
-				["ChannelColour",_channel] call FUNC(commonTask);
-			} else {
-				["get",[_channel - 5,0]] call FUNC(radioChannelCustom);
-			};
+			private _colour = ["ChannelColour",_channel] call FUNC(commonTask);
 
 			_speakers pushBack format[
 				"<t color='%1'>%2</t>",

@@ -29,19 +29,30 @@ Return:
 #define DIALOG_W ((safezoneW/GRID_W) - 10)
 #define DIALOG_H ((safezoneH/GRID_H) - 10)
 
-#define IDC_CB_SYSTEM 		1
-#define IDC_CB_GLOBAL 		2
-#define IDC_CB_SIDE 		3
-#define IDC_CB_COMMAND 		4
-#define IDC_CB_GROUP 		5
-#define IDC_CB_VEHICLE 		6
-#define IDC_CB_DIRECT 		7
-#define IDC_CB_CUSTOM 		8
-#define IDC_EDIT_SEARCH 	9
-#define IDC_GROUP_MESSAGES 	10
-#define IDC_STATIC_RELOAD 	11
-#define IDC_BUTTON_RELOAD 	12
-#define IDC_IMAGE_SPINNER 	13
+#define IDC_STATIC_FILTER   1
+#define IDC_FRAME_FILTER    2
+#define IDC_CB_SYSTEM       3
+#define IDC_CB_GLOBAL       4
+#define IDC_CB_SIDE         5
+#define IDC_CB_COMMAND      6
+#define IDC_CB_GROUP        7
+#define IDC_CB_VEHICLE      8
+#define IDC_CB_DIRECT       9
+#define IDC_CB_CUSTOM_1     10
+#define IDC_CB_CUSTOM_2     11
+#define IDC_CB_CUSTOM_3     12
+#define IDC_CB_CUSTOM_4     13
+#define IDC_CB_CUSTOM_5     14
+#define IDC_CB_CUSTOM_6     15
+#define IDC_CB_CUSTOM_7     16
+#define IDC_CB_CUSTOM_8     17
+#define IDC_CB_CUSTOM_9     18
+#define IDC_CB_CUSTOM_10    19
+#define IDC_EDIT_SEARCH     20
+#define IDC_GROUP_MESSAGES  21
+#define IDC_STATIC_RELOAD   22
+#define IDC_BUTTON_RELOAD   23
+#define IDC_IMAGE_SPINNER   24
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -112,11 +123,11 @@ switch _mode do {
 
 		// ~~ Filter Panel
 			[
-				"ctrlStaticBackground",-1,[
+				"ctrlStaticBackground",IDC_STATIC_FILTER,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
 					PXW(50),
-					PXH(SIZE_M) + PXH((SIZE_M*10.5))
+					PXH(SIZE_M) + PXH(SIZE_M) + PXH(5) + PXH((SIZE_M*7))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
@@ -135,17 +146,17 @@ switch _mode do {
 				}
 			],
 			[
-				"ctrlStaticFrame",-1,[
+				"ctrlStaticFrame",IDC_FRAME_FILTER,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
 					PXW(50),
-					PXH(SIZE_M) + PXH((SIZE_M*10.5))
+					PXH(SIZE_M) + PXH(SIZE_M) + PXH(5) + PXH((SIZE_M*7))
 				]
 			],
 			[
 				"ctrlCheckbox",IDC_CB_SYSTEM,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -159,23 +170,45 @@ switch _mode do {
 				}
 			],
 			[
+				"ctrlEdit",IDC_EDIT_SEARCH,[
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4),
+					PXW(50) - PXW(SIZE_M) - PXW(4),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlAddEventHandler ["KeyDown",{["EditSearchModified",_this] call THIS_FUNC}];
+				}
+			],
+			[
+				"ctrlButtonSearch",-1,[
+					PXCX(DIALOG_W) + PXW(4)	 + PXW(50) - PXW(SIZE_M) - PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlAddEventHandler ["ButtonClick",{["ButtonSearchClicked"] call THIS_FUNC}];
+				}
+			],
+			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
 					private _channel = -1;
 					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
-					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
+					_ctrl ctrlSetTextColor (["ChannelColour",[_channel,false]] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
 			],
 			[
 				"ctrlCheckbox",IDC_CB_GLOBAL,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH(SIZE_M),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -190,7 +223,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH(SIZE_M),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -204,7 +237,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_SIDE,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*2)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*2)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -216,7 +249,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*2)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*2)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -230,7 +263,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_COMMAND,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*3)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*3)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -242,7 +275,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*3)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*3)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -256,7 +289,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_GROUP,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*4)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*4)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -268,7 +301,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*4)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*4)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -282,7 +315,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_VEHICLE,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*5)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*5)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -294,7 +327,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*5)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*5)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -308,7 +341,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_DIRECT,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*6)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*6)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -320,7 +353,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*6)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*6)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -331,61 +364,11 @@ switch _mode do {
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
 			],
-			[
-				"ctrlCheckbox",IDC_CB_CUSTOM,[
-					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*7)),
-					PXW(SIZE_M),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings));
-					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
-				}
-			],
-			[
-				"ctrlStructuredText",-1,[
-					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*7)),
-					PXW(50) - PXW(SIZE_M),
-					PXH(SIZE_M)
-				],
-				{
-					private _channel = 6;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
-					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
-					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
-				}
-			],
-			[// ctrlEdit crashes game when used with ctrlCreate
-				"RscEdit",IDC_EDIT_SEARCH,[
-					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*8.5)),
-					PXW(50) - PXW(SIZE_M) - PXW(4),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetFont FONT_NORMAL;
-					_ctrl ctrlSetFontHeight PXH(4.32);
-					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
-					_ctrl ctrlAddEventHandler ["KeyDown",{["EditSearchModified",_this] call THIS_FUNC}];
-				}
-			],
-			[
-				"ctrlButtonSearch",-1,[
-					PXCX(DIALOG_W) + PXW(4)	 + PXW(50) - PXW(SIZE_M) - PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(4) + PXH((SIZE_M*8.5)),
-					PXW(SIZE_M),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlAddEventHandler ["ButtonClick",{["ButtonSearchClicked"] call THIS_FUNC}];
-				}
-			],
 			[// Can't colour ctrlButton so doing this as alternative
+			// TODO: remove when issue is fixed (2.01+)
 				"ctrlStatic",IDC_STATIC_RELOAD,[
 					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(3) + PXH((SIZE_M*10.5)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(5.5) + PXH((SIZE_M*8.5)),
 					PXW(50),
 					PXH(SIZE_M)
 				],
@@ -397,7 +380,7 @@ switch _mode do {
 			[// Clear button with hover highlight
 				"ctrlButtonFilter",IDC_BUTTON_RELOAD,[
 					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH((SIZE_M*2)) + PXH(3) + PXH((SIZE_M*10.5)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(5.5) + PXH((SIZE_M*8.5)),
 					PXW(50),
 					PXH(SIZE_M)
 				],
@@ -455,6 +438,69 @@ switch _mode do {
 			]
 		];
 
+		// Create custom channel checkboxes
+		private _customChannelIDCs = [
+			IDC_CB_CUSTOM_1,
+			IDC_CB_CUSTOM_2,
+			IDC_CB_CUSTOM_3,
+			IDC_CB_CUSTOM_4,
+			IDC_CB_CUSTOM_5,
+			IDC_CB_CUSTOM_6,
+			IDC_CB_CUSTOM_7,
+			IDC_CB_CUSTOM_8,
+			IDC_CB_CUSTOM_9,
+			IDC_CB_CUSTOM_10
+		];
+
+		USE_CTRL(_ctrlCBDirect,IDC_CB_DIRECT);
+		private _ctrlLabelDirect = allControls _display param [(allControls _display find _ctrlCBDirect) + 1,controlNull];
+		private _ctrlPosCB = ctrlPosition _ctrlCBDirect;
+		private _ctrlPosLabel = ctrlPosition _ctrlLabelDirect;
+
+		private _customChannels = 0;
+		for "_i" from 0 to 9 do {
+			private _inChannnel = player in (["get",[_i + 1,3]] call FUNC(radioChannelCustom));
+
+			if _inChannnel then {
+				_customChannels = _customChannels + 1;
+
+				_ctrlPosCB set [1,_ctrlPosCB#1 + PXH(SIZE_M)];
+				_ctrlPosLabel set [1,_ctrlPosCB#1];
+
+				private _ctrlCB = _display ctrlCreate ["ctrlCheckbox",_customChannelIDCs#_i];
+				_ctrlCB ctrlSetPosition _ctrlPosCB;
+				_ctrlCB cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings));
+				_ctrlCB ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
+				_ctrlCB ctrlCommit 0;
+
+				private _channelID = _i + 6;
+				private _ctrlLabel = _display ctrlCreate ["ctrlStructuredText",_customChannelIDCs#_i];
+				_ctrlLabel ctrlSetPosition _ctrlPosLabel;
+				_ctrlLabel ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channelID] call FUNC(commonTask))];
+				_ctrlLabel ctrlSetTextColor (["ChannelColour",_channelID] call FUNC(commonTask));
+				_ctrlLabel ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channelID,QUOTE(THIS_FUNC)]];
+				_ctrlLabel ctrlCommit 0;
+			};
+		};
+
+		USE_CTRL(_ctrlFilterBG,IDC_STATIC_FILTER);
+		USE_CTRL(_ctrlFilterFrame,IDC_FRAME_FILTER);
+		USE_CTRL(_ctrlNewMessageStatic,IDC_STATIC_RELOAD);
+		USE_CTRL(_ctrlNewMessageButton,IDC_BUTTON_RELOAD);
+
+		private _ctrlPosAdd = PXH((SIZE_M*_customChannels));
+
+		{
+			_x ctrlSetPositionH (ctrlPosition _x#3 + _ctrlPosAdd);
+			_x ctrlCommit 0;
+		} foreach [_ctrlFilterBG,_ctrlFilterFrame];
+
+		{
+			_x ctrlSetPositionY (ctrlPosition _x#1 + _ctrlPosAdd);
+			_x ctrlCommit 0;
+		} foreach [_ctrlNewMessageStatic,_ctrlNewMessageButton];
+
+
 		["PopulateList"] spawn THIS_FUNC;
 	};
 
@@ -476,42 +522,40 @@ switch _mode do {
 		_ctrlNewMessageButton setVariable ["newMessages",_newMessages];
 
 		_ctrlNewMessageButton ctrlSetText format[
-			"New Message%1 (%2)",
-			["s",""] select (_newMessages == 1),
-			_newMessages
+			"%1 New Message%2",
+			_newMessages,
+			["s",""] select (_newMessages == 1)
 		];
 		_ctrlNewMessageStatic ctrlShow true;
 		_ctrlNewMessageButton ctrlShow true;
 	};
 	case "CBLabelClicked":{
-		private _idc = switch _params do {
-			case 0:{IDC_CB_GLOBAL};
-			case 1:{IDC_CB_SIDE};
-			case 2:{IDC_CB_COMMAND};
-			case 3:{IDC_CB_GROUP};
-			case 4:{IDC_CB_VEHICLE};
-			case 5:{IDC_CB_DIRECT};
-			case 6:{IDC_CB_CUSTOM};
-			default {IDC_CB_SYSTEM};
-		};
+		private _idcs = [
+			IDC_CB_GLOBAL,
+			IDC_CB_SIDE,
+			IDC_CB_COMMAND,
+			IDC_CB_GROUP,
+			IDC_CB_VEHICLE,
+			IDC_CB_DIRECT,
+			IDC_CB_CUSTOM_1,
+			IDC_CB_CUSTOM_2,
+			IDC_CB_CUSTOM_3,
+			IDC_CB_CUSTOM_4,
+			IDC_CB_CUSTOM_5,
+			IDC_CB_CUSTOM_6,
+			IDC_CB_CUSTOM_7,
+			IDC_CB_CUSTOM_8,
+			IDC_CB_CUSTOM_9,
+			IDC_CB_CUSTOM_10,
+			IDC_CB_SYSTEM
+		];
+		private _idc = _idcs param [_params,IDC_CB_SYSTEM];
 
 		disableSerialization;
 		USE_DISPLAY(THIS_DISPLAY);
 
-		private _toggleMode = [
-			{ctrlIDC _this == _idc},
-			{ctrlIDC _this != _idc}
-		] select (cbChecked(_display displayCtrl _idc));
-		{_x cbSetChecked (_x call _toggleMode)} count [
-			_display displayCtrl IDC_CB_SYSTEM,
-			_display displayCtrl IDC_CB_GLOBAL,
-			_display displayCtrl IDC_CB_SIDE,
-			_display displayCtrl IDC_CB_COMMAND,
-			_display displayCtrl IDC_CB_GROUP,
-			_display displayCtrl IDC_CB_VEHICLE,
-			_display displayCtrl IDC_CB_DIRECT,
-			_display displayCtrl IDC_CB_CUSTOM
-		];
+		private _toggleMode = [{_x == _idc},{_x != _idc}] select cbChecked(_display displayCtrl _idc);
+		{(_display displayCtrl _x) cbSetChecked (call _toggleMode)} count _idcs;
 
 		["PopulateList"] spawn THIS_FUNC;
 	};
@@ -546,7 +590,16 @@ switch _mode do {
 		USE_CTRL(_ctrlCBGroup,IDC_CB_GROUP);
 		USE_CTRL(_ctrlCBVehicle,IDC_CB_VEHICLE);
 		USE_CTRL(_ctrlCBDirect,IDC_CB_DIRECT);
-		USE_CTRL(_ctrlCBCustom,IDC_CB_CUSTOM);
+		USE_CTRL(_ctrlCBCustom1,IDC_CB_CUSTOM_1);
+		USE_CTRL(_ctrlCBCustom2,IDC_CB_CUSTOM_2);
+		USE_CTRL(_ctrlCBCustom3,IDC_CB_CUSTOM_3);
+		USE_CTRL(_ctrlCBCustom4,IDC_CB_CUSTOM_4);
+		USE_CTRL(_ctrlCBCustom5,IDC_CB_CUSTOM_5);
+		USE_CTRL(_ctrlCBCustom6,IDC_CB_CUSTOM_6);
+		USE_CTRL(_ctrlCBCustom7,IDC_CB_CUSTOM_7);
+		USE_CTRL(_ctrlCBCustom8,IDC_CB_CUSTOM_8);
+		USE_CTRL(_ctrlCBCustom9,IDC_CB_CUSTOM_9);
+		USE_CTRL(_ctrlCBCustom10,IDC_CB_CUSTOM_10);
 		USE_CTRL(_ctrlEditSearch,IDC_EDIT_SEARCH);
 		USE_CTRL(_ctrlGroupMessages,IDC_GROUP_MESSAGES);
 		USE_CTRL(_ctrlNewMessageStatic,IDC_STATIC_RELOAD);
@@ -560,14 +613,25 @@ switch _mode do {
 		_ctrlNewMessageButton ctrlShow false;
 		_ctrlNewMessageButton setVariable ["newMessages",0];
 
-		private _showSystem = cbChecked _ctrlCBSystem;
-		private _showGlobal = cbChecked _ctrlCBGlobal;
-		private _showSide = cbChecked _ctrlCBSide;
-		private _showCommand = cbChecked _ctrlCBCommand;
-		private _showGroup = cbChecked _ctrlCBGroup;
-		private _showVehicle = cbChecked _ctrlCBVehicle;
-		private _showDirect = cbChecked _ctrlCBDirect;
-		private _showCustom = cbChecked _ctrlCBCustom;
+		private _shownSystemChannel = cbChecked _ctrlCBSystem;
+		private _shownChatChannels = [
+			cbChecked _ctrlCBGlobal,
+			cbChecked _ctrlCBSide,
+			cbChecked _ctrlCBCommand,
+			cbChecked _ctrlCBGroup,
+			cbChecked _ctrlCBVehicle,
+			cbChecked _ctrlCBDirect,
+			!isNull _ctrlCBCustom1 && {cbChecked _ctrlCBCustom1},
+			!isNull _ctrlCBCustom2 && {cbChecked _ctrlCBCustom2},
+			!isNull _ctrlCBCustom3 && {cbChecked _ctrlCBCustom3},
+			!isNull _ctrlCBCustom4 && {cbChecked _ctrlCBCustom4},
+			!isNull _ctrlCBCustom5 && {cbChecked _ctrlCBCustom5},
+			!isNull _ctrlCBCustom6 && {cbChecked _ctrlCBCustom6},
+			!isNull _ctrlCBCustom7 && {cbChecked _ctrlCBCustom7},
+			!isNull _ctrlCBCustom8 && {cbChecked _ctrlCBCustom8},
+			!isNull _ctrlCBCustom9 && {cbChecked _ctrlCBCustom9},
+			!isNull _ctrlCBCustom10 && {cbChecked _ctrlCBCustom10}
+		];
 
 		private _searchTerm = ctrlText _ctrlEditSearch;
 		private _doSearchStrings = _searchTerm != "";
@@ -577,6 +641,19 @@ switch _mode do {
 			private _hours = floor(_elapsed / 3600);
 			private _minutes = floor((_elapsed / 60) % 60);
 			format[localize "STR_CAU_xChat_history_time_past",_hours,_minutes];
+		};
+		private _formatDate = {
+			params ["_year","_month","_day","_hour","_minute"];
+
+			private _meridiem = ["AM","PM"] select (_hour >= 12);
+			_hour = if (_hour == 0) then {12} else {if (_hour > 12) then {_hour - 12} else {_hour}};
+			if (_minute < 10) then {_minute = "0" + str _minute};
+
+			format [
+				"%1 %2, %3, %4:%5 %6",
+				localize format["str_3den_attributes_date_month%1_text",_month],
+				_day,_year,_hour,_minute,_meridiem
+			];
 		};
 
 		private _oldMessageCtrls = _ctrlGroupMessages getVariable ["controls",[]];
@@ -592,37 +669,27 @@ switch _mode do {
 				terminate _thisScript;
 			};
 
-			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_channelColour","_channelName","_received"];
+			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_receivedTickGame","_receivedDateSys","_sentenceType","_mentionBGColor"];
 
-			private _canSeeChannel = switch _channel do {
-				case 0:{_showGlobal};
-				case 1:{_showSide};
-				case 2:{_showCommand};
-				case 3:{_showGroup};
-				case 4:{_showVehicle};
-				case 5:{_showDirect};
-				case 6;case 7;case 8;case 9;case 10;case 11;case 12;case 13;case 14;
-				case 15:{_showCustom};
-				default {_showSystem};
-			};
+			private _canSeeChannel = _shownChatChannels param [_channel,_shownSystemChannel];
 			private _containsSearchTerm = if _doSearchStrings then {
-				[_searchTerm,_text] call BIS_fnc_inString || {
-					[_searchTerm,_senderName] call BIS_fnc_inString || {
+				tolower _searchTerm in toLower _text || {
+					tolower _searchTerm in toLower _senderName || {
 						_searchTerm == _senderUID
 					}
 				}
 			} else {true};
 
 			if (_canSeeChannel && _containsSearchTerm) then {
-				_channelName = if (_channelName != "") then {_channelName} else {
-					["ChannelName",_channel] call FUNC(commonTask);
-				};
-				private _channelColour = if (count _channelColour == 4) then {_channelColour} else {
-					["ChannelColour",_channel] call FUNC(commonTask);
-				};
+				private _channelName = ["ChannelName",_channel] call FUNC(commonTask);;
+				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);;
 				_senderName = ["StreamSafeName",[_senderUID,_senderName]] call FUNC(commonTask);
 
-				private _ctrlMessageContainer = ["CreateMessageCard",[_ctrlGroupMessages,_channelName,_channelColour,_received call _getTimePast,_senderName,_text]] call THIS_FUNC;
+				private _ctrlMessageContainer = ["CreateMessageCard",[
+					_ctrlGroupMessages,_channel,_channelName,_channelColour,
+					_receivedTickGame call _getTimePast,_receivedDateSys call _formatDate,
+					_senderName,_text,_sentenceType,_mentionBGColor
+				]] call THIS_FUNC;
 
 				private _ctrlMessageContainerPos = ctrlPosition _ctrlMessageContainer;
 				_ctrlMessageContainerPos set [1,_y];
@@ -649,7 +716,7 @@ switch _mode do {
 	};
 
 	case "CreateMessageCard":{
-		_params params ["_ctrlGroupMessages","_channelName","_channelColour","_received","_senderName","_text"];
+		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_receivedTickGame","_receivedDateSys","_senderName","_text","_sentenceType","_mentionBGColor"];
 
 		disableSerialization;
 		USE_DISPLAY(THIS_DISPLAY);
@@ -658,18 +725,29 @@ switch _mode do {
 		private _ctrlMessageContainer = _display ctrlCreate ["ctrlControlsGroupNoScrollbars",-1,_ctrlGroupMessages];
 		private _ctrlMessageContainerPos = [PXW(2),_ctrlGroupMessagesPos#3,_ctrlGroupMessagesPos#2 - PXW(4),0];
 
-		private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",2,_ctrlMessageContainer];
+		private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
 		_ctrlMessageBackground ctrlSetBackgroundColor [0,0,0,0.2];
 		private _ctrlMessageBackgroundPos = [0,0,_ctrlGroupMessagesPos#2 - PXW(4),0];
 
-		private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",3,_ctrlMessageContainer];
+		private _ctrlMessageMentionBackground = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
+		_ctrlMessageMentionBackground ctrlSetBackgroundColor _mentionBGColor;
+
+		private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
 		_ctrlMessageStripe ctrlSetBackgroundColor _channelColour;
 		private _ctrlMessageStripePos = [0,0,PXW(0.5),0];
 
-		private _ctrlMessageText = _display ctrlCreate ["ctrlStructuredText",4,_ctrlMessageContainer];
+		private _ctrlMessageText = _display ctrlCreate ["ctrlStructuredText",-1,_ctrlMessageContainer];
 		private _ctrlMessageTextPos = [PXW(0.5),PXH(1),_ctrlMessageContainerPos#2 - PXW(0.5),0];
 		_ctrlMessageText ctrlSetPosition _ctrlMessageTextPos;
 		_ctrlMessageText ctrlCommit 0;
+
+		if (_channel < 0 || _channel > 15) then {
+			_channelColour = ["ChannelColour",[_channelColour,false]] call FUNC(commonTask);
+		};
+
+		if (_sentenceType == 0) then {
+			_text = "<t color='#FFFFFF'>" + str _text + "</t>";
+		};
 
 		_finalText = [];
 		if (_senderName != "") then {
@@ -691,7 +769,11 @@ switch _mode do {
 			"<t font='%2'>%1</t> %3",
 			localize "STR_CAU_xChat_history_received",
 			FONT_BOLD,
-			_received
+			format[
+				["%1 (%2)","%2"] select isStreamFriendlyUIEnabled,
+				_receivedDateSys,
+				_receivedTickGame
+			]
 		];
 		_finalText pushback format[
 			"<t font='%2'>%1</t><br/><t color='#A6A6A6'>%3</t>",
@@ -702,9 +784,9 @@ switch _mode do {
 
 		_finalText = "<t size='1.15741'>"+(_finalText joinString "<br/>")+"</t>";
 		_ctrlMessageText ctrlSetStructuredText parseText _finalText;
-		private _containsImg = ["<img ",_text] call BIS_fnc_inString;
+		private _containsImg = "<img " in _text;
 
-		private _height = ctrlTextHeight _ctrlMessageText + ([0,PXH(0.4)] select _containsImg);
+		private _height = ctrlTextHeight _ctrlMessageText + (if _containsImg then {PXH(0.4)} else {0});
 		_ctrlMessageContainerPos set [3,_height + PXH(2)];
 		_ctrlMessageBackgroundPos set [3,_ctrlMessageContainerPos#3];
 		_ctrlMessageStripePos set [3,_ctrlMessageContainerPos#3];
@@ -712,12 +794,14 @@ switch _mode do {
 
 		_ctrlMessageContainer ctrlSetPosition _ctrlMessageContainerPos;
 		_ctrlMessageBackground ctrlSetPosition _ctrlMessageBackgroundPos;
+		_ctrlMessageMentionBackground ctrlSetPosition _ctrlMessageBackgroundPos;
 		_ctrlMessageStripe ctrlSetPosition _ctrlMessageStripePos;
 		_ctrlMessageText ctrlSetPosition _ctrlMessageTextPos;
 
 		{_x ctrlCommit 0;} count [
 			_ctrlMessageContainer,
 			_ctrlMessageBackground,
+			_ctrlMessageMentionBackground,
 			_ctrlMessageStripe,
 			_ctrlMessageText
 		];

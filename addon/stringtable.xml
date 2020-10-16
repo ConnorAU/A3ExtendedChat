@@ -6,6 +6,10 @@
 				<Original>Custom channel</Original>
 				<English>Custom channel</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_channels_custom">
+				<Original>Custom channels</Original>
+				<English>Custom channels</English>
+			</Key>
 			<Key ID="STR_CAU_xChat_channel_command">
 				<Original>Command Logs</Original>
 				<English>Command Logs</English>
@@ -85,8 +89,8 @@
 				<English>Save Changes</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_saved_alert">
-				<Original>Settings updated</Original>
-				<English>Settings updated</English>
+				<Original>settings updated</Original>
+				<English>settings updated</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_pending_changes">
 				<Original>Do you wish to discard your unsaved changes?</Original>
@@ -101,8 +105,8 @@
 				<English>Are you sure you want to revert your settings to the default values?&lt;br/&gt;This action is irreversible.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_reset_alert">
-				<Original>Settings reverted to default values</Original>
-				<English>Settings reverted to default values</English>
+				<Original>settings reverted to default values</Original>
+				<English>settings reverted to default values</English>
 			</Key>
 
 			<!-- Configuration Panel -->
@@ -171,20 +175,48 @@
 				<English>The font size used on text in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_color_label">
-				<Original>Message feed text color</Original>
-				<English>Message feed text color</English>
+				<Original>Message text color</Original>
+				<English>Message text color</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_text_color_desc">
 				<Original>The font color used on text in the message feed.</Original>
 				<English>The font color used on text in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_label">
-				<Original>Message feed background color</Original>
-				<English>Message feed background color</English>
+				<Original>Message background color</Original>
+				<English>Message background color</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_desc">
 				<Original>The background color of messages in the message feed.</Original>
 				<English>The background color of messages in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_mention_color_label">
+				<Original>Mention text color</Original>
+				<English>Mention text color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_text_mention_color_desc">
+				<Original>The font color used on mentions in the message feed.</Original>
+				<English>The font color used on mentions in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_feed_mention_bg_color_label">
+				<Original>Mention background color</Original>
+				<English>Mention background color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_feed_mention_bg_color_desc">
+				<Original>The background color of messages in the message feed when you are mentioned.</Original>
+				<English>The background color of messages in the message feed when you are mentioned.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_autocomplete_keybind_label">
+				<Original>Autocomplete keybind: %1</Original>
+				<English>Autocomplete keybind: %1</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_autocomplete_keybind_desc">
+				<Original>Press this key to autocomplete the first item in the suggestion list.</Original>
+				<English>Press this key to autocomplete the first item in the suggestion list.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_autocomplete_keybind_edit_tooltip">
+				<Original>Press any key to set it as your new autocomplete keybind.</Original>
+				<English>Press any key to set it as your new autocomplete keybind.</English>
 			</Key>
 
 			<!-- Filters Panel -->
@@ -208,21 +240,21 @@
 				<Original>Show player disconnected logs in the message feed.</Original>
 				<English>Show player disconnected logs in the message feed.</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_battleye_kick_log_label">
+				<Original>BattlEye kick/ban logs</Original>
+				<English>BattlEye kick/ban logs</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_battleye_kick_log_desc">
+				<Original>Show BattlEye kick and ban logs in the message feed.</Original>
+				<English>Show BattlEye kick and ban logs in the message feed.</English>
+			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_label">
-				<Original>Kill logs</Original>
-				<English>Kill logs</English>
+				<Original>Death message logs</Original>
+				<English>Death message logs</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_kill_log_desc">
-				<Original>Show kill logs in the message feed.</Original>
-				<English>Show kill logs in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_filter_unsupported_mission_log_label">
-				<Original>Unsupported mission logs</Original>
-				<English>Unsupported mission logs</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_filter_unsupported_mission_log_desc">
-				<Original>Show warning logs when playing a mission that does not fully support Extended Chat.</Original>
-				<English>Show warning logs when playing a mission that does not fully support Extended Chat.</English>
+				<Original>Show death message logs in the message feed.</Original>
+				<English>Show death message logs in the message feed.</English>
 			</Key>
 			<Key ID="STR_CAU_xChat_settings_filter_channel_desc">
 				<Original>Show %1 messages in the message feed</Original>

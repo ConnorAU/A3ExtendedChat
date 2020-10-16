@@ -55,18 +55,13 @@ switch _mode do {
 			["_name","",[""]],
 			["_pid","",[""]]
 		];
-		if (_channelID < -2 || _channelID > 15) exitWith {};
 		if !(missionNameSpace getVariable [VAL_ENABLE_LOG_VAR(_channelID),true]) exitWith {};
+		if (_text == "") exitWith {};
 
-		private _channel = if (_channelID < 6) then {
-			["ChannelName",_channelID] call FUNC(commonTask);
-		} else {
-			["get",[_channelID - 5,1]] call FUNC(radioChannelCustom);
-		};
-		private _log = if (_channelID == -1) then {
-			// system channel, no message author
-			_text
-		} else {
+		private _channel = ["ChannelName",_channelID] call FUNC(commonTask);
+
+		_text = (["ParseMentions",_text] call FUNC(commonTask))#0;
+		private _log = if (_channelID < 0 || _channelID > 15) then {_text} else {
 			format[
 				(["(%3) ",""] select (_pid == "")) + "%1: %2",
 				_name,_text,_pid
@@ -86,14 +81,11 @@ switch _mode do {
 		];
 
 		// dont log channels like system as it cant be spoken into
-		if (_channelID < 0 || _channelID > 15) exitWith {};
 		if !(missionNameSpace getVariable [VAL_ENABLE_LOG_VAR(_channelID),true]) exitWith {};
 
-		private _channel = if (_channelID < 6) then {
-			["ChannelName",_channelID] call FUNC(commonTask);
-		} else {
-			["get",[_channelID - 5,1]] call FUNC(radioChannelCustom);
-		};
+		private _channel = ["ChannelName",_channelID] call FUNC(commonTask);
+		if (_channel == "") exitWith {};
+
 		private _log = format[
 			"(%1) %2 %4 speaking in %3",
 			_pid,_name,_channel,

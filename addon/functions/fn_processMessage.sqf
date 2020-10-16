@@ -40,25 +40,31 @@ if (_command == "") exitWith {};
 private _pid = getPlayerUID player;
 
 private _commandPrefix = ["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings);
-if ([_text,_commandPrefix] call FUNC(stringPrefix)) exitWith {
+private _commandPrefixFound = ["stringPrefix",[_text,_commandPrefix]] call FUNC(commonTask);
+private _vanillaPrefixFound = _text find "#" == 0;
+if (_commandPrefixFound || _vanillaPrefixFound) exitWith {
 	if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
 		["text",[-2,_text,UNIT_NAME(player),_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
 	};
 
-	[_text] call FUNC(processCommand);
-	_ctrl ctrlSetText "";
+	// Attempt to execute command
+	if _commandPrefixFound then {
+		[_text] call FUNC(processCommand);
+	};
+	// Systemchat command if it does not use the vanilla prefix so wasn't processed above
+	if (_vanillaPrefixFound && !_commandPrefixFound) then {
+		private _index = _text find " ";
+		if (_index != -1) then {_text = _text select [0,_index]};
+		systemChat _text;
+	};
+	// Wipe chat if the vanilla prefix isnt found. Vanilla prefix doesn't broadcast anyway
+	if !_vanillaPrefixFound then {
+		_ctrl ctrlSetText "";
+	};
 };
 
-// send log from here so it contains original unstructured text
-if (missionNameSpace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]) then {
-	private _name = ["ClientNamePrefix",[player,_currentChannel]] call FUNC(commonTask);
-	["text",[_currentChannel,_text,_name,_pid]] remoteExecCall [QUOTE(FUNC(log)),2];
-};
+// strip emojis from text if condition is not met
+_text = ["formatCondition",_text] call FUNC(emoji);
 
-// replace bad characters and format emojis
-private _textSafe = ["SafeStructuredText",_text] call FUNC(commonTask);
-_textSafe = ["formatCondition",_textSafe] call FUNC(emoji);
-
-[_command,[_textSafe,player,_currentChannel]] remoteExecCall [QUOTE(FUNC(sendMessage))];
-
-missionNamespace setVariable [QUOTE(VAR_MESSAGE_SENT_COOLDOWN),diag_tickTime + 0.1];
+// Set modified text to control
+_ctrl ctrlSetText _text;
