@@ -1,5 +1,16 @@
 # A3ExtendedChat
-Adds new functionality to the Arma 3 chat system with emojis, mentions, history viewer, message filters and commands!
+Plug-and-play addon that adds new functionality to the Arma 3 chat system.
+
+## Main features
+- Emojis
+- Player mentions
+- Custom chat commands
+- Suggestive text (provides suggestions for the above features while you type)
+- Message history viewer
+- Message filters
+- Message font, size and color customization
+- MP and SP compatible
+- and more!
 
 # Dependency 
 - [UserInputMenus](https://github.com/ConnorAU/A3UserInputMenus)
