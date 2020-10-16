@@ -135,15 +135,15 @@ if isServer then {
 
 			if _match exitWith {
 				private _localCondition = switch _forEachIndex do {
-					case 0:{getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isEqualTo 1};
-					case 1:{getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isEqualTo 1};
+					case 1:{getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isEqualTo 1};
+					case 2:{getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isEqualTo 1};
 					default {true};
 				};
 
 				if _localCondition then {
 					private _remoteSettingIndex = switch _forEachIndex do {
-						case 0:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
-						case 1:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
+						case 1:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
+						case 2:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
 						default {-1};
 					};
 
