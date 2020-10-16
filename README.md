@@ -16,7 +16,7 @@ Plug-and-play addon that adds new functionality to the Arma 3 chat system.
 - [UserInputMenus](https://github.com/ConnorAU/A3UserInputMenus)
 
 # Links
-- [Video demo](https://youtu.be/RBhJ8USHqOk)
+- [Video demo](https://youtu.be/qsfWdLtbbnI)
 - [Developer wiki](https://github.com/ConnorAU/A3ExtendedChat/wiki)
 - [Steam workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=1667280668)
 - [Github releases](https://github.com/ConnorAU/A3ExtendedChat/releases)
