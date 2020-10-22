@@ -144,7 +144,7 @@ if isServer then {
 					private _remoteSettingIndex = switch _forEachIndex do {
 						case 1:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
 						case 2:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
-						case 10:{VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK};
+						case 11:{VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK};
 						default {-1};
 					};
 
@@ -164,6 +164,7 @@ if isServer then {
 			localize "str_mp_kicked",
 			localize "str_mp_kicked" + ": %s",
 			localize "str_signature_wrong",
+			localize "str_signature_missing",
 			localize "str_signature_check_timed_out",
 			localize "str_mp_connection_loosing",
 			"Player %s kicked off by BattlEye: %s"
