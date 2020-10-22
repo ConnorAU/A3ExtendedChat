@@ -170,6 +170,9 @@ switch _mode do {
 		};
 
 		if _resetArray then {
+			diag_log ["_settings",_settings];
+			diag_log ["count _settings",count _settings];
+
 			profileNameSpace setVariable [VAR_SETTINGS,[]];
 
 			_settings = [
