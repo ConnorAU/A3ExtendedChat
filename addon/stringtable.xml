@@ -25,12 +25,6 @@
 				<English>Character count: %1/150</English>
 			</Key>
 		</Container>
-		<Container name="Emoji_UI">
-			<Key ID="STR_CAU_xChat_emoji_title">
-				<Original>Extended Chat Emojis</Original>
-				<English>Extended Chat Emojis</English>
-			</Key>
-		</Container>
 		<Container name="Interrupt_UI">
 			<Key ID="STR_CAU_xChat_interrupt_history">
 				<Original>Extended Chat History</Original>
