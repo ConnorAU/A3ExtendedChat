@@ -1,0 +1,7 @@
+class man-kiss-man {
+	displayName="Man-Kiss-Man";
+	icon="cau\extendedchat\emojipack\twemoji\people_and_body\data\man-kiss-man.paa";
+	keywords[]={"man-kiss-man"};
+	shortcuts[]={};
+	condition="true";
+};
