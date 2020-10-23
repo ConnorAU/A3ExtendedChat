@@ -1,4 +1,4 @@
-class flag-gs {
+class flag_45_gs {
 	displayName="South Georgia & South Sandwich Islands Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-gs.paa";
 	keywords[]={"flag-gs"};

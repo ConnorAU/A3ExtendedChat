@@ -1,5 +1,5 @@
-class man-facepalming {
-	displayName="Man-Facepalming";
+class man_45_facepalming {
+	displayName="Man Facepalming";
 	icon="cau\extendedchat\emojipack\twemoji\people_and_body\data\man-facepalming.paa";
 	keywords[]={"man-facepalming"};
 	shortcuts[]={};

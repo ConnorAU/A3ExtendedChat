@@ -1,5 +1,5 @@
-class man-pouting {
-	displayName="Man-Pouting";
+class man_45_pouting {
+	displayName="Man Pouting";
 	icon="cau\extendedchat\emojipack\twemoji\people_and_body\data\man-pouting.paa";
 	keywords[]={"man-pouting"};
 	shortcuts[]={};

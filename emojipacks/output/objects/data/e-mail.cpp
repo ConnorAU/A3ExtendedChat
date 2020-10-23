@@ -1,4 +1,4 @@
-class e-mail {
+class e_45_mail {
 	displayName="E-Mail Symbol";
 	icon="cau\extendedchat\emojipack\twemoji\objects\data\e-mail.paa";
 	keywords[]={"e-mail"};

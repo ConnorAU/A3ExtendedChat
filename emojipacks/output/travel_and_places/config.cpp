@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\aerial_tramway.cpp"
 	#include "data\airplane.cpp"
 	#include "data\airplane_arriving.cpp"

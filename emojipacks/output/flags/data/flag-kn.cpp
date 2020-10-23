@@ -1,4 +1,4 @@
-class flag-kn {
+class flag_45_kn {
 	displayName="St. Kitts & Nevis Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-kn.paa";
 	keywords[]={"flag-kn"};

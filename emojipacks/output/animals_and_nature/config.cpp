@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\ant.cpp"
 	#include "data\baby_chick.cpp"
 	#include "data\badger.cpp"

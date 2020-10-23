@@ -10,6 +10,9 @@ using Microsoft.SqlServer.Server;
 using Newtonsoft.Json.Linq;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Microsoft.Win32;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace EmojiParsing
 {
@@ -25,6 +28,7 @@ namespace EmojiParsing
 			string infoFilePath = Path.Combine(pathTwitter, "emoji.json");
 			string imageFolderPath = Path.Combine(pathTwitter, @"img\twitter\64");
 			string outputFolderPath = Path.Combine(pathRoot, "output");
+			string ImageToPAA = Registry.GetValue(@"HKEY_CURRENT_USER\SOFTWARE\Bohemia Interactive\ImageToPAA", "tool", "").ToString();
 
 			if (Directory.Exists(outputFolderPath)) Directory.Delete(outputFolderPath,true);
 			Directory.CreateDirectory(outputFolderPath);
@@ -56,7 +60,8 @@ namespace EmojiParsing
 					{
 						string source = Path.Combine(imageFolderPath, e["image"].ToString());
 
-						Console.WriteLine($"{e["image"]} -> {Path.GetFileName(dest)}");
+						Console.WriteLine("");
+						Console.Write($"{e["image"]} -> {Path.GetFileName(dest)}");
 
 						/*
 						 * ImageToPAA requires .png be 32bit color depth
@@ -73,11 +78,20 @@ namespace EmojiParsing
 						encoderParameters.Param[0] = encoderParameter;
 						icon.Save(dest, imageCodecInfo, encoderParameters);
 
+						if (ImageToPAA != "")
+						{
+							Console.Write($" -> {Path.GetFileNameWithoutExtension(dest)}.paa");
+							ProcessStartInfo processStartInfo = new ProcessStartInfo(ImageToPAA, dest);
+							processStartInfo.WindowStyle = ProcessWindowStyle.Hidden;
+;							Process process = Process.Start(processStartInfo);
+							process.WaitForExit();
+						}
+
 						//File.Copy(source, dest);
 
 						string name = textInfo.ToTitleCase(e["name"].ToString().ToLower());
 						if (name == "")
-							name = textInfo.ToTitleCase(e["short_name"].ToString().ToLower().Replace('_',' '));
+							name = textInfo.ToTitleCase(e["short_name"].ToString().ToLower().Replace('_',' ')).Replace('-',' ');
 
 						List<string> keywords = new List<string>();
 						if (e["short_names"] != null)
@@ -89,8 +103,14 @@ namespace EmojiParsing
 							foreach (string s in e["texts"])
 								shortcuts.Add($"\"{s}\"");
 
+						string classSafe = e["short_name"].ToString();
+						if (classSafe.Contains('-'))
+							classSafe = classSafe.Replace("-", $"_{Convert.ToInt32('-')}_");
+						else if (classSafe.Contains('+'))
+							classSafe = classSafe.Replace("+", $"_{Convert.ToInt32('+')}_");
+
 						File.WriteAllLines(Path.Combine(categoryPath, $"data\\{e["short_name"]}.cpp"), new List<string>() {
-							$"class {e["short_name"]} {{",
+							$"class {classSafe} {{",
 							$"{(char)9}displayName=\"{name}\";",
 							$"{(char)9}icon=\"cau\\extendedchat\\emojipack\\twemoji\\{CleanKey(category).ToLower()}\\data\\{e["short_name"]}.paa\";",
 							$"{(char)9}keywords[]={{{string.Join(",", keywords)}}};",
@@ -125,16 +145,12 @@ namespace EmojiParsing
 					$"{(char)9}}};",
 					"};",
 					"",
-					"class CfgEmojis {",
-					string.Join("\n",categories[k]),
+					"class CfgEmoji {",
+					string.Join("\r\n",categories[k]),
 					"};"
 				});
 				File.WriteAllText(Path.Combine(outputFolderPath, $"{kSafe}\\$PBOPREFIX$"), $"cau\\extendedchat\\emojipack\\twemoji\\{kSafe.ToLower()}");
 			}
-
-
-			Console.WriteLine("done");
-			Console.ReadKey();
         }
 
 		private static string CleanKey(string k) => k.Replace(' ', '_').Replace("&", "and");

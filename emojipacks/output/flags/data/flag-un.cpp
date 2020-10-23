@@ -1,4 +1,4 @@
-class flag-un {
+class flag_45_un {
 	displayName="United Nations Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-un.paa";
 	keywords[]={"flag-un"};

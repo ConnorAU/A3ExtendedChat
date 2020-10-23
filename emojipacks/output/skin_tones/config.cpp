@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\skin-tone-2.cpp"
 	#include "data\skin-tone-3.cpp"
 	#include "data\skin-tone-4.cpp"

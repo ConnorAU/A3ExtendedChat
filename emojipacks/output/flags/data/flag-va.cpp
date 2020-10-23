@@ -1,4 +1,4 @@
-class flag-va {
+class flag_45_va {
 	displayName="Vatican City Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-va.paa";
 	keywords[]={"flag-va"};

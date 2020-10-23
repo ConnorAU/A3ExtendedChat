@@ -1,4 +1,4 @@
-class flag-cp {
+class flag_45_cp {
 	displayName="Clipperton Island Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-cp.paa";
 	keywords[]={"flag-cp"};

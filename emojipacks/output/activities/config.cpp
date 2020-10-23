@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\8ball.cpp"
 	#include "data\admission_tickets.cpp"
 	#include "data\art.cpp"

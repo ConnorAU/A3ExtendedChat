@@ -1,4 +1,4 @@
-class flag-io {
+class flag_45_io {
 	displayName="British Indian Ocean Territory Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-io.paa";
 	keywords[]={"flag-io"};

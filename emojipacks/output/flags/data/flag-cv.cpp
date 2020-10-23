@@ -1,4 +1,4 @@
-class flag-cv {
+class flag_45_cv {
 	displayName="Cape Verde Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-cv.paa";
 	keywords[]={"flag-cv"};

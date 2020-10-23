@@ -1,4 +1,4 @@
-class flag-kp {
+class flag_45_kp {
 	displayName="North Korea Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-kp.paa";
 	keywords[]={"flag-kp"};

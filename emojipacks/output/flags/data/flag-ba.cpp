@@ -1,4 +1,4 @@
-class flag-ba {
+class flag_45_ba {
 	displayName="Bosnia & Herzegovina Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-ba.paa";
 	keywords[]={"flag-ba"};

@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\checkered_flag.cpp"
 	#include "data\cn.cpp"
 	#include "data\crossed_flags.cpp"

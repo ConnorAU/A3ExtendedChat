@@ -1,4 +1,4 @@
-class flag-pg {
+class flag_45_pg {
 	displayName="Papua New Guinea Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-pg.paa";
 	keywords[]={"flag-pg"};

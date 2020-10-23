@@ -1,4 +1,4 @@
-class flag-cx {
+class flag_45_cx {
 	displayName="Christmas Island Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-cx.paa";
 	keywords[]={"flag-cx"};

@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\1234.cpp"
 	#include "data\a.cpp"
 	#include "data\ab.cpp"

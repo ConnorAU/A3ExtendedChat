@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\abacus.cpp"
 	#include "data\accordion.cpp"
 	#include "data\adhesive_bandage.cpp"

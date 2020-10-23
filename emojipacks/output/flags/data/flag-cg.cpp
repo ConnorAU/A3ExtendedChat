@@ -1,4 +1,4 @@
-class flag-cg {
+class flag_45_cg {
 	displayName="Congo - Brazzaville Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-cg.paa";
 	keywords[]={"flag-cg"};

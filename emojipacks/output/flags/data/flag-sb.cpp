@@ -1,4 +1,4 @@
-class flag-sb {
+class flag_45_sb {
 	displayName="Solomon Islands Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-sb.paa";
 	keywords[]={"flag-sb"};

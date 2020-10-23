@@ -11,7 +11,7 @@ class CfgPatches {
 	};
 };
 
-class CfgEmojis {
+class CfgEmoji {
 	#include "data\amphora.cpp"
 	#include "data\apple.cpp"
 	#include "data\avocado.cpp"

@@ -1,4 +1,4 @@
-class flag-sj {
+class flag_45_sj {
 	displayName="Svalbard & Jan Mayen Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-sj.paa";
 	keywords[]={"flag-sj"};

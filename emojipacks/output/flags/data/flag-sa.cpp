@@ -1,4 +1,4 @@
-class flag-sa {
+class flag_45_sa {
 	displayName="Saudi Arabia Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-sa.paa";
 	keywords[]={"flag-sa"};

@@ -1,4 +1,4 @@
-class flag-as {
+class flag_45_as {
 	displayName="American Samoa Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-as.paa";
 	keywords[]={"flag-as"};

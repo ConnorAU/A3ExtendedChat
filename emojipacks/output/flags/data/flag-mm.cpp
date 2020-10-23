@@ -1,4 +1,4 @@
-class flag-mm {
+class flag_45_mm {
 	displayName="Myanmar (Burma) Flag";
 	icon="cau\extendedchat\emojipack\twemoji\flags\data\flag-mm.paa";
 	keywords[]={"flag-mm"};
