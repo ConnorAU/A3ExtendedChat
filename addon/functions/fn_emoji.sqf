@@ -51,20 +51,20 @@ switch _mode do {
 	case "getList":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {[]};
 		_params params [["_force",false,[true]]];
-		private _addedKeywords = [];
+		private _addedClasses = [];
 		private _emojis = [];
 		private _condition = ["call compile getText(_x >> 'condition')","true"] select _force;
 		{
-			_x = _x apply {
+			_x = _x select {_addedClasses pushBackUnique configName _x != -1} apply {
 				[
 					getText(_x >> "displayName"),
-					gettext(_x >> "icon"),
-					getText(_x >> "keyword"),
-					gettext(_x >> "shortcut"),
+					getText(_x >> "icon"),
+					getArray(_x >> "keywords"),
+					getArray(_x >> "shortcuts"),
 					_forEachIndex == 0,
 					getText(_x >> "condition")
 				]
-			} select {_addedKeywords pushBackUnique (_x#2) != -1};
+			};
 			_emojis append _x;
 		} forEach [
 			_condition configClasses (missionConfigFile >> "CfgEmoji"),
@@ -76,7 +76,7 @@ switch _mode do {
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {[]};
 		_params params [["_find","",[""]],["_force",false,[true]]];
 		private _condition = format[
-			"getText(_x >> 'keyword') == '%1'%2",
+			"'%1' in getArray(_x >> 'keywords')%2",
 			_find,
 			if _force then {""} else {" && {call compile getText(_x >> 'condition')}"}
 		];
@@ -85,9 +85,9 @@ switch _mode do {
 			if (count _x > 0) exitWith {
 				_emoji = [
 					getText(_x#0 >> "displayName"),
-					gettext(_x#0 >> "icon"),
-					getText(_x#0 >> "keyword"),
-					gettext(_x#0 >> "shortcut"),
+					getText(_x#0 >> "icon"),
+					getArray(_x#0 >> "keywords"),
+					getArray(_x#0 >> "shortcuts"),
 					_forEachIndex == 0,
 					getText(_x#0 >> "condition")
 				];
@@ -107,26 +107,29 @@ switch _mode do {
 	case "formatCondition":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
 		{
-			_x params ["","_icon","_keyword","_shortcut","","_condition"];
+			_x params ["","_icon","_keywords","_shortcuts","","_condition"];
 			if !([] call compile _condition) then {
-				_keyword = ":"+_keyword+":";
-				if (_shortcut != "") then {
-					_params = ["formatLogic",[_params,_shortcut,""]] call THIS_FUNC;
-				};
-				_params = ["formatLogic",[_params,_keyword,""]] call THIS_FUNC;
+				{
+					_params = ["formatLogic",[_params,_x,""]] call THIS_FUNC;
+				} forEach _shortcuts;
+				{
+					_params = ["formatLogic",[_params,":"+_x+":",""]] call THIS_FUNC;
+				} forEach _shortcuts;
 			};
-		} count (["getList",true] call THIS_FUNC);
+		} forEach (["getList",true] call THIS_FUNC);
 		_params
 	};
 	case "formatImages":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
 		{
-			_x params ["","_icon","_keyword","_shortcut"];
-			_keyword = ":"+_keyword+":";
-			if (_shortcut != "") then {
-				_params = ["formatLogic",[_params,["SafeStructuredText",_shortcut] call FUNC(commonTask),_keyword]] call THIS_FUNC;
-			};
-			_params = ["formatLogic",[_params,_keyword,["getImage",_x#2] call THIS_FUNC]] call THIS_FUNC;
+			_x params ["","_icon","_keywords","_shortcuts"];
+			_icon = format["<img color='#FFFFFF' image='%1'/>",_icon];
+			{
+				_params = ["formatLogic",[_params,["SafeStructuredText",_x] call FUNC(commonTask),_icon]] call THIS_FUNC;
+			} forEach _shortcuts;
+			{
+				_params = ["formatLogic",[_params,":"+_x+":",_icon]] call THIS_FUNC;
+			} forEach _keywords;
 		} forEach (["getList",true] call THIS_FUNC);
 		_params
 	};

@@ -172,15 +172,24 @@ switch _mode do {
 			case 0:{
 				private _emojis = ["getList"] call FUNC(emoji);
 				{
-					if (
-						_ctrlListSearchDisplayAll ||
-						{_ctrlEditTextSegmentSearch in toLower(_x#2) || {_ctrlEditTextSegmentSearch in toLower(_x#0)}}
-					) then {
+					private _matchKeyword = _x#2 findIf {tolower _x find _ctrlEditTextSegmentSearch == 0} > -1;
+					private _matchTitle = _ctrlEditTextSegmentSearch in toLower(_x#0);
+					if (_ctrlListSearchDisplayAll || {_matchKeyword || _matchTitle}) then {
 						_items pushBack [
-							[1,0] select (toLower(_x#2) find _ctrlEditTextSegmentSearch == 0 || {toLower(_x#0) find _ctrlEditTextSegmentSearch == 0}),
-							[_x#0,_x#3],_x#1,
-							format["Keyword: %1%2",_x#2,["",endl+"Shortcut: "+_x#3] select (_x#3 != "")],
-							_x#2,
+							[1,0] select (_matchKeyword || _matchTitle),
+							[_x#0,_x#3 joinString "  "],_x#1,
+							format[
+								"Keyword%2:  %1%3",
+								_x#2 apply {":"+_x+":"} joinString "  ",
+								if (count(_x#2) > 1) then {"s"} else {""},
+								if (count(_x#3) > 0) then {format[
+									"%3Shortcut%2:  %1",
+									_x#3 joinString "  ",
+									if (count(_x#3) > 1) then {"s"} else {""},
+									endl
+								]} else {""}
+							],
+							_x#2#0,
 							"['insertItem',[0,_data]] call " + QUOTE(THIS_FUNC)
 						];
 					};
