@@ -177,4 +177,13 @@ if isServer then {
 	} else {
 		addMissionEventHandler ["HandleChatMessage",_serverMessagesEvent];
 	};
+
+	// Set variables to unit on respawn -- this is done automatically by arma, but doesn't seem to be 100% reliable
+	addMissionEventHandler ["EntityRespawned",{
+		params ["_entity", "_corpse"];
+		if (_entity isKindOf "CAManBase" && {isPlayer _entity}) then {
+			_entity setVariable [QUOTE(VAR_UNIT_NAME),name _entity,true];
+			_entity setVariable [QUOTE(VAR_UNIT_OWNER_ID),owner _entity,true];
+		};
+	}];
 };
