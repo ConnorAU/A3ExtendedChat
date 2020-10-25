@@ -17,10 +17,11 @@ Description:
 	Sends message in the specified channel
 
 Parameters:
-	_message   : STRING - The message text
-    _sender    : OBJECT - The sender unit
-    _channelID : NUMBER - The channel index the message was sent in
-	_setting   : CODE   - Only print if setting filtering is disabled
+	_message     : STRING - The message text
+    _sender      : OBJECT - The sender unit
+    _channelID   : NUMBER - The channel index the message was sent in
+	_setting     : NUMBER - Setting index, only print if filter is disabled
+	_messageType : ARRAY  - Info used in a message body template -- (ONLY INTENDED FOR INTERNAL USE AS A WORKAROUND FOR HCM EH BUG)
 
 Return:
 	Nothing
@@ -37,11 +38,27 @@ _params params [
 	["_message","",[""]],
 	["_sender",objNull,[objNull]],
 	["_channelID",-1,[0]],
-	["_setting",-1,[0]]
+	["_setting",-1,[0]],
+	["_messageTemplate",[-1],[[]]]
 ];
 
 if (_message == "") exitWith {};
 if (_setting > -1 && {!(["get",_setting] call FUNC(settings))}) exitWith {};
+
+// TODO: remove once HCM event is fixed
+if (_messageTemplate#0 > -1) then {
+	// Re-localize message with local client's localization
+	private _localization = [
+		"str_killed_friendly",
+		"str_killed",
+		"str_killed_by_friendly",
+		"str_killed_by"
+	] param [_messageTemplate#0,""];
+	if (_localization != "") then {
+		_message = ["stringConvert%sToFormat",[localize _localization]] call FUNC(commonTask);
+		_message = format([_message]+_messageTemplate#1);
+	};
+};
 
 private _arguments = switch (tolower _mode) do {
 	case "systemchat":{systemChat _message};

@@ -118,7 +118,36 @@ if (!_forceDisplay || _playerMessage) then {
 // Broadcasts kill messages to everyone as the event handler currently only fires for the victim owner
 if (_channelID == 0 && _chatMessageType == 2) exitWith {
 	if (getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isEqualTo 1) then {
-		["systemChat",[_message,nil,nil,VAL_SETTINGS_INDEX_PRINT_KILL]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+		// Extract player name(s) from message to apply localization on each player receiving the message
+		{
+			private _xSplit = ["stringSplitString",[_x,"%s"]] call FUNC(commonTask);
+			private _match = true;
+			private _inIndex = -1;
+
+			{
+				_match = switch _forEachIndex do {
+					case 0:{["stringPrefix",[_message,_x,true]] call FUNC(commonTask)};
+					case (count _xSplit - 1):{["stringSuffix",[_message,_x,true]] call FUNC(commonTask)};
+					default {
+						private _lastIndex = _inIndex;
+						_inIndex = _message find _x;
+						_inIndex > _lastIndex
+					};
+				};
+
+				if !_match exitWith {};
+			} forEach _xSplit;
+
+			if _match exitWith {
+				private _names = ["stringExtractFromSegments",[_message,_xSplit]] call FUNC(commonTask);
+				["systemChat",[_message,nil,nil,VAL_SETTINGS_INDEX_PRINT_KILL,[_forEachIndex,_names]]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+			};
+		} forEach [
+			localize "str_killed_friendly",
+			localize "str_killed",
+			localize "str_killed_by_friendly",
+			localize "str_killed_by"
+		];
 	};
 };
 
