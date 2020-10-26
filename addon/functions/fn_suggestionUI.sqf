@@ -346,7 +346,7 @@ switch _mode do {
 			_ctrlListMaxWidth = _ctrlListMaxWidth max (_rowText getTextWidth [_ctrlListFont,_ctrlListRowH]);
 		};
 
-		private _ctrlListH = ((lbSize _ctrlList * _ctrlListRowH) min (10 * _ctrlListRowH)) + PXH(.1);
+		private _ctrlListH = ((lbSize _ctrlList * _ctrlListRowH) min (10 * _ctrlListRowH)) + PXH(.2);
 		private _ctrlListY = ctrlPosition _ctrlEdit#1 - _ctrlListH;
 		private _ctrlListW = _ctrlListRowH + _ctrlListMaxWidth + 0.016;
 		if (lbSize _ctrlList > 10) then {_ctrlListW = _ctrlListW + PXW(5)};
