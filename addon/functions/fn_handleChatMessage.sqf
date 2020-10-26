@@ -117,7 +117,7 @@ if (!_forceDisplay || _playerMessage) then {
 // TODO: Delete once HCM EH is fixed and fires kill messages for everyone, not just the victim owner
 // Broadcasts kill messages to everyone as the event handler currently only fires for the victim owner
 if (_channelID == 0 && _chatMessageType == 2) exitWith {
-	if (getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isEqualTo 1) then {
+	if (_senderID == clientOwner && getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isEqualTo 1) then {
 		// Extract player name(s) from message to apply localization on each player receiving the message
 		{
 			private _xSplit = ["stringSplitString",[_x,"%s"]] call FUNC(commonTask);
