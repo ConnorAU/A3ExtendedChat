@@ -116,7 +116,7 @@ switch _mode do {
 			_params = ["stringReplace",[_params,_x#0,_x#1]] call THIS_FUNC;
 			false
 		} count [
-			["&","&amp;"],
+			//["&","&amp;"],
 			["<","&lt;"],
 			[">","&gt;"]
 		];

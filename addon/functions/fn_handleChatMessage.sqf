@@ -223,17 +223,19 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 		_messageColor = "#FFFFFF";
 		_messageSafe = str _messageSafe;
 	};
-	private _messageFinal = [
-		format[
-			"<t size='%1' font='%2'>",
-			(["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)),
-			["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
-		],
-		if (_senderNameSafe == "") then {""} else {"<t color='"+(_channelColor call BIS_fnc_colorRGBAtoHTML)+"'>"+_senderNameSafe+":</t> "},
-		"<t color='"+_messageColor+"'>"+_messageSafe+"</t>",
-		"</t>"
-	] joinString "";
-	_ctrlText ctrlSetStructuredText parseText _messageFinal;
+
+	if (_senderNameSafe != "") then {
+		_senderNameSafe = _senderNameSafe + ": ";
+	};
+
+	private _messageFinal = composeText [
+		text _senderNameSafe setAttributes ["color",_channelColor call BIS_fnc_colorRGBAtoHTML],
+		text _messageSafe setAttributes ["color",_messageColor]
+	] setAttributes [
+		"size",str((["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings))),
+		"font",["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
+	];
+	_ctrlText ctrlSetStructuredText _messageFinal;
 
 	// Show mentioned background if self is mentioned
 	if _messageMentionsSelf then {
@@ -246,7 +248,7 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 		if (_foreachindex in [1,2]) then {
 			_x ctrlSetPositionW ctrlTextWidth _ctrlText;
 		};
-		_x ctrlSetPositionH (ctrlTextHeight _ctrlText + (if _containsImg then {PXH(0.4)} else {0}));
+		_x ctrlSetPositionH (ctrlTextHeight _ctrlText + (if ("<img " in _messageSafe) then {PXH(0.4)} else {0}));
 		_x ctrlCommit 0;
 	} forEach [_ctrlContainer,_ctrlBackground,_ctrlBackgroundMentioned,_ctrlStripe,_ctrlText];
 

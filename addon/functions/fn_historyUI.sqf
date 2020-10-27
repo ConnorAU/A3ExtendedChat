@@ -200,7 +200,7 @@ switch _mode do {
 				],
 				{
 					private _channel = -1;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",[_channel,false]] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -229,7 +229,7 @@ switch _mode do {
 				],
 				{
 					private _channel = 0;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -255,7 +255,7 @@ switch _mode do {
 				],
 				{
 					private _channel = 1;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -281,7 +281,7 @@ switch _mode do {
 				],
 				{
 					private _channel = 2;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -307,7 +307,7 @@ switch _mode do {
 				],
 				{
 					private _channel = 3;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -333,7 +333,7 @@ switch _mode do {
 				],
 				{
 					private _channel = 4;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -359,7 +359,7 @@ switch _mode do {
 				],
 				{
 					private _channel = 5;
-					_ctrl ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channel] call FUNC(commonTask))];
+					_ctrl ctrlSetStructuredText (text(["ChannelName",_channel] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 					_ctrl ctrlSetTextColor (["ChannelColour",_channel] call FUNC(commonTask));
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
@@ -476,7 +476,7 @@ switch _mode do {
 				private _channelID = _i + 6;
 				private _ctrlLabel = _display ctrlCreate ["ctrlStructuredText",_customChannelIDCs#_i];
 				_ctrlLabel ctrlSetPosition _ctrlPosLabel;
-				_ctrlLabel ctrlSetStructuredText parseText format["<t size='1.04167'>%1</t>",(["ChannelName",_channelID] call FUNC(commonTask))];
+				_ctrlLabel ctrlSetStructuredText (text(["ChannelName",_channelID] call FUNC(commonTask)) setAttributes ["size","1.04167"]);
 				_ctrlLabel ctrlSetTextColor (["ChannelColour",_channelID] call FUNC(commonTask));
 				_ctrlLabel ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channelID,QUOTE(THIS_FUNC)]];
 				_ctrlLabel ctrlCommit 0;
@@ -745,48 +745,35 @@ switch _mode do {
 			_channelColour = ["ChannelColour",[_channelColour,false]] call FUNC(commonTask);
 		};
 
-		if (_sentenceType == 0) then {
-			_text = "<t color='#FFFFFF'>" + str _text + "</t>";
-		};
-
 		_finalText = [];
 		if (_senderName != "") then {
-			_finalText pushback format[
-				"<t font='%2'>%1</t> %3",
-				localize "STR_CAU_xChat_history_sent_by",
-				FONT_BOLD,
-				_senderName
-			];
+			_finalText pushback (text(localize "STR_CAU_xChat_history_sent_by") setAttributes ["font",FONT_BOLD]);
+			_finalText pushBack " ";
+			_finalText pushBack text _senderName;
+			_finalText pushBack lineBreak;
 		};
-		_finalText pushback format[
-			"<t font='%2'>%1</t> <t color='%3'>%4</t>",
-			localize "STR_CAU_xChat_history_channel",
-			FONT_BOLD,
-			_channelColour call BIS_fnc_colorRGBAToHTML,
-			_channelName
-		];
-		_finalText pushback format[
-			"<t font='%2'>%1</t> %3",
-			localize "STR_CAU_xChat_history_received",
-			FONT_BOLD,
-			format[
-				["%1 (%2)","%2"] select isStreamFriendlyUIEnabled,
-				_receivedDateSys,
-				_receivedTickGame
-			]
-		];
-		_finalText pushback format[
-			"<t font='%2'>%1</t><br/><t color='#A6A6A6'>%3</t>",
-			localize "STR_CAU_xChat_history_message",
-			FONT_BOLD,
-			_text
-		];
 
-		_finalText = "<t size='1.15741'>"+(_finalText joinString "<br/>")+"</t>";
-		_ctrlMessageText ctrlSetStructuredText parseText _finalText;
-		private _containsImg = "<img " in _text;
+		_finalText pushback (text(localize "STR_CAU_xChat_history_channel") setAttributes ["font",FONT_BOLD]);
+		_finalText pushBack " ";
+		_finalText pushback (text _senderName setAttributes ["color",_channelColour call BIS_fnc_colorRGBAToHTML]);
+		_finalText pushBack lineBreak;
 
-		private _height = ctrlTextHeight _ctrlMessageText + (if _containsImg then {PXH(0.4)} else {0});
+		_finalText pushback (text(localize "STR_CAU_xChat_history_received") setAttributes ["font",FONT_BOLD]);
+		_finalText pushBack " ";
+		_finalText pushBack text format[
+			["%1 (%2)","%2"] select isStreamFriendlyUIEnabled,
+			_receivedDateSys,_receivedTickGame
+		];
+		_finalText pushBack lineBreak;
+
+		_finalText pushback (text(localize "STR_CAU_xChat_history_message") setAttributes ["font",FONT_BOLD]);
+		_finalText pushBack " ";
+		_finalText pushback (text _text setAttributes ["color",["#A6A6A6","#FFFFFF"] select (_sentenceType == 0)]);
+
+		_finalText = composeText _finalText setAttributes ["size","'1.15741'"];
+		_ctrlMessageText ctrlSetStructuredText _finalText;
+
+		private _height = ctrlTextHeight _ctrlMessageText + (if ("<img " in _text) then {PXH(0.4)} else {0});
 		_ctrlMessageContainerPos set [3,_height + PXH(2)];
 		_ctrlMessageBackgroundPos set [3,_ctrlMessageContainerPos#3];
 		_ctrlMessageStripePos set [3,_ctrlMessageContainerPos#3];
