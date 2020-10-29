@@ -106,48 +106,39 @@ switch _mode do {
 	};
 	case "formatCondition":{
 		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
-		{
-			_x params ["","_icon","_keywords","_shortcuts","","_condition"];
-			if !([] call compile _condition) then {
-				{
-					_params = ["formatLogic",[_params,_x,""]] call THIS_FUNC;
-				} forEach _shortcuts;
-				{
-					_params = ["formatLogic",[_params,":"+_x+":",""]] call THIS_FUNC;
-				} forEach _shortcuts;
-			};
-		} forEach (["getList",true] call THIS_FUNC);
-		_params
+		_params = ["stringSplitStringKeep",[_params," "]] call FUNC(commonTask);
+		_params = ["formatImages",[_params,true]] call THIS_FUNC;
+		_params joinString ""
 	};
 	case "formatImages":{
-		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_params};
+		_params params ["_message",["_remove",false]];
+		if !(missionNameSpace getVariable [QUOTE(VAR_ENABLE_EMOJIS),false]) exitWith {_message};
+
 		{
-			_x params ["","_icon","_keywords","_shortcuts"];
-			_icon = format["<img color='#FFFFFF' image='%1'/>",_icon];
-			{
-				_params = ["formatLogic",[_params,["SafeStructuredText",_x] call FUNC(commonTask),_icon]] call THIS_FUNC;
-			} forEach _shortcuts;
-			{
-				_params = ["formatLogic",[_params,":"+_x+":",_icon]] call THIS_FUNC;
-			} forEach _keywords;
-		} forEach (["getList",true] call THIS_FUNC);
-		_params
-	};
-	case "formatLogic":{
-		_params params ["_text","_find","_replace"];
+			_x params ["","_icon","_keywords","_shortcuts","","_condition"];
 
-		if (_text isEqualTo _find) then {_text = _replace} else {
-			if (_find in _text) then {
-				if (["stringPrefix",[_text,format["%1 ",_find],true]] call FUNC(commonTask)) then {
-					_text = _replace + (_text select [count _find]);
-				};
-				if (["stringSuffix",[_text,format[" %1",_find],true]] call FUNC(commonTask)) then {
-					_text = (_text select [0,count _text - count _find]) + _replace;
-				};
-				_text = ["stringReplace",[_text,[_find," "," "],_replace,true]] call FUNC(commonTask);
+			if (!_remove || {!([] call compile _condition)}) then {
+				{
+					private _find = [{":"+_x+":"},{_x}] select _forEachIndex;
+					{
+						private _index = -1;
+						while {
+							_index = _message find call _find;
+							_index != -1
+						} do {
+							if (_icon isEqualType "") then {
+								_icon = if _remove then {text ""} else {composeText [image _icon] setAttributes ["color","#FFFFFF"]};
+							};
+							_message set [_index,_icon];
+
+							// Set variable to true in parent scope (HCM/historyUI fncs)
+							if !_remove then {_containsImg = true};
+						};
+					} forEach _x;
+				} forEach [_keywords,_shortcuts];
 			};
-		};
+		} forEach (["getList",true] call THIS_FUNC);
 
-		_text
+		_message
 	};
 };

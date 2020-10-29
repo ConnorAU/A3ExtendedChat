@@ -103,7 +103,7 @@ reverse _messageChars;
 _message = _message select [0,count _message - _trimIndex];
 
 // Do nothing if the message is empty
-if (_message == "") exitWith {};
+if (_message in [""," "]) exitWith {};
 
 // TODO: remove
 // Debug log to find out what exactly causes !_forceDisplay and _playerMessage
@@ -156,26 +156,34 @@ if (_senderID isEqualTo clientOwner && {_senderUnit isEqualTo player && {mission
 	["text",[_channelID,_message,_senderNameF,getPlayerUID _senderUnit]] remoteExecCall [QUOTE(FUNC(log)),2];
 };
 
-// Replace bad characters
-private _messageSafe = ["SafeStructuredText",_message] call FUNC(commonTask);
+private _messageContainsMentions = _message find "@" != -1;
+
+// Split message into segments to allow for parsed and safe structured texts in the same text value
+_message = ["stringSplitStringKeep",[_message," "]] call FUNC(commonTask);
 
 // Format emoji keywords and shortcuts
-_messageSafe = ["formatImages",_messageSafe] call FUNC(emoji);
+private _containsImg = false;
+_message = ["formatImages",[_message]] call FUNC(emoji);
 
 // Format mentions
-private _mentions = ["ParseMentions",[
-	_messageSafe,
-	"<t color='"+((["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML)+"'>",
-	"</t>"
-]] call FUNC(commonTask);
-_messageSafe = _mentions#0;
-private _messageMentionsSelf = _mentions#1;
+private _messageMentionsSelf = false;
+if _messageContainsMentions then {
+	_message = ["ParseMentions",_message] call FUNC(commonTask);
+};
+
+// Wrap message in quotes if the sentence type is 0
+if (_sentenceType == 0) then {
+	_message = [""""] + _message + [""""];
+};
+
+// Compose message
+_message = composeText _message;
 
 // Add message to history array
 private _senderUID = getPlayerUID _senderUnit;
 if !_sehBlockHistory then {
 	private _historyData = [
-		_messageSafe,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,
+		_message,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,_containsImg,
 		if _messageMentionsSelf then {["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
 	];
 	VAR_HISTORY pushBack _historyData;
@@ -209,7 +217,6 @@ private _isChannelPrintEnabled = switch _channelID do {
 
 // Check print condition
 if (_isChannelPrintEnabled && {call _printCondition}) then {
-	private _containsImg = "<img " in _messageSafe;
 	private _channelColor = ["ChannelColour",_channelID] call FUNC(commonTask);
 	private _senderNameSafe = ["StreamSafeName",[_senderUID,_senderNameF]] call FUNC(commonTask);
 
@@ -218,22 +225,22 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 	_ctrlStripe ctrlSetBackgroundColor _channelColor;
 
 	// Format message to final state
-	private _messageColor = (["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML;
-	if (_sentenceType == 0) then {
-		_messageColor = "#FFFFFF";
-		_messageSafe = str _messageSafe;
+	private _messageColor =	if (_sentenceType == 0) then {"#FFFFFF"} else {
+		(["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
 	};
-	private _messageFinal = [
-		format[
-			"<t size='%1' font='%2'>",
-			(["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)),
-			["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
-		],
-		if (_senderNameSafe == "") then {""} else {"<t color='"+(_channelColor call BIS_fnc_colorRGBAtoHTML)+"'>"+_senderNameSafe+":</t> "},
-		"<t color='"+_messageColor+"'>"+_messageSafe+"</t>",
-		"</t>"
-	] joinString "";
-	_ctrlText ctrlSetStructuredText parseText _messageFinal;
+
+	if (_senderNameSafe != "") then {
+		_senderNameSafe = _senderNameSafe + ": ";
+	};
+
+	private _messageFinal = composeText [
+		text _senderNameSafe setAttributes ["color",_channelColor call BIS_fnc_colorRGBAtoHTML],
+		_message setAttributes ["color",_messageColor]
+	] setAttributes [
+		"size",str((["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings))),
+		"font",["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
+	];
+	_ctrlText ctrlSetStructuredText composeText [_messageFinal];
 
 	// Show mentioned background if self is mentioned
 	if _messageMentionsSelf then {

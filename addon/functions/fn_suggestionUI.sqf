@@ -198,10 +198,7 @@ switch _mode do {
 			};
 			case 1:{
 				{
-					private _unitName = ["StreamSafeName",[
-						getPlayerUID _x,
-						_x getVariable [QUOTE(VAR_UNIT_NAME),name _x]
-					]] call FUNC(commonTask);
+					private _unitName = ["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask);
 					private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
 					if (
 						_ctrlListSearchDisplayAll ||

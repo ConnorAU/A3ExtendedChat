@@ -213,32 +213,23 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	{
 		private _channel = getPlayerChannel _x;
 		if (_channel != -1) then {
+			if (count _speakers >= 1) then {_speakers pushBack ", "};
+
 			private _colour = ["ChannelColour",_channel] call FUNC(commonTask);
+			_speakers pushBack (text(UNIT_NAME(_x)) setAttributes ["color",_colour call BIS_fnc_colorRGBAtoHTML]);
 
-			_speakers pushBack format[
-				"<t color='%1'>%2</t>",
-				_colour call BIS_fnc_colorRGBAtoHTML,
-				["SafeStructuredText",UNIT_NAME(_x)] call FUNC(commonTask)
-			];
-
-			if (_x == player) then {
-				_playerIsSpeaking = true;
-			};
+			if (_x == player) then {_playerIsSpeaking = true};
 		};
 		false
 	} count allPlayers;
 
-	private _text = [
-		format["<t size='%1'>",["ScaledFeedTextSize"] call FUNC(commonTask)],
-		_speakers joinString ", ",
-		"</t>"
-	] joinString "";
+	private _text = composeText _speakers setAttributes ["size",str(["ScaledFeedTextSize"] call FUNC(commonTask))];
 
 	USE_DISPLAY(DISPLAY(VAR_MESSAGE_FEED_DISPLAY));
 	private _ctrlVoipSpeaker = _display getVariable [QUOTE(VAR_VON_SPEAKERS_CTRL),controlNull];
 	private _ctrlVoipSpeakerPos = ctrlPosition _ctrlVoipSpeaker;
 	_ctrlVoipSpeaker ctrlShow false;
-	_ctrlVoipSpeaker ctrlSetStructuredText parseText _text;
+	_ctrlVoipSpeaker ctrlSetStructuredText composeText [_text];
 
 	_ctrlVoipSpeakerPos set [2,safeZoneW];
 	_ctrlVoipSpeaker ctrlSetPosition _ctrlVoipSpeakerPos;
