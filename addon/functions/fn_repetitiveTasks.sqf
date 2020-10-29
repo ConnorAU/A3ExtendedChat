@@ -213,7 +213,7 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	{
 		private _channel = getPlayerChannel _x;
 		if (_channel != -1) then {
-			if (count _speakers > 1) then {_speakers pushBack " , "};
+			if (count _speakers >= 1) then {_speakers pushBack ", "};
 
 			private _colour = ["ChannelColour",_channel] call FUNC(commonTask);
 			_speakers pushBack (text(UNIT_NAME(_x)) setAttributes ["color",_colour call BIS_fnc_colorRGBAtoHTML]);
@@ -229,7 +229,7 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	private _ctrlVoipSpeaker = _display getVariable [QUOTE(VAR_VON_SPEAKERS_CTRL),controlNull];
 	private _ctrlVoipSpeakerPos = ctrlPosition _ctrlVoipSpeaker;
 	_ctrlVoipSpeaker ctrlShow false;
-	_ctrlVoipSpeaker ctrlSetStructuredText _text;
+	_ctrlVoipSpeaker ctrlSetStructuredText composeText [_text];
 
 	_ctrlVoipSpeakerPos set [2,safeZoneW];
 	_ctrlVoipSpeaker ctrlSetPosition _ctrlVoipSpeakerPos;

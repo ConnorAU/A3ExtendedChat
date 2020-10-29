@@ -111,17 +111,6 @@ switch _mode do {
 			_channelCallsign
 		};
 	};
-	case "SafeStructuredText":{
-		{
-			_params = ["stringReplace",[_params,_x#0,_x#1]] call THIS_FUNC;
-			false
-		} count [
-			//["&","&amp;"],
-			["<","&lt;"],
-			[">","&gt;"]
-		];
-		_params
-	};
 	case "ScaledFeedTextSize":{
 		(((((safezoneW/safezoneH)min 1.2)/1.2)/25)*0.8)/(PXH(4.32))
 	};
@@ -175,15 +164,6 @@ switch _mode do {
 		};
 		_output joinString ""
 	};
-	case "stringReplaceSelections":{
-		_params params ["_input","_selections"];
-		reverse _selections;
-		{
-			_x params ["_index","_length","_replace"];
-			_input = (_input select [0,_index]) + _replace + (_input select [_index + _length]);
-		} forEach _selections;
-		_input
-	};
 	case "stringSplitString":{
 		_params params ["_input","_find"];
 		private _findLen = count _find;
@@ -194,6 +174,21 @@ switch _mode do {
 			_index = tolower _input find _find;
 			if (_index < 0) exitwith {_output pushback _input;};
 			_output pushback (_input select [0,_index]);
+			_input = _input select [_index + _findLen,count _input];
+		};
+		_output
+	};
+	case "stringSplitStringKeep":{
+		_params params ["_input","_find"];
+		private _findLen = count _find;
+		private _findLow = toLower _find;
+		private _output = [];
+		private _index = -1;
+		for "_i" from 0 to 1 step 0 do {
+			_index = tolower _input find _findLow;
+			if (_index < 0) exitwith {_output pushback _input;};
+			_output pushback (_input select [0,_index]);
+			_output pushBack _find;
 			_input = _input select [_index + _findLen,count _input];
 		};
 		_output
@@ -235,59 +230,31 @@ switch _mode do {
 
 
 	case "ParseMentions":{
-		_params params ["_text",["_replacePrefix",""],["_replaceSuffix",""]];
-
-		private _messageMentionsSelf = false;
-		private _selections = ["ParseMentionSelections",_text] call THIS_FUNC;
-		_selections = _selections apply {
-			if (_x#3) then {_messageMentionsSelf = true};
-			_x set [2,_replacePrefix + _x#2 + _replaceSuffix];
-			_x
-		};
-		_text = ["stringReplaceSelections",[_text,_selections]] call THIS_FUNC;
-
-		[_text,_messageMentionsSelf]
-	};
-	case "ParseMentionSelections":{
-		_params params ["_text"];
-		private _selections = [];
-		if ("@" in _text) then {
-			private _textInput = _text;
-			private _textIndex = 0;
-			for "_i" from 0 to 1 step 0 do {
-				private _mentionIndex = _textInput find "@";
-				if (_mentionIndex < 0) exitwith {};
-				_textIndex = _textIndex + _mentionIndex;
-				_textInput = _textInput select [_mentionIndex];
-
-				private _messageMentionLength = _textInput find " ";
-				if (_messageMentionLength == -1) then {_messageMentionLength = count _textInput};
-				private _messageMention = _textInput select [0,_messageMentionLength];
-
-				private _messageMentionID = _messageMention select [1];
+		{
+			if (_x isEqualType "" && {_x find "@" == 0}) then {
+				private _fei = _forEachIndex;
+				private _messageMentionID = _x select [1];
 				private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 				if (count _messageMentionIDChars == 0) then {
-					private _messageMentionsSelf = false;
 					{
 						private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
 						if (_unitID isEqualTo _messageMentionID) exitWith {
+							// Set variable to true in parent scope (HCM event)
 							if (_x isEqualTo player) then {_messageMentionsSelf = true};
-							_selections pushBack [
-								_textIndex,count _messageMention,
-								"@"+(["StreamSafeName",[
-									getPlayerUID _x,
-									_x getVariable [QUOTE(VAR_UNIT_NAME),name _x]
-								]] call FUNC(commonTask)),
-								_messageMentionsSelf
+
+							private _unitName = "@"+(["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask));
+							_params set [
+								_fei,
+								text _unitName setAttributes [
+									"color",(["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
+								]
 							];
 						};
 					} forEach allPlayers;
 				};
-
-				_textIndex = _textIndex + _messageMentionLength;
-				_textInput = _textInput select [_messageMentionLength];
 			};
-		};
-		_selections
+		} forEach _params;
+
+		_params
 	};
 };
