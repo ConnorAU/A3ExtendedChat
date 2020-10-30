@@ -60,7 +60,13 @@ switch _mode do {
 
 		private _channel = ["ChannelName",_channelID] call FUNC(commonTask);
 
-		_text = ["ParseMentions",_text] call FUNC(commonTask);
+		// Parse mentions
+		if (_text find "@" != -1) then {
+			_text = ["stringSplitStringKeep",[_text," "]] call FUNC(commonTask);
+			_text = ["ParseMentions",_text] call FUNC(commonTask);
+			_text = _text apply {if (_x isEqualType "") then {_x} else {str _x}} joinString "";
+		};
+
 		private _log = if (_channelID < 0 || _channelID > 15) then {_text} else {
 			format[
 				(["(%3) ",""] select (_pid == "")) + "%1: %2",
