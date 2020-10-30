@@ -152,54 +152,6 @@
 				<Original>%1 seconds</Original>
 				<English>%1 seconds</English>
 			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_font_label">
-				<Original>Message feed text font</Original>
-				<English>Message feed text font</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_font_desc">
-				<Original>The font type used on text in the message feed.</Original>
-				<English>The font type used on text in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_size_label">
-				<Original>Message feed text size: %1x</Original>
-				<English>Message feed text size: %1x</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_size_desc">
-				<Original>The font size used on text in the message feed.</Original>
-				<English>The font size used on text in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_color_label">
-				<Original>Message text color</Original>
-				<English>Message text color</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_color_desc">
-				<Original>The font color used on text in the message feed.</Original>
-				<English>The font color used on text in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_label">
-				<Original>Message background color</Original>
-				<English>Message background color</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_feed_bg_color_desc">
-				<Original>The background color of messages in the message feed.</Original>
-				<English>The background color of messages in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_mention_color_label">
-				<Original>Mention text color</Original>
-				<English>Mention text color</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_text_mention_color_desc">
-				<Original>The font color used on mentions in the message feed.</Original>
-				<English>The font color used on mentions in the message feed.</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_feed_mention_bg_color_label">
-				<Original>Mention background color</Original>
-				<English>Mention background color</English>
-			</Key>
-			<Key ID="STR_CAU_xChat_settings_configuration_feed_mention_bg_color_desc">
-				<Original>The background color of messages in the message feed when you are mentioned.</Original>
-				<English>The background color of messages in the message feed when you are mentioned.</English>
-			</Key>
 			<Key ID="STR_CAU_xChat_settings_configuration_autocomplete_keybind_label">
 				<Original>Autocomplete keybind: %1</Original>
 				<English>Autocomplete keybind: %1</English>
@@ -211,6 +163,60 @@
 			<Key ID="STR_CAU_xChat_settings_configuration_autocomplete_keybind_edit_tooltip">
 				<Original>Press any key to set it as your new autocomplete keybind.</Original>
 				<English>Press any key to set it as your new autocomplete keybind.</English>
+			</Key>
+
+			<!-- Appearance Panel -->
+			<Key ID="STR_CAU_xChat_settings_appearance_title">
+				<Original>Appearance</Original>
+				<English>Appearance</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_font_label">
+				<Original>Message feed text font</Original>
+				<English>Message feed text font</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_font_desc">
+				<Original>The font type used on text in the message feed.</Original>
+				<English>The font type used on text in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_size_label">
+				<Original>Message feed text size: %1x</Original>
+				<English>Message feed text size: %1x</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_size_desc">
+				<Original>The font size used on text in the message feed.</Original>
+				<English>The font size used on text in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_color_label">
+				<Original>Message text color</Original>
+				<English>Message text color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_color_desc">
+				<Original>The font color used on text in the message feed.</Original>
+				<English>The font color used on text in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_feed_bg_color_label">
+				<Original>Message background color</Original>
+				<English>Message background color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_feed_bg_color_desc">
+				<Original>The background color of messages in the message feed.</Original>
+				<English>The background color of messages in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_mention_color_label">
+				<Original>Mention text color</Original>
+				<English>Mention text color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_text_mention_color_desc">
+				<Original>The font color used on mentions in the message feed.</Original>
+				<English>The font color used on mentions in the message feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_feed_mention_bg_color_label">
+				<Original>Mention background color</Original>
+				<English>Mention background color</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_appearance_feed_mention_bg_color_desc">
+				<Original>The background color of messages in the message feed when you are mentioned.</Original>
+				<English>The background color of messages in the message feed when you are mentioned.</English>
 			</Key>
 
 			<!-- Filters Panel -->

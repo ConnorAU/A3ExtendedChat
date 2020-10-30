@@ -25,8 +25,10 @@ Return:
 #include "_macros.inc"
 #include "_defines.inc"
 
-#define DIALOG_W 150
-#define DIALOG_H 125
+#define DIALOG_SECTIONS 3
+#define DIALOG_SECTION_W 75
+#define DIALOG_W (DIALOG_SECTION_W*DIALOG_SECTIONS)
+#define DIALOG_H 85
 
 #define IDC_BUTTON_SAVE_SETTINGS                  1
 #define IDC_EDIT_COMMAND_PREFIX                   2
@@ -185,7 +187,7 @@ switch _mode do {
 				"ctrlStaticBackground",-1,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				],
 				{
@@ -196,7 +198,7 @@ switch _mode do {
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -208,7 +210,7 @@ switch _mode do {
 				"ctrlStaticFrame",-1,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				]
 			],
@@ -216,7 +218,7 @@ switch _mode do {
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -225,10 +227,11 @@ switch _mode do {
 				}
 			],
 			[
+				// TODO: change to ctrlEdit when fixed
 				"RscEdit",IDC_EDIT_COMMAND_PREFIX,[
 					PXCX(DIALOG_W) + PXW(4),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(2) + PXH((SIZE_M*2)),
-					PXW((DIALOG_W/2)) - PXW(7),
+					PXW((DIALOG_W/3)) - PXW(6.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -244,7 +247,7 @@ switch _mode do {
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(3) + PXH((SIZE_M*3)),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -255,8 +258,8 @@ switch _mode do {
 			[
 				"ctrlCombo",IDC_COMBO_MAX_SAVED_LOGS,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(3) + PXH((SIZE_M*4)),
-					PXW((DIALOG_W/2)) - PXW(7),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(4) + PXH((SIZE_M*4)),
+					PXW((DIALOG_W/3)) - PXW(6.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -280,8 +283,8 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(4) + PXH((SIZE_M*5)),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(5) + PXH((SIZE_M*5)),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -292,8 +295,8 @@ switch _mode do {
 			[
 				"ctrlCombo",IDC_COMBO_MAX_PRINTED_LOGS,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(4) + PXH((SIZE_M*6)),
-					PXW((DIALOG_W/2)) - PXW(7),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*6)),
+					PXW((DIALOG_W/3)) - PXW(6.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -317,8 +320,8 @@ switch _mode do {
 			[
 				"ctrlStatic",-1,[
 					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(5) + PXH((SIZE_M*7)),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(7) + PXH((SIZE_M*7)),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -329,8 +332,8 @@ switch _mode do {
 			[
 				"ctrlCombo",IDC_COMBO_PRINTED_LOG_TTL,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(5) + PXH((SIZE_M*8)),
-					PXW((DIALOG_W/2)) - PXW(7),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(8) + PXH((SIZE_M*8)),
+					PXW((DIALOG_W/3)) - PXW(6.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -352,281 +355,10 @@ switch _mode do {
 				}
 			],
 			[
-				"ctrlStatic",IDC_LABEL_TEXT_FONT,[
-					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*9)),
-					PXW((DIALOG_W/2)) - PXW(3),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_font_label";
-					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_font_desc";
-					_ctrl ctrlSetFont (["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings));
-				}
-			],
-			[
-				"ctrlCombo",IDC_COMBO_TEXT_FONT,[
-					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*10)),
-					PXW((DIALOG_W/2)) - PXW(7),
-					PXH(SIZE_M)
-				],
-				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings);
-					private _fonts = ("true" configClasses (configFile >> "CfgFontFamilies")) apply {configName _x};
-					_fonts sort true;
-					{
-						_ctrl lbAdd _x;
-						if (_x == _setting) then {
-							_ctrl lbSetCurSel _forEachIndex;
-						};
-					} forEach _fonts;
-					_ctrl lbAdd ""; // add extra entry because for some reason the last entry is not visible when you scroll down
-					_ctrl ctrlAddEventHandler ["LBSelChanged",{
-						params ["_ctrl","_index"];
-						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_FONT);
-						private _setting = _ctrl lbText _index;
-						if (_setting != "") then {
-							_ctrlLabel ctrlSetFont (_ctrl lbText _index);
-							["LBSelChanged"] call THIS_FUNC;
-						};
-					}];
-				}
-			],
-			[
-				"ctrlStatic",IDC_LABEL_TEXT_SIZE,[
-					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(7) + PXH((SIZE_M*11)),
-					PXW((DIALOG_W/2)) - PXW(3),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_text_size_label",["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)];
-					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_size_desc";
-				}
-			],
-			[
-				"ctrlXSliderH",IDC_SLIDER_TEXT_SIZE,[
-					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(7) + PXH((SIZE_M*12)),
-					PXW((DIALOG_W/2)) - PXW(7),
-					PXH(SIZE_M)
-				],
-				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings);
-
-					_ctrl sliderSetRange [0.1,5];
-					_ctrl sliderSetSpeed [0.5,0.1];
-					_ctrl sliderSetPosition _setting;
-
-					_ctrl ctrlAddEventHandler ["SliderPosChanged",{
-						params ["_ctrl","_position"];
-						_position = parseNumber(_position toFixed 1);
-						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_SIZE);
-						_ctrlLabel ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_text_size_label",_position];
-						["SliderPosChanged"] call THIS_FUNC;
-					}];
-				}
-			],
-			[
-				"ctrlStatic",IDC_LABEL_TEXT_COLOR,[
-					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(9) + PXH((SIZE_M*13)),
-					PXW((DIALOG_W/2)) - PXW(3),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_color_label";
-					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_color_desc";
-
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings);
-					_ctrl ctrlSetTextColor _setting;
-					_ctrl setVariable ["setting",_setting];
-				}
-			],
-			[
-				"ctrlButton",-1,[
-					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(9) + PXH((SIZE_M*13)),
-					PXW(20),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
-					_ctrl ctrlAddEventHandler ["ButtonClick",{
-						params ["_ctrl"];
-						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
-						[
-							[_ctrlLabel getVariable ["setting",[]]],
-							"Message text color selection",
-							{
-								if _confirmed then {
-									USE_DISPLAY(THIS_DISPLAY);
-									USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
-									_ctrlLabel ctrlSetTextColor _colorRGBA1;
-									_ctrlLabel setVariable ["setting",_colorRGBA1];
-									["ColorSelected"] call THIS_FUNC;
-								};
-							},"","",_display
-						] call CAU_UserInputMenus_fnc_colorPicker;
-					}];
-				}
-			],
-			[
-				"ctrlStatic",IDC_LABEL_FEED_BACKGROUND_COLOR,[
-					PXCX(DIALOG_W) + PXW(2.5),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(11) + PXH((SIZE_M*14)),
-					PXW((DIALOG_W/2)) - PXW(25.5),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_feed_bg_color_label";
-					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_feed_bg_color_desc";
-
-					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings);
-					_ctrl ctrlSetBackgroundColor _setting;
-					_ctrl setVariable ["setting",_setting];
-				}
-			],
-			[
-				"ctrlButton",-1,[
-					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(11) + PXH((SIZE_M*14)),
-					PXW(20),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
-					_ctrl ctrlAddEventHandler ["ButtonClick",{
-						params ["_ctrl"];
-						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
-						[
-							[_ctrlLabel getVariable ["setting",[]]],
-							"Message background color selection",
-							{
-								if _confirmed then {
-									USE_DISPLAY(THIS_DISPLAY);
-									USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
-									_ctrlLabel ctrlSetBackgroundColor _colorRGBA1;
-									_ctrlLabel setVariable ["setting",_colorRGBA1];
-									["ColorSelected"] call THIS_FUNC;
-								};
-							},"","",_display
-						] call CAU_UserInputMenus_fnc_colorPicker;
-					}];
-				}
-			],
-			[
-				"ctrlStatic",IDC_LABEL_TEXT_MENTION_COLOR,[
-					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(13) + PXH((SIZE_M*15)),
-					PXW((DIALOG_W/2)) - PXW(3),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_text_mention_color_label";
-					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_text_mention_color_desc";
-
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings);
-					_ctrl ctrlSetTextColor _setting;
-					_ctrl setVariable ["setting",_setting];
-				}
-			],
-			[
-				"ctrlButton",-1,[
-					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(13) + PXH((SIZE_M*15)),
-					PXW(20),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
-					_ctrl ctrlAddEventHandler ["ButtonClick",{
-						params ["_ctrl"];
-						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_MENTION_COLOR);
-						[
-							[_ctrlLabel getVariable ["setting",[]]],
-							"Message text color selection",
-							{
-								if _confirmed then {
-									USE_DISPLAY(THIS_DISPLAY);
-									USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_MENTION_COLOR);
-									_ctrlLabel ctrlSetTextColor _colorRGBA1;
-									_ctrlLabel setVariable ["setting",_colorRGBA1];
-									["ColorSelected"] call THIS_FUNC;
-								};
-							},"","",_display
-						] call CAU_UserInputMenus_fnc_colorPicker;
-					}];
-				}
-			],
-			[
-				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW(2.5),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(15) + PXH((SIZE_M*16)),
-					PXW((DIALOG_W/2)) - PXW(25.5),
-					PXH(SIZE_M)
-				],
-				{
-					// BG layer for mention bg color
-					_ctrl ctrlSetBackgroundColor [0.1,0.1,0.1,0.5];
-				}
-			],
-			[
-				"ctrlStatic",IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR,[
-					PXCX(DIALOG_W) + PXW(2.5),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(15) + PXH((SIZE_M*16)),
-					PXW((DIALOG_W/2)) - PXW(25.5),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_feed_mention_bg_color_label";
-					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_feed_mention_bg_color_desc";
-
-					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings);
-					_ctrl ctrlSetBackgroundColor _setting;
-					_ctrl setVariable ["setting",_setting];
-				}
-			],
-			[
-				"ctrlButton",-1,[
-					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(15) + PXH((SIZE_M*16)),
-					PXW(20),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
-					_ctrl ctrlAddEventHandler ["ButtonClick",{
-						params ["_ctrl"];
-						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR);
-						[
-							[_ctrlLabel getVariable ["setting",[]]],
-							"Message background color selection",
-							{
-								if _confirmed then {
-									USE_DISPLAY(THIS_DISPLAY);
-									USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR);
-									_ctrlLabel ctrlSetBackgroundColor _colorRGBA1;
-									_ctrlLabel setVariable ["setting",_colorRGBA1];
-									["ColorSelected"] call THIS_FUNC;
-								};
-							},"","",_display
-						] call CAU_UserInputMenus_fnc_colorPicker;
-					}];
-				}
-			],
-			[
 				"ctrlStatic",IDC_LABEL_AUTOCOMPLETE_KEYBIND,[
 					PXCX(DIALOG_W) + PXW(2.5),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(17) + PXH((SIZE_M*17)),
-					PXW((DIALOG_W/2)) - PXW(25.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(10) + PXH((SIZE_M*9)),
+					PXW((DIALOG_W/3)) - PXW(25),
 					PXH(SIZE_M)
 				],
 				{
@@ -639,8 +371,8 @@ switch _mode do {
 			],
 			[
 				"ctrlButton",-1,[
-					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/2)) - PXW(3)) - PXW(22),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(17) + PXH((SIZE_M*17)),
+					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/3)) - PXW(2.5)) - PXW(22),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(10) + PXH((SIZE_M*9)),
 					PXW(20),
 					PXH(SIZE_M)
 				],
@@ -680,12 +412,12 @@ switch _mode do {
 				}
 			],
 
-		// ~~ Filters
+		// ~~ Appearance
 			[
 				"ctrlStaticBackground",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(1),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(1.5),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				],
 				{
@@ -694,9 +426,314 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(1),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(1.5),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_title";
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.4];
+				}
+			],
+			[
+				"ctrlStaticFrame",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(1.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/3)) - PXW(2.5),
+					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
+				]
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_FONT,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(3),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_text_font_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_font_desc";
+					_ctrl ctrlSetFont (["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings));
+				}
+			],
+			[
+				"ctrlCombo",IDC_COMBO_TEXT_FONT,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(2) + PXH((SIZE_M*2)),
+					PXW((DIALOG_W/3)) - PXW(7),
+					PXH(SIZE_M)
+				],
+				{
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings);
+					private _fonts = ("true" configClasses (configFile >> "CfgFontFamilies")) apply {configName _x};
+					_fonts sort true;
+					{
+						_ctrl lbAdd _x;
+						if (_x == _setting) then {
+							_ctrl lbSetCurSel _forEachIndex;
+						};
+					} forEach _fonts;
+					_ctrl lbAdd ""; // add extra entry because for some reason the last entry is not visible when you scroll down
+					_ctrl ctrlAddEventHandler ["LBSelChanged",{
+						params ["_ctrl","_index"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_FONT);
+						private _setting = _ctrl lbText _index;
+						if (_setting != "") then {
+							_ctrlLabel ctrlSetFont (_ctrl lbText _index);
+							["LBSelChanged"] call THIS_FUNC;
+						};
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_SIZE,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(3) + PXH((SIZE_M*3)),
+					PXW((DIALOG_W/3)) - PXW(3),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_appearance_text_size_label",["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)];
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_size_desc";
+				}
+			],
+			[
+				"ctrlXSliderH",IDC_SLIDER_TEXT_SIZE,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(4),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(4) + PXH((SIZE_M*4)),
+					PXW((DIALOG_W/3)) - PXW(7),
+					PXH(SIZE_M)
+				],
+				{
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings);
+
+					_ctrl sliderSetRange [0.1,5];
+					_ctrl sliderSetSpeed [0.5,0.1];
+					_ctrl sliderSetPosition _setting;
+
+					_ctrl ctrlAddEventHandler ["SliderPosChanged",{
+						params ["_ctrl","_position"];
+						_position = parseNumber(_position toFixed 1);
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_SIZE);
+						_ctrlLabel ctrlSetText format[localize "STR_CAU_xChat_settings_appearance_text_size_label",_position];
+						["SliderPosChanged"] call THIS_FUNC;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_COLOR,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*5)),
+					PXW((DIALOG_W/3)) - PXW(25),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_text_color_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_color_desc";
+
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings);
+					_ctrl ctrlSetTextColor _setting;
+					_ctrl setVariable ["setting",_setting];
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2) + (PXW((DIALOG_W/3)) - PXW(2.5)) - PXW(22.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(6) + PXH((SIZE_M*5)),
+					PXW(20),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
+						[
+							[_ctrlLabel getVariable ["setting",[]]],
+							"Message text color selection",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_COLOR);
+									_ctrlLabel ctrlSetTextColor _colorRGBA1;
+									_ctrlLabel setVariable ["setting",_colorRGBA1];
+									["ColorSelected"] call THIS_FUNC;
+								};
+							},"","",_display
+						] call CAU_UserInputMenus_fnc_colorPicker;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_FEED_BACKGROUND_COLOR,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(8) + PXH((SIZE_M*6)),
+					PXW((DIALOG_W/3)) - PXW(25),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_feed_bg_color_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_feed_bg_color_desc";
+
+					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings);
+					_ctrl ctrlSetBackgroundColor _setting;
+					_ctrl setVariable ["setting",_setting];
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2) + (PXW((DIALOG_W/3)) - PXW(2.5)) - PXW(22.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(8) + PXH((SIZE_M*6)),
+					PXW(20),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
+						[
+							[_ctrlLabel getVariable ["setting",[]]],
+							"Message background color selection",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_BACKGROUND_COLOR);
+									_ctrlLabel ctrlSetBackgroundColor _colorRGBA1;
+									_ctrlLabel setVariable ["setting",_colorRGBA1];
+									["ColorSelected"] call THIS_FUNC;
+								};
+							},"","",_display
+						] call CAU_UserInputMenus_fnc_colorPicker;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TEXT_MENTION_COLOR,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(10) + PXH((SIZE_M*7)),
+					PXW((DIALOG_W/3)) - PXW(25),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_text_mention_color_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_mention_color_desc";
+
+					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings);
+					_ctrl ctrlSetTextColor _setting;
+					_ctrl setVariable ["setting",_setting];
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2) + (PXW((DIALOG_W/3)) - PXW(2.5)) - PXW(22.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(10) + PXH((SIZE_M*7)),
+					PXW(20),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_MENTION_COLOR);
+						[
+							[_ctrlLabel getVariable ["setting",[]]],
+							"Message text color selection",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_TEXT_MENTION_COLOR);
+									_ctrlLabel ctrlSetTextColor _colorRGBA1;
+									_ctrlLabel setVariable ["setting",_colorRGBA1];
+									["ColorSelected"] call THIS_FUNC;
+								};
+							},"","",_display
+						] call CAU_UserInputMenus_fnc_colorPicker;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(12) + PXH((SIZE_M*8)),
+					PXW((DIALOG_W/3)) - PXW(25),
+					PXH(SIZE_M)
+				],
+				{
+					// BG layer for mention bg color
+					_ctrl ctrlSetBackgroundColor [0.1,0.1,0.1,0.5];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(12) + PXH((SIZE_M*8)),
+					PXW((DIALOG_W/3)) - PXW(25),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_feed_mention_bg_color_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_feed_mention_bg_color_desc";
+
+					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings);
+					_ctrl ctrlSetBackgroundColor _setting;
+					_ctrl setVariable ["setting",_setting];
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3)) + PXW(2) + (PXW((DIALOG_W/3)) - PXW(2.5)) - PXW(22.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(12) + PXH((SIZE_M*8)),
+					PXW(20),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR);
+						[
+							[_ctrlLabel getVariable ["setting",[]]],
+							"Message background color selection",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR);
+									_ctrlLabel ctrlSetBackgroundColor _colorRGBA1;
+									_ctrlLabel setVariable ["setting",_colorRGBA1];
+									["ColorSelected"] call THIS_FUNC;
+								};
+							},"","",_display
+						] call CAU_UserInputMenus_fnc_colorPicker;
+					}];
+				}
+			],
+
+
+		// ~~ Filters
+			[
+				"ctrlStaticBackground",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(1),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/3)) - PXW(2.5),
+					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
+				],
+				{
+					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(1),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(SIZE_M)
 				],
 				{
@@ -706,15 +743,15 @@ switch _mode do {
 			],
 			[
 				"ctrlStaticFrame",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(1),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(1),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
-					PXW((DIALOG_W/2)) - PXW(3),
+					PXW((DIALOG_W/3)) - PXW(2.5),
 					PXH(DIALOG_H) - PXH(4) - PXH(SIZE_M) - PXH((SIZE_M + 2))
 				]
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_CONNECT,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -726,9 +763,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH(SIZE_M),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -738,7 +775,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_DISCONNECT,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*2)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -750,9 +787,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*2)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -762,7 +799,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_BATTLEYE_KICK,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*3)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -774,9 +811,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*3)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -786,7 +823,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_LOG_KILLED,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*4)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -798,9 +835,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(1) + PXH((SIZE_M*4)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -810,7 +847,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GLOBAL,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -822,9 +859,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*6)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -837,7 +874,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_SIDE,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -849,9 +886,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*7)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -864,7 +901,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_COMMAND,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -876,9 +913,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*8)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -891,7 +928,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_GROUP,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -903,9 +940,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*9)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -918,7 +955,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_VEHICLE,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -930,9 +967,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*10)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -945,7 +982,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_DIRECT,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -957,9 +994,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*11)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
@@ -972,7 +1009,7 @@ switch _mode do {
 			],
 			[
 				"ctrlCheckbox",IDC_CB_CHANNEL_CUSTOM,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2),
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*12)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
@@ -984,9 +1021,9 @@ switch _mode do {
 			],
 			[
 				"ctrlStatic",-1,[
-					PXCX(DIALOG_W) + PXW((DIALOG_W/2)) + PXW(2) + PXW(SIZE_M) ,
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*12)),
-					PXW((DIALOG_W/2)) - PXW(4) - PXW(SIZE_M),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
 				{
