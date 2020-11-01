@@ -164,6 +164,26 @@
 				<Original>Press any key to set it as your new autocomplete keybind.</Original>
 				<English>Press any key to set it as your new autocomplete keybind.</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_label">
+				<Original>Show/Hide chat feed keybind: %1</Original>
+				<English>Show/Hide chat feed keybind: %1</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_desc">
+				<Original>Press this key to show/hide the chat feed.</Original>
+				<English>Press this key to show/hide the chat feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_edit_tooltip">
+				<Original>Press any key to set it as your new show/hide chat feed keybind.</Original>
+				<English>Press any key to set it as your new show/hide chat feed keybind.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_hide_chat_feed_onload_streamsafe_label">
+				<Original>Auto-hide chat feed in streamer mode</Original>
+				<English>Auto-hide chat feed in streamer mode</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_configuration_hide_chat_feed_onload_streamsafe_desc">
+				<Original>Automatically hide the chat feed when joining a mission if stream friendly ui is enabled.</Original>
+				<English>Automatically hide the chat feed when joining a mission if stream friendly ui is enabled.</English>
+			</Key>
 
 			<!-- Appearance Panel -->
 			<Key ID="STR_CAU_xChat_settings_appearance_title">

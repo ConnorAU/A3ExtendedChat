@@ -28,39 +28,49 @@ Return:
 #define DIALOG_SECTIONS 3
 #define DIALOG_SECTION_W 75
 #define DIALOG_W (DIALOG_SECTION_W*DIALOG_SECTIONS)
-#define DIALOG_H 85
+#define DIALOG_H 90
+
 
 #define IDC_BUTTON_SAVE_SETTINGS                  1
 #define IDC_EDIT_COMMAND_PREFIX                   2
 #define IDC_COMBO_MAX_SAVED_LOGS                  3
 #define IDC_COMBO_MAX_PRINTED_LOGS                4
 #define IDC_COMBO_PRINTED_LOG_TTL                 5
-#define IDC_LABEL_TEXT_FONT                       6
-#define IDC_COMBO_TEXT_FONT                       7
-#define IDC_LABEL_TEXT_SIZE                       8
-#define IDC_SLIDER_TEXT_SIZE                      9
-#define IDC_LABEL_TEXT_COLOR                      10
-#define IDC_LABEL_FEED_BACKGROUND_COLOR           11
-#define IDC_LABEL_TEXT_MENTION_COLOR              12
-#define IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR   13
-#define IDC_LABEL_AUTOCOMPLETE_KEYBIND            14
-#define IDC_CB_LOG_CONNECT                        15
-#define IDC_CB_LOG_DISCONNECT                     16
-#define IDC_CB_LOG_BATTLEYE_KICK                  17
-#define IDC_CB_LOG_KILLED                         18
-#define IDC_CB_CHANNEL_GLOBAL                     19
-#define IDC_CB_CHANNEL_SIDE                       20
-#define IDC_CB_CHANNEL_COMMAND                    21
-#define IDC_CB_CHANNEL_GROUP                      22
-#define IDC_CB_CHANNEL_VEHICLE                    23
-#define IDC_CB_CHANNEL_DIRECT                     24
-#define IDC_CB_CHANNEL_CUSTOM                     25
+#define IDC_LABEL_AUTOCOMPLETE_KEYBIND            6
+#define IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND        7
+#define IDC_CB_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE   8
+
+#define IDC_LABEL_TEXT_FONT                       9
+#define IDC_COMBO_TEXT_FONT                       10
+#define IDC_LABEL_TEXT_SIZE                       11
+#define IDC_SLIDER_TEXT_SIZE                      12
+#define IDC_LABEL_TEXT_COLOR                      13
+#define IDC_LABEL_FEED_BACKGROUND_COLOR           14
+#define IDC_LABEL_TEXT_MENTION_COLOR              15
+#define IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR   16
+
+#define IDC_CB_LOG_CONNECT                        17
+#define IDC_CB_LOG_DISCONNECT                     18
+#define IDC_CB_LOG_BATTLEYE_KICK                  19
+#define IDC_CB_LOG_KILLED                         20
+#define IDC_CB_CHANNEL_GLOBAL                     21
+#define IDC_CB_CHANNEL_SIDE                       22
+#define IDC_CB_CHANNEL_COMMAND                    23
+#define IDC_CB_CHANNEL_GROUP                      24
+#define IDC_CB_CHANNEL_VEHICLE                    25
+#define IDC_CB_CHANNEL_DIRECT                     26
+#define IDC_CB_CHANNEL_CUSTOM                     27
+
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "init":{
+		[ QUOTE(THIS_FUNC) ] call BIS_fnc_recompile;
+		["init2",_params] call THIS_FUNC;
+	};
+	case "init2":{
 		USE_DISPLAY(findDisplay 49 createDisplay "RscDisplayEmpty");
 		uiNamespace setVariable [QUOTE(DISPLAY_NAME),_display];
 
@@ -409,6 +419,97 @@ switch _mode do {
 
 						false
 					}];
+				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND,[
+					PXCX(DIALOG_W) + PXW(2.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(12) + PXH((SIZE_M*10)),
+					PXW((DIALOG_W/3)) - PXW(25),
+					PXH(SIZE_M)
+				],
+				{
+					private _setting = ["get",VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND] call FUNC(settings);
+					_ctrl setVariable ["setting",_setting];
+
+					_ctrl ctrlSetText format[
+						localize "STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_label",
+						if (_setting == -1) then {
+							localize "str_lib_info_na"
+						} else {keyName _setting}
+					];
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_desc";
+				}
+			],
+			[
+				"ctrlButton",-1,[
+					PXCX(DIALOG_W) + PXW(2) + (PXW((DIALOG_W/3)) - PXW(2.5)) - PXW(22),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(12) + PXH((SIZE_M*10)),
+					PXW(20),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND);
+
+						private _active = _ctrlLabel getVariable ["active",false];
+						_active = !_active;
+						_ctrlLabel setVariable ["active",_active];
+
+						if _active then {
+							_ctrl ctrlSetText localize "str_state_stop";
+							_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_edit_tooltip";
+						} else {
+							_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
+							_ctrl ctrlSetTooltip "";
+						};
+					}];
+					_display displayAddEventHandler ["KeyDown",{
+						params  ["_display","_key"];
+						USE_CTRL(_ctrlLabel,IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND);
+
+						private _active = _ctrlLabel getVariable ["active",false];
+						if _active exitWith {
+							_ctrlLabel setVariable ["setting",_key];
+							_ctrlLabel ctrlSetText format[
+								localize "STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_label",
+								if (_key == -1) then {
+									localize "str_lib_info_na"
+								} else {keyName _key}
+							];
+							["KeyDown"] call THIS_FUNC;
+							true
+						};
+
+						false
+					}];
+				}
+			],
+			[
+				"ctrlCheckbox",IDC_CB_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE,[
+					PXCX(DIALOG_W) + PXW(2.5),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(13) + PXH((SIZE_M*11)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE] call FUNC(settings));
+					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					PXCX(DIALOG_W) + PXW(2.5) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(13) + PXH((SIZE_M*11)),
+					PXW((DIALOG_W/3)) - PXW(4) - PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_configuration_hide_chat_feed_onload_streamsafe_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_configuration_hide_chat_feed_onload_streamsafe_desc";
 				}
 			],
 
@@ -1053,13 +1154,15 @@ switch _mode do {
 		USE_CTRL(_ctrlComboMaxSavedLogs,IDC_COMBO_MAX_SAVED_LOGS);
 		USE_CTRL(_ctrlComboMaxPrintedLogs,IDC_COMBO_MAX_PRINTED_LOGS);
 		USE_CTRL(_ctrlComboPrintedLogTTL,IDC_COMBO_PRINTED_LOG_TTL);
+		USE_CTRL(_ctrlLabelAutocompleteKeybind,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
+		USE_CTRL(_ctrlLabelToggleChatFeetKeybind,IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND);
+		USE_CTRL(_ctrlCBHideChatFeedOnloadStreamsafe,IDC_CB_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE);
 		USE_CTRL(_ctrlComboTextFont,IDC_COMBO_TEXT_FONT);
 		USE_CTRL(_ctrlSliderTextSize,IDC_SLIDER_TEXT_SIZE);
 		USE_CTRL(_ctrlLabelTextColor,IDC_LABEL_TEXT_COLOR);
 		USE_CTRL(_ctrlLabelBGColor,IDC_LABEL_FEED_BACKGROUND_COLOR);
 		USE_CTRL(_ctrlLabelTextMentionColor,IDC_LABEL_TEXT_MENTION_COLOR);
 		USE_CTRL(_ctrlLabelMentionBGColor,IDC_LABEL_FEED_MENTION_BACKGROUND_COLOR);
-		USE_CTRL(_ctrlLabelAutocompleteKeybind,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
 		USE_CTRL(_ctrlCBLogConnect,IDC_CB_LOG_CONNECT);
 		USE_CTRL(_ctrlCBLogDisconnect,IDC_CB_LOG_DISCONNECT);
 		USE_CTRL(_ctrlCBLogBattleye,IDC_CB_LOG_BATTLEYE_KICK);
@@ -1094,6 +1197,9 @@ switch _mode do {
 		["set",[VAL_SETTINGS_INDEX_MAX_SAVED,_ctrlComboMaxSavedLogs lbValue (lbCurSel _ctrlComboMaxSavedLogs)]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_MAX_PRINTED,_ctrlComboMaxPrintedLogs lbValue (lbCurSel _ctrlComboMaxPrintedLogs)]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_TTL_PRINTED,_ctrlComboPrintedLogTTL lbValue (lbCurSel _ctrlComboPrintedLogTTL)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND,_ctrlLabelAutocompleteKeybind getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND,_ctrlLabelToggleChatFeetKeybind getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE,cbChecked _ctrlCBHideChatFeedOnloadStreamsafe]] call FUNC(settings);
 
 		["set",[VAL_SETTINGS_INDEX_TEXT_FONT,_ctrlComboTextFont lbText (lbCurSel _ctrlComboTextFont)]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_TEXT_SIZE,parseNumber(sliderPosition _ctrlSliderTextSize toFixed 1)]] call FUNC(settings);
@@ -1102,7 +1208,6 @@ switch _mode do {
 		["set",[VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR,_ctrlLabelTextMentionColor getVariable ["setting",[]]]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR,_ctrlLabelMentionBGColor getVariable ["setting",[]]]] call FUNC(settings);
 
-		["set",[VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND,_ctrlLabelAutocompleteKeybind getVariable ["setting",[]]]] call FUNC(settings);
 
 		["set",[VAL_SETTINGS_INDEX_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_INDEX_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);

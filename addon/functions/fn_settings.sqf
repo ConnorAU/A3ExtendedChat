@@ -164,6 +164,49 @@ switch _mode do {
 					["_VAL_SETTINGS_INDEX_PRINT_CUSTOM",true,[true]]
 				];
 
+				if (!_correctSize || !_correctFormat) then {
+					_resetArray = true;
+				} else {
+					_settings set [0,"v2.1"];
+					_settings deleteAt 11; // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND (old index)
+					_settings = [_settings,[
+						_VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND,
+						-1,false
+					],5/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
+
+					profileNameSpace setVariable [VAR_SETTINGS,_settings];
+					_repeatInit = true;
+				};
+			};
+			case "v2.1":{
+				private _correctSize = count _settings == 25;
+				private _correctFormat = _settings params ["",
+					["_VAL_SETTINGS_INDEX_COMMAND_PREFIX","",[""]],
+					["_VAL_SETTINGS_INDEX_MAX_SAVED",0,[0]],
+					["_VAL_SETTINGS_INDEX_MAX_PRINTED",0,[0]],
+					["_VAL_SETTINGS_INDEX_TTL_PRINTED",0,[0]],
+					["_VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND",0,[0]],
+					["_VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND",0,[0]],
+					["_VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE",false,[true]],
+					["_VAL_SETTINGS_INDEX_TEXT_FONT","",[""]],
+					["_VAL_SETTINGS_INDEX_TEXT_SIZE",0,[0]],
+					["_VAL_SETTINGS_INDEX_TEXT_COLOR",[],[[]],4],
+					["_VAL_SETTINGS_INDEX_FEED_BG_COLOR",[],[[]],4],
+					["_VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR",[],[[]],4],
+					["_VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR",[],[[]],4],
+					["_VAL_SETTINGS_INDEX_PRINT_CONNECTED",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_DISCONNECTED",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_KILL",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_GLOBAL",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_SIDE",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_COMMAND",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_GROUP",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_VEHICLE",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_DIRECT",true,[true]],
+					["_VAL_SETTINGS_INDEX_PRINT_CUSTOM",true,[true]]
+				];
+
 				if (!_correctSize || !_correctFormat) then {_resetArray = true};
 			};
 			default {_resetArray = true;};
@@ -181,13 +224,15 @@ switch _mode do {
 				["get",VAL_SETTINGS_INDEX_MAX_SAVED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_MAX_PRINTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_TTL_PRINTED] call THIS_FUNC,
+				["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call THIS_FUNC,
+				["get",VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND] call THIS_FUNC,
+				["get",VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_TEXT_FONT] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call THIS_FUNC,
 				["get",VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK] call THIS_FUNC,
@@ -215,18 +260,20 @@ switch _mode do {
 	case "get":{
 		private _settings = profileNameSpace getVariable [VAR_SETTINGS,[]];
 		private _default = [
-			"v2",                             // Array format version
+			"v2.1",                           // Array format version
 			"#",                              // VAL_SETTINGS_INDEX_COMMAND_PREFIX
 			500,                              // VAL_SETTINGS_INDEX_MAX_SAVED
 			10,                               // VAL_SETTINGS_INDEX_MAX_PRINTED
 			45,                               // VAL_SETTINGS_INDEX_TTL_PRINTED
+			DIK_TAB,                          // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND
+			-1,                               // VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND
+			false,                            // VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE
 			"RobotoCondensedLight",           // VAL_SETTINGS_INDEX_TEXT_FONT
 			1,                                // VAL_SETTINGS_INDEX_TEXT_SIZE
 			[0.651,0.651,0.651,1],            // VAL_SETTINGS_INDEX_TEXT_COLOR
 			[0.1,0.1,0.1,0.5],                // VAL_SETTINGS_INDEX_FEED_BG_COLOR
 			[0.545098,0.65098,0.894118,1],    // VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR
 			[0.984,0.655,0.071,0.2],          // VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR
-			DIK_TAB,                          // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND
 			true,                             // VAL_SETTINGS_INDEX_PRINT_CONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_DISCONNECTED
 			true,                             // VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK

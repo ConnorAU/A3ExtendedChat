@@ -40,7 +40,7 @@ if hasInterface then {
 	VAR_HISTORY = [];
 	VAR_MESSAGE_FEED_CTRLS = [];
 	VAR_COMMANDS_ARRAY = [];
-	VAR_MESSAGE_FEED_SHOWN = true;
+	VAR_MESSAGE_FEED_SHOWN = !isStreamFriendlyUIEnabled || {!(["get",VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE] call FUNC(settings))};
 	VAR_NEW_MESSAGE_PENDING = false;
 	VAR_ENABLE_LOGGING = missionNamespace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]; // Done like this to use publicVariable before default value
 	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
@@ -96,10 +96,26 @@ if hasInterface then {
 	addMissionEventHandler ["HandleChatMessage",{call FUNC(handleChatMessage)}];
 
 	[] spawn {
+		scriptName "Extended Chat: Player init";
 		waitUntil {player isKindOf "CAManBase"};
 		player setVariable [QUOTE(VAR_UNIT_NAME),name player,true];
 		player setVariable [QUOTE(VAR_UNIT_OWNER_ID),clientOwner,true];
 	};
+	[] spawn {
+		scriptName "Extended Chat: UI init";
+		waitUntil {!isNull findDisplay 46};
+		findDisplay 46 displayAddEventHandler ["KeyDown",{
+			params ["","_key"];
+			private _toggleChatFeedKey = ["get",VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND] call FUNC(settings);
+			if (_toggleChatFeedKey != -1 && {_key == _toggleChatFeedKey}) exitWith {
+				VAR_MESSAGE_FEED_SHOWN = !VAR_MESSAGE_FEED_SHOWN;
+				VAR_NEW_MESSAGE_PENDING = true;
+				true
+			};
+			false
+		}];
+	};
+
 };
 
 if isServer then {
