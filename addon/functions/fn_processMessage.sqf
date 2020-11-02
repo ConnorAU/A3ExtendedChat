@@ -39,7 +39,7 @@ if (_command == "") exitWith {};
 
 private _pid = getPlayerUID player;
 
-private _commandPrefix = ["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings);
+private _commandPrefix = ["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings);
 private _commandPrefixFound = ["stringPrefix",[_text,_commandPrefix]] call FUNC(commonTask);
 private _vanillaPrefixFound = _text find "#" == 0;
 if (_commandPrefixFound || _vanillaPrefixFound) exitWith {

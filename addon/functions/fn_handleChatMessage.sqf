@@ -140,7 +140,7 @@ if (_channelID == 0 && _chatMessageType == 2) exitWith {
 
 			if _match exitWith {
 				private _names = ["stringExtractFromSegments",[_message,_xSplit]] call FUNC(commonTask);
-				["systemChat",[_message,nil,nil,VAL_SETTINGS_INDEX_PRINT_KILL,[_forEachIndex,_names]]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+				["systemChat",[_message,nil,nil,VAL_SETTINGS_KEY_PRINT_DEATH,[_forEachIndex,_names]]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
 			};
 		} forEach [
 			localize "str_killed_friendly",
@@ -184,13 +184,13 @@ private _senderUID = getPlayerUID _senderUnit;
 if !_sehBlockHistory then {
 	private _historyData = [
 		_message,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,_containsImg,
-		if _messageMentionsSelf then {["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
+		if _messageMentionsSelf then {["get",VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
 	];
 	VAR_HISTORY pushBack _historyData;
 };
 
 // Delete old messages if the array had exceeded the limit
-private _maxHistorySize = ["get",VAL_SETTINGS_INDEX_MAX_SAVED] call FUNC(settings);
+private _maxHistorySize = ["get",VAL_SETTINGS_KEY_MAX_SAVED] call FUNC(settings);
 if (count VAR_HISTORY > _maxHistorySize) then {
 	// remove oldest entry to keep well within array limit
 	for "_i" from 0 to 1 step 0 do {
@@ -204,14 +204,14 @@ if _sehBlockPrint exitWith {};
 
 // Get channel filter setting
 private _isChannelPrintEnabled = switch _channelID do {
-	case 0:{["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call FUNC(settings)};
-	case 1:{["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call FUNC(settings)};
-	case 2:{["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call FUNC(settings)};
-	case 3:{["get",VAL_SETTINGS_INDEX_PRINT_GROUP] call FUNC(settings)};
-	case 4:{["get",VAL_SETTINGS_INDEX_PRINT_VEHICLE] call FUNC(settings)};
-	case 5:{["get",VAL_SETTINGS_INDEX_PRINT_DIRECT] call FUNC(settings)};
+	case 0:{["get",VAL_SETTINGS_KEY_PRINT_GLOBAL] call FUNC(settings)};
+	case 1:{["get",VAL_SETTINGS_KEY_PRINT_SIDE] call FUNC(settings)};
+	case 2:{["get",VAL_SETTINGS_KEY_PRINT_COMMAND] call FUNC(settings)};
+	case 3:{["get",VAL_SETTINGS_KEY_PRINT_GROUP] call FUNC(settings)};
+	case 4:{["get",VAL_SETTINGS_KEY_PRINT_VEHICLE] call FUNC(settings)};
+	case 5:{["get",VAL_SETTINGS_KEY_PRINT_DIRECT] call FUNC(settings)};
 	case 6;case 7;case 8;case 9;case 11;case 12;case 13;case 14;
-	case 15:{["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings)};
+	case 15:{["get",VAL_SETTINGS_KEY_PRINT_CUSTOM] call FUNC(settings)};
 	default {true};
 };
 
@@ -226,7 +226,7 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 
 	// Format message to final state
 	private _messageColor =	if (_sentenceType == 0) then {"#FFFFFF"} else {
-		(["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
+		(["get",VAL_SETTINGS_KEY_TEXT_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
 	};
 
 	if (_senderNameSafe != "") then {
@@ -237,8 +237,8 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 		text _senderNameSafe setAttributes ["color",_channelColor call BIS_fnc_colorRGBAtoHTML],
 		_message setAttributes ["color",_messageColor]
 	] setAttributes [
-		"size",str((["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings))),
-		"font",["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings)
+		"size",str((["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_KEY_TEXT_SIZE] call FUNC(settings))),
+		"font",["get",VAL_SETTINGS_KEY_TEXT_FONT] call FUNC(settings)
 	];
 	_ctrlText ctrlSetStructuredText composeText [_messageFinal];
 

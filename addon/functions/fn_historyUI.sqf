@@ -213,7 +213,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_GLOBAL] call FUNC(settings));
 					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 
 					// for some reason this ctrl is closing the display when clicked
@@ -242,7 +242,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_SIDE] call FUNC(settings));
 					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 				}
 			],
@@ -268,7 +268,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_COMMAND] call FUNC(settings));
 					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 				}
 			],
@@ -294,7 +294,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GROUP] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_GROUP] call FUNC(settings));
 					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 				}
 			],
@@ -320,7 +320,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_VEHICLE] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_VEHICLE] call FUNC(settings));
 					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 				}
 			],
@@ -346,7 +346,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_DIRECT] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_DIRECT] call FUNC(settings));
 					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 				}
 			],
@@ -469,7 +469,7 @@ switch _mode do {
 
 				private _ctrlCB = _display ctrlCreate ["ctrlCheckbox",_customChannelIDCs#_i];
 				_ctrlCB ctrlSetPosition _ctrlPosCB;
-				_ctrlCB cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings));
+				_ctrlCB cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_CUSTOM] call FUNC(settings));
 				_ctrlCB ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
 				_ctrlCB ctrlCommit 0;
 

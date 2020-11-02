@@ -246,7 +246,7 @@ switch _mode do {
 							_params set [
 								_fei,
 								text _unitName setAttributes [
-									"color",(["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
+									"color",(["get",VAL_SETTINGS_KEY_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
 								]
 							];
 						};

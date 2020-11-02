@@ -37,12 +37,12 @@ _ctrlMessageContainer ctrlSetPosition [
 ];
 
 private _ctrlMessageBackground = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
-_ctrlMessageBackground ctrlSetBackgroundColor (["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings));
+_ctrlMessageBackground ctrlSetBackgroundColor (["get",VAL_SETTINGS_KEY_FEED_BG_COLOR] call FUNC(settings));
 _ctrlMessageBackground ctrlSetPosition [0,0,VAR_MESSAGE_FEED_POS#2,0];
 
 private _ctrlMessageBackgroundMentioned = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];
 _ctrlMessageBackgroundMentioned ctrlShow false;
-_ctrlMessageBackgroundMentioned ctrlSetBackgroundColor (["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings));
+_ctrlMessageBackgroundMentioned ctrlSetBackgroundColor (["get",VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR] call FUNC(settings));
 _ctrlMessageBackgroundMentioned ctrlSetPosition ctrlPosition _ctrlMessageBackground;
 
 private _ctrlMessageStripe = _display ctrlCreate ["ctrlStatic",-1,_ctrlMessageContainer];

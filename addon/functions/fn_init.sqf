@@ -40,7 +40,7 @@ if hasInterface then {
 	VAR_HISTORY = [];
 	VAR_MESSAGE_FEED_CTRLS = [];
 	VAR_COMMANDS_ARRAY = [];
-	VAR_MESSAGE_FEED_SHOWN = !isStreamFriendlyUIEnabled || {!(["get",VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE] call FUNC(settings))};
+	VAR_MESSAGE_FEED_SHOWN = !isStreamFriendlyUIEnabled || {!(["get",VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE] call FUNC(settings))};
 	VAR_NEW_MESSAGE_PENDING = false;
 	VAR_ENABLE_LOGGING = missionNamespace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]; // Done like this to use publicVariable before default value
 	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
@@ -106,7 +106,7 @@ if hasInterface then {
 		waitUntil {!isNull findDisplay 46};
 		findDisplay 46 displayAddEventHandler ["KeyDown",{
 			params ["","_key"];
-			private _toggleChatFeedKey = ["get",VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND] call FUNC(settings);
+			private _toggleChatFeedKey = ["get",VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND] call FUNC(settings);
 			if (_toggleChatFeedKey != -1 && {_key == _toggleChatFeedKey}) exitWith {
 				VAR_MESSAGE_FEED_SHOWN = !VAR_MESSAGE_FEED_SHOWN;
 				VAR_NEW_MESSAGE_PENDING = true;
@@ -158,16 +158,16 @@ if isServer then {
 
 				if _localCondition then {
 					private _remoteSettingIndex = switch _forEachIndex do {
-						case 1:{VAL_SETTINGS_INDEX_PRINT_CONNECTED};
-						case 2:{VAL_SETTINGS_INDEX_PRINT_DISCONNECTED};
-						case 11:{VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK};
+						case 1:{VAL_SETTINGS_KEY_PRINT_CONNECTED};
+						case 2:{VAL_SETTINGS_KEY_PRINT_DISCONNECTED};
+						case 11:{VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK};
 						default {-1};
 					};
 
 					["systemChat",[_message,nil,nil,_remoteSettingIndex]] remoteExecCall [QUOTE(FUNC(sendMessage)),-2];
 
 					if hasInterface then {
-						_block = !(["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings));
+						_block = !(["get",VAL_SETTINGS_KEY_PRINT_CONNECTED] call FUNC(settings));
 					};
 				};
 			};

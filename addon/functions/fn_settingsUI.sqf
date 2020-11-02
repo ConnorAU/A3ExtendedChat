@@ -13,7 +13,7 @@ Description:
 
 Parameters:
 	_mode   : STRING - The name of the sub-function
-    _params : ANY    - The arguments provided to the sub-function
+	_params : ANY    - The arguments provided to the sub-function
 
 Return:
 	ANY - Return type depends on the _mode specified
@@ -249,7 +249,7 @@ switch _mode do {
 					_ctrl ctrlSetFontHeight PXH(4.32);
 					_ctrl ctrlSetBackgroundColor [COLOR_TAB_RGBA];
 
-					_ctrl ctrlSetText (["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings));
+					_ctrl ctrlSetText (["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["KeyDown",{["KeyDown"] call THIS_FUNC}];
 				}
 			],
@@ -273,7 +273,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_MAX_SAVED] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_MAX_SAVED] call FUNC(settings);
 
 					{
 						_ctrl lbAdd format[localize "STR_CAU_xChat_settings_configuration_message_history_limit_option",_x];
@@ -310,7 +310,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_MAX_PRINTED] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_MAX_PRINTED] call FUNC(settings);
 
 					{
 						_ctrl lbAdd format[localize "STR_CAU_xChat_settings_configuration_message_feed_limit_option",_x];
@@ -347,7 +347,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_TTL_PRINTED] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_TTL_PRINTED] call FUNC(settings);
 
 					{
 						_ctrl lbAdd format[localize "STR_CAU_xChat_settings_configuration_message_ttl_option",_x];
@@ -372,7 +372,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_AUTOCOMPLETE_KEYBIND] call FUNC(settings);
 					_ctrl setVariable ["setting",_setting];
 
 					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_label",keyName _setting];
@@ -429,7 +429,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND] call FUNC(settings);
 					_ctrl setVariable ["setting",_setting];
 
 					_ctrl ctrlSetText format[
@@ -496,7 +496,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -555,7 +555,7 @@ switch _mode do {
 				{
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_text_font_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_font_desc";
-					_ctrl ctrlSetFont (["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings));
+					_ctrl ctrlSetFont (["get",VAL_SETTINGS_KEY_TEXT_FONT] call FUNC(settings));
 				}
 			],
 			[
@@ -566,7 +566,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_FONT] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_TEXT_FONT] call FUNC(settings);
 					private _fonts = ("true" configClasses (configFile >> "CfgFontFamilies")) apply {configName _x};
 					_fonts sort true;
 					{
@@ -596,7 +596,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_appearance_text_size_label",["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings)];
+					_ctrl ctrlSetText format[localize "STR_CAU_xChat_settings_appearance_text_size_label",["get",VAL_SETTINGS_KEY_TEXT_SIZE] call FUNC(settings)];
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_size_desc";
 				}
 			],
@@ -608,7 +608,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_TEXT_SIZE] call FUNC(settings);
 
 					_ctrl sliderSetRange [0.1,5];
 					_ctrl sliderSetSpeed [0.5,0.1];
@@ -635,7 +635,7 @@ switch _mode do {
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_text_color_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_color_desc";
 
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_TEXT_COLOR] call FUNC(settings);
 					_ctrl ctrlSetTextColor _setting;
 					_ctrl setVariable ["setting",_setting];
 				}
@@ -680,7 +680,7 @@ switch _mode do {
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_feed_bg_color_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_feed_bg_color_desc";
 
-					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_FEED_BG_COLOR] call FUNC(settings);
 					_ctrl ctrlSetBackgroundColor _setting;
 					_ctrl setVariable ["setting",_setting];
 				}
@@ -725,7 +725,7 @@ switch _mode do {
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_text_mention_color_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_text_mention_color_desc";
 
-					private _setting = ["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_TEXT_MENTION_COLOR] call FUNC(settings);
 					_ctrl ctrlSetTextColor _setting;
 					_ctrl setVariable ["setting",_setting];
 				}
@@ -782,7 +782,7 @@ switch _mode do {
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_appearance_feed_mention_bg_color_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_appearance_feed_mention_bg_color_desc";
 
-					private _setting = ["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call FUNC(settings);
+					private _setting = ["get",VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR] call FUNC(settings);
 					_ctrl ctrlSetBackgroundColor _setting;
 					_ctrl setVariable ["setting",_setting];
 				}
@@ -858,7 +858,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_CONNECTED] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -882,7 +882,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_DISCONNECTED] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -906,7 +906,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -930,7 +930,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_KILL] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_DEATH] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -954,7 +954,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_GLOBAL] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -981,7 +981,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_SIDE] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -1008,7 +1008,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_COMMAND] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -1035,7 +1035,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_GROUP] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_GROUP] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -1062,7 +1062,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_VEHICLE] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_VEHICLE] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -1089,7 +1089,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_DIRECT] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_DIRECT] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -1116,7 +1116,7 @@ switch _mode do {
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl cbSetChecked (["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call FUNC(settings));
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_PRINT_CUSTOM] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{["CBCheckedChanged"] call THIS_FUNC}];
 				}
 			],
@@ -1188,38 +1188,38 @@ switch _mode do {
 		[
 			"set",
 			[
-				VAL_SETTINGS_INDEX_COMMAND_PREFIX,
+				VAL_SETTINGS_KEY_COMMAND_PREFIX,
 				if (!isNil "_commandPrefix") then {_commandPrefix}
 			]
 		] call FUNC(settings);
-		_ctrlEditCommandPrefix ctrlSetText (["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings));
+		_ctrlEditCommandPrefix ctrlSetText (["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings));
 
-		["set",[VAL_SETTINGS_INDEX_MAX_SAVED,_ctrlComboMaxSavedLogs lbValue (lbCurSel _ctrlComboMaxSavedLogs)]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_MAX_PRINTED,_ctrlComboMaxPrintedLogs lbValue (lbCurSel _ctrlComboMaxPrintedLogs)]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_TTL_PRINTED,_ctrlComboPrintedLogTTL lbValue (lbCurSel _ctrlComboPrintedLogTTL)]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND,_ctrlLabelAutocompleteKeybind getVariable ["setting",[]]]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND,_ctrlLabelToggleChatFeetKeybind getVariable ["setting",[]]]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE,cbChecked _ctrlCBHideChatFeedOnloadStreamsafe]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_MAX_SAVED,_ctrlComboMaxSavedLogs lbValue (lbCurSel _ctrlComboMaxSavedLogs)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_MAX_PRINTED,_ctrlComboMaxPrintedLogs lbValue (lbCurSel _ctrlComboMaxPrintedLogs)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_TTL_PRINTED,_ctrlComboPrintedLogTTL lbValue (lbCurSel _ctrlComboPrintedLogTTL)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_AUTOCOMPLETE_KEYBIND,_ctrlLabelAutocompleteKeybind getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND,_ctrlLabelToggleChatFeetKeybind getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE,cbChecked _ctrlCBHideChatFeedOnloadStreamsafe]] call FUNC(settings);
 
-		["set",[VAL_SETTINGS_INDEX_TEXT_FONT,_ctrlComboTextFont lbText (lbCurSel _ctrlComboTextFont)]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_TEXT_SIZE,parseNumber(sliderPosition _ctrlSliderTextSize toFixed 1)]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_TEXT_COLOR,_ctrlLabelTextColor getVariable ["setting",[]]]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_FEED_BG_COLOR,_ctrlLabelBGColor getVariable ["setting",[]]]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR,_ctrlLabelTextMentionColor getVariable ["setting",[]]]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR,_ctrlLabelMentionBGColor getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_TEXT_FONT,_ctrlComboTextFont lbText (lbCurSel _ctrlComboTextFont)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_TEXT_SIZE,parseNumber(sliderPosition _ctrlSliderTextSize toFixed 1)]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_TEXT_COLOR,_ctrlLabelTextColor getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_FEED_BG_COLOR,_ctrlLabelBGColor getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_TEXT_MENTION_COLOR,_ctrlLabelTextMentionColor getVariable ["setting",[]]]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR,_ctrlLabelMentionBGColor getVariable ["setting",[]]]] call FUNC(settings);
 
 
-		["set",[VAL_SETTINGS_INDEX_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK,cbChecked _ctrlCBLogBattleye]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_KILL,cbChecked _ctrlCBLogKilled]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_GLOBAL,cbChecked _ctrlCBShowGlobal]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_SIDE,cbChecked _ctrlCBShowSide]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_COMMAND,cbChecked _ctrlCBShowCommand]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_GROUP,cbChecked _ctrlCBShowGroup]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_VEHICLE,cbChecked _ctrlCBShowVehicle]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_DIRECT,cbChecked _ctrlCBShowDirect]] call FUNC(settings);
-		["set",[VAL_SETTINGS_INDEX_PRINT_CUSTOM,cbChecked _ctrlCBShowCustom]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK,cbChecked _ctrlCBLogBattleye]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_DEATH,cbChecked _ctrlCBLogKilled]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_GLOBAL,cbChecked _ctrlCBShowGlobal]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_SIDE,cbChecked _ctrlCBShowSide]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_COMMAND,cbChecked _ctrlCBShowCommand]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_GROUP,cbChecked _ctrlCBShowGroup]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_VEHICLE,cbChecked _ctrlCBShowVehicle]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_DIRECT,cbChecked _ctrlCBShowDirect]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_PRINT_CUSTOM,cbChecked _ctrlCBShowCustom]] call FUNC(settings);
 
 		saveProfileNamespace;
 

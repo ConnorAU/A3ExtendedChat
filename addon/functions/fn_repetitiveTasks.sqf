@@ -154,8 +154,8 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 	private _y = (VAR_MESSAGE_FEED_POS#1)+(VAR_MESSAGE_FEED_POS#3);
 	private _activeMessageCtrls = count VAR_MESSAGE_FEED_CTRLS - 1;
 
-	private _maxMsgsShown = ["get",VAL_SETTINGS_INDEX_MAX_PRINTED] call FUNC(settings);
-	private _maxMsgTTL = ["get",VAL_SETTINGS_INDEX_TTL_PRINTED] call FUNC(settings);
+	private _maxMsgsShown = ["get",VAL_SETTINGS_KEY_MAX_PRINTED] call FUNC(settings);
+	private _maxMsgTTL = ["get",VAL_SETTINGS_KEY_TTL_PRINTED] call FUNC(settings);
 
 	for "_i" from _activeMessageCtrls to 0 step -1 do {
 		private _ctrl = VAR_MESSAGE_FEED_CTRLS#_i;

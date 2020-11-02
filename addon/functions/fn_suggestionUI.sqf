@@ -41,7 +41,7 @@ switch _mode do {
 		_display setVariable ["ctrlListSuggestions",_ctrlList];
 
 		findDisplay 24 displayAddEventHandler ["KeyDown",{
-			if ((_this#1 isEqualTo (["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call FUNC(settings)))) then {
+			if ((_this#1 isEqualTo (["get",VAL_SETTINGS_KEY_AUTOCOMPLETE_KEYBIND] call FUNC(settings)))) then {
 				["KeyDownAutoComplete"] call THIS_FUNC;
 				true
 			};
@@ -118,7 +118,7 @@ switch _mode do {
 		// Determine segment types
 		private _ctrlEditTextSegmentTypePrefixed = [
 			":","@",
-			["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call FUNC(settings)
+			["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings)
 		];
 		private _ctrlEditTextSegmentTypeForced = _ctrlList getVariable ["ctrlEditTextSegmentTypeForced",-1];
 		private _ctrlEditTextSegmentTypeCond =_ctrlEditTextSegmentTypePrefixed findIf {_ctrlEditTextSegment find _x == 0};

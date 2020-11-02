@@ -26,11 +26,20 @@ Return:
 
 SWITCH_SYS_PARAMS;
 
+private _settings = profileNameSpace getVariable [VAR_SETTINGS,[[],[]]];
+
 switch _mode do {
 	case "init":{
+		[ QUOTE(THIS_FUNC) ] call BIS_fnc_recompile;
+		["init2",_params] call THIS_FUNC;
+	};
+	case "init2":{
 		// verify the settings array elements
-		private _settings = profileNameSpace getVariable [VAR_SETTINGS,["v0"]];
-		private _version = _settings param [0,"v0",[""]];
+		private _version = if (_settings isEqualTypeArray [[],[]]) then {
+			_settings#1 param [_settings#0 find VAL_SETTINGS_KEY_VERSION,"v0",[""]];
+		} else {
+			_settings param [0,"v0",[""]];
+		};
 		private _repeatInit = false;
 		private _resetArray = false;
 
@@ -167,130 +176,152 @@ switch _mode do {
 				if (!_correctSize || !_correctFormat) then {
 					_resetArray = true;
 				} else {
-					_settings set [0,"v2.1"];
-					_settings deleteAt 11; // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND (old index)
-					_settings = [_settings,[
-						_VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND,
-						-1,false
-					],5/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
+					private _keys = [];
+					private _values = [];
+					{
+						_keys pushBack _x;
+						_values pushBack (_settings#_forEachIndex);
+					} forEach [
+						VAL_SETTINGS_KEY_VERSION,
+						VAL_SETTINGS_KEY_COMMAND_PREFIX,
+						VAL_SETTINGS_KEY_MAX_SAVED,
+						VAL_SETTINGS_KEY_MAX_PRINTED,
+						VAL_SETTINGS_KEY_TTL_PRINTED,
+						VAL_SETTINGS_KEY_TEXT_FONT,
+						VAL_SETTINGS_KEY_TEXT_SIZE,
+						VAL_SETTINGS_KEY_TEXT_COLOR,
+						VAL_SETTINGS_KEY_FEED_BG_COLOR,
+						VAL_SETTINGS_KEY_TEXT_MENTION_COLOR,
+						VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR,
+						VAL_SETTINGS_KEY_AUTOCOMPLETE_KEYBIND,
+						VAL_SETTINGS_KEY_PRINT_CONNECTED,
+						VAL_SETTINGS_KEY_PRINT_DISCONNECTED,
+						VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK,
+						VAL_SETTINGS_KEY_PRINT_DEATH,
+						VAL_SETTINGS_KEY_PRINT_GLOBAL,
+						VAL_SETTINGS_KEY_PRINT_SIDE,
+						VAL_SETTINGS_KEY_PRINT_COMMAND,
+						VAL_SETTINGS_KEY_PRINT_GROUP,
+						VAL_SETTINGS_KEY_PRINT_VEHICLE,
+						VAL_SETTINGS_KEY_PRINT_DIRECT,
+						VAL_SETTINGS_KEY_PRINT_CUSTOM
+					];
 
-					profileNameSpace setVariable [VAR_SETTINGS,_settings];
+					profileNameSpace setVariable [VAR_SETTINGS,[_keys,_values]];
+
+					["set",[VAL_SETTINGS_KEY_VERSION,"v2.1"]] call THIS_FUNC;
+					["set",[VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND,-1]] call THIS_FUNC;
+					["set",[VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE,false]] call THIS_FUNC;
+
 					_repeatInit = true;
 				};
 			};
 			case "v2.1":{
-				private _correctSize = count _settings == 25;
-				private _correctFormat = _settings params ["",
-					["_VAL_SETTINGS_INDEX_COMMAND_PREFIX","",[""]],
-					["_VAL_SETTINGS_INDEX_MAX_SAVED",0,[0]],
-					["_VAL_SETTINGS_INDEX_MAX_PRINTED",0,[0]],
-					["_VAL_SETTINGS_INDEX_TTL_PRINTED",0,[0]],
-					["_VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND",0,[0]],
-					["_VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND",0,[0]],
-					["_VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE",false,[true]],
-					["_VAL_SETTINGS_INDEX_TEXT_FONT","",[""]],
-					["_VAL_SETTINGS_INDEX_TEXT_SIZE",0,[0]],
-					["_VAL_SETTINGS_INDEX_TEXT_COLOR",[],[[]],4],
-					["_VAL_SETTINGS_INDEX_FEED_BG_COLOR",[],[[]],4],
-					["_VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR",[],[[]],4],
-					["_VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR",[],[[]],4],
-					["_VAL_SETTINGS_INDEX_PRINT_CONNECTED",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_DISCONNECTED",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_KILL",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_GLOBAL",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_SIDE",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_COMMAND",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_GROUP",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_VEHICLE",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_DIRECT",true,[true]],
-					["_VAL_SETTINGS_INDEX_PRINT_CUSTOM",true,[true]]
-				];
+				private _correctSize = count(_settings#0) == 25 && count(_settings#1) == 25;
+				private _correctFormat = true;
 
-				if (!_correctSize || !_correctFormat) then {_resetArray = true};
+				private _default = ["default"] call THIS_FUNC;
+				{
+					private _value = _settings#1#(_settings#0 find _x);
+					private _dValue = _default#1#_forEachIndex;
+					if (isNil "_value" || {!(_value isEqualType _dValue)}) then {
+						_correctFormat = false;
+						diag_log [_x,typeName _dValue,typeName _value,_value];
+						[_value] param [0,_dValue,[_dValue]]; // Used to show script error
+					};
+				} forEach _default#0;
+
+				if (!_correctSize || !_correctFormat) then {
+					_resetArray = true;
+				};
 			};
-			default {_resetArray = true;};
+			default {_resetArray = true};
 		};
 
 		if _resetArray then {
-			diag_log ["_settings",_settings];
-			diag_log ["count _settings",count _settings];
-
-			profileNameSpace setVariable [VAR_SETTINGS,[]];
-
-			_settings = [
-				["get",0] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_COMMAND_PREFIX] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_MAX_SAVED] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_MAX_PRINTED] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_TTL_PRINTED] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_TEXT_FONT] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_TEXT_SIZE] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_TEXT_COLOR] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_FEED_BG_COLOR] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_CONNECTED] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_DISCONNECTED] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_KILL] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_GLOBAL] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_SIDE] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_COMMAND] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_GROUP] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_VEHICLE] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_DIRECT] call THIS_FUNC,
-				["get",VAL_SETTINGS_INDEX_PRINT_CUSTOM] call THIS_FUNC
-			];
+			diag_log text "Extended Chat: Reverting settings to default values";
+			profileNameSpace setVariable [VAR_SETTINGS,["default"] call THIS_FUNC];
 		};
-
-		profileNameSpace setVariable [VAR_SETTINGS,_settings];
 
 		if _repeatInit then {
 			// repeat when updating to a new version format.
 			// will save the settings in the next version format then repeat the init to verify/update again if multiple versions behind.
+			diag_log text "Extended Chat: Repeating settings initialization";
 			_this call THIS_FUNC;
 		} else {
 			saveProfileNamespace;
 		};
 	};
+
+
+	case "default":{
+		[[
+			VAL_SETTINGS_KEY_VERSION,
+			VAL_SETTINGS_KEY_COMMAND_PREFIX,
+			VAL_SETTINGS_KEY_MAX_SAVED,
+			VAL_SETTINGS_KEY_MAX_PRINTED,
+			VAL_SETTINGS_KEY_TTL_PRINTED,
+			VAL_SETTINGS_KEY_AUTOCOMPLETE_KEYBIND,
+			VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND,
+			VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE,
+			VAL_SETTINGS_KEY_TEXT_FONT,
+			VAL_SETTINGS_KEY_TEXT_SIZE,
+			VAL_SETTINGS_KEY_TEXT_COLOR,
+			VAL_SETTINGS_KEY_FEED_BG_COLOR,
+			VAL_SETTINGS_KEY_TEXT_MENTION_COLOR,
+			VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR,
+			VAL_SETTINGS_KEY_PRINT_CONNECTED,
+			VAL_SETTINGS_KEY_PRINT_DISCONNECTED,
+			VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK,
+			VAL_SETTINGS_KEY_PRINT_DEATH,
+			VAL_SETTINGS_KEY_PRINT_GLOBAL,
+			VAL_SETTINGS_KEY_PRINT_SIDE,
+			VAL_SETTINGS_KEY_PRINT_COMMAND,
+			VAL_SETTINGS_KEY_PRINT_GROUP,
+			VAL_SETTINGS_KEY_PRINT_VEHICLE,
+			VAL_SETTINGS_KEY_PRINT_DIRECT,
+			VAL_SETTINGS_KEY_PRINT_CUSTOM
+		],[
+			"v2.1",
+			"#",
+			500,
+			10,
+			45,
+			DIK_TAB,
+			-1,
+			false,
+			"RobotoCondensedLight",
+			1,
+			[0.651,0.651,0.651,1],
+			[0.1,0.1,0.1,0.5],
+			[0.545098,0.65098,0.894118,1],
+			[0.984,0.655,0.071,0.2],
+			true,
+			true,
+			true,
+			true,
+			true,
+			true,
+			true,
+			true,
+			true,
+			true,
+			true
+		]]
+	};
+
+
 	case "get":{
-		private _settings = profileNameSpace getVariable [VAR_SETTINGS,[]];
-		private _default = [
-			"v2.1",                           // Array format version
-			"#",                              // VAL_SETTINGS_INDEX_COMMAND_PREFIX
-			500,                              // VAL_SETTINGS_INDEX_MAX_SAVED
-			10,                               // VAL_SETTINGS_INDEX_MAX_PRINTED
-			45,                               // VAL_SETTINGS_INDEX_TTL_PRINTED
-			DIK_TAB,                          // VAL_SETTINGS_INDEX_AUTOCOMPLETE_KEYBIND
-			-1,                               // VAL_SETTINGS_INDEX_TOGGLE_CHAT_FEED_KEYBIND
-			false,                            // VAL_SETTINGS_INDEX_HIDE_CHAT_ONLOAD_STREAMSAFE
-			"RobotoCondensedLight",           // VAL_SETTINGS_INDEX_TEXT_FONT
-			1,                                // VAL_SETTINGS_INDEX_TEXT_SIZE
-			[0.651,0.651,0.651,1],            // VAL_SETTINGS_INDEX_TEXT_COLOR
-			[0.1,0.1,0.1,0.5],                // VAL_SETTINGS_INDEX_FEED_BG_COLOR
-			[0.545098,0.65098,0.894118,1],    // VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR
-			[0.984,0.655,0.071,0.2],          // VAL_SETTINGS_INDEX_FEED_MENTION_BG_COLOR
-			true,                             // VAL_SETTINGS_INDEX_PRINT_CONNECTED
-			true,                             // VAL_SETTINGS_INDEX_PRINT_DISCONNECTED
-			true,                             // VAL_SETTINGS_INDEX_PRINT_BATTLEYE_KICK
-			true,                             // VAL_SETTINGS_INDEX_PRINT_KILL
-			true,                             // VAL_SETTINGS_INDEX_PRINT_GLOBAL
-			true,                             // VAL_SETTINGS_INDEX_PRINT_SIDE
-			true,                             // VAL_SETTINGS_INDEX_PRINT_COMMAND
-			true,                             // VAL_SETTINGS_INDEX_PRINT_GROUP
-			true,                             // VAL_SETTINGS_INDEX_PRINT_VEHICLE
-			true,                             // VAL_SETTINGS_INDEX_PRINT_DIRECT
-			true                              // VAL_SETTINGS_INDEX_PRINT_CUSTOM
-		]#_params;
-		_settings param [_params,_default,[_default]];
+		private _default = ["default"] call THIS_FUNC;
+		private _value = _default#1 param [_default#0 find _params,nil];
+		_settings#1 param [_settings#0 find _params,_value,[_value]];
 	};
 	case "set":{
-		private _settings = profileNameSpace getVariable [VAR_SETTINGS,[]];
-		_settings set _params;
+		_params params ["_key","_value"];
+		private _index = _settings#0 find _key;
+		if (_index == -1) then {_index = _settings#0 pushBack _key};
+		_settings#1 set [_index,_value];
+		profileNamespace setVariable [VAR_SETTINGS,_settings];
 	};
 	case "reset":{
 		profileNameSpace setVariable [VAR_SETTINGS,nil];
