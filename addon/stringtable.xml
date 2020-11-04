@@ -280,6 +280,30 @@
 				<Original>Show %1 messages in the message feed</Original>
 				<English>Show %1 messages in the message feed</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_bad_language_label">
+				<Original>Censor bad words and phrases</Original>
+				<English>Censor bad words and phrases</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_bad_language_desc">
+				<Original>Censor specified bad words and phrases in messages.</Original>
+				<English>Censor specified bad words and phrases in messages.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_bad_language_add_title">
+				<Original>Add a new word or phrase to the language filter</Original>
+				<English>Add a new word or phrase to the language filter</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_bad_language_add_tooltip">
+				<Original>Add new word or phrase</Original>
+				<English>Add new word or phrase</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_bad_language_remove_title">
+				<Original>Remove one or more words and phrases from the language filter</Original>
+				<English>Remove one or more words and phrases from the language filter</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_bad_language_remove_tooltip">
+				<Original>Remove one or more words and phrases</Original>
+				<English>Remove one or more words and phrases</English>
+			</Key>
 		</Container>
 	</Package>
 </Project>

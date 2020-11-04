@@ -209,18 +209,23 @@ switch _mode do {
 
 					profileNameSpace setVariable [VAR_SETTINGS,[_keys,_values]];
 
+					private _default = ["default"] call THIS_FUNC;
 					["set",[VAL_SETTINGS_KEY_VERSION,"v2.1"]] call THIS_FUNC;
-					["set",[VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND,-1]] call THIS_FUNC;
-					["set",[VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE,false]] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_TOGGLE_CHAT_FEED_KEYBIND] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call THIS_FUNC;
 
 					_repeatInit = true;
 				};
 			};
 			case "v2.1":{
-				private _correctSize = count(_settings#0) == 25 && count(_settings#1) == 25;
+				private _default = ["default"] call THIS_FUNC;
+				private _defaultCount = count(_default#0);
+
+				private _correctSize = count(_settings#0) == _defaultCount && count(_settings#1) == _defaultCount;
 				private _correctFormat = true;
 
-				private _default = ["default"] call THIS_FUNC;
 				{
 					private _value = _settings#1#(_settings#0 find _x);
 					private _dValue = _default#1#_forEachIndex;
@@ -255,6 +260,9 @@ switch _mode do {
 
 
 	case "default":{
+		private _languageFilter = loadFile "cau\extendedchat\data\profanity.txt" splitString endl;
+		_languageFilter deleteAt 0; // List source URL
+
 		[[
 			VAL_SETTINGS_KEY_VERSION,
 			VAL_SETTINGS_KEY_COMMAND_PREFIX,
@@ -280,7 +288,9 @@ switch _mode do {
 			VAL_SETTINGS_KEY_PRINT_GROUP,
 			VAL_SETTINGS_KEY_PRINT_VEHICLE,
 			VAL_SETTINGS_KEY_PRINT_DIRECT,
-			VAL_SETTINGS_KEY_PRINT_CUSTOM
+			VAL_SETTINGS_KEY_PRINT_CUSTOM,
+			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER,
+			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS
 		],[
 			"v2.1",
 			"#",
@@ -306,7 +316,9 @@ switch _mode do {
 			true,
 			true,
 			true,
-			true
+			true,
+			false,
+			_languageFilter
 		]]
 	};
 
@@ -318,9 +330,20 @@ switch _mode do {
 	};
 	case "set":{
 		_params params ["_key","_value"];
-		private _index = _settings#0 find _key;
-		if (_index == -1) then {_index = _settings#0 pushBack _key};
-		_settings#1 set [_index,_value];
+		_settings#1 set [_settings#0 find _key,_value];
+		profileNamespace setVariable [VAR_SETTINGS,_settings];
+	};
+	case "add":{
+		private _default = ["default"] call THIS_FUNC;
+		private _value = _default#1#(_default#0 find _params);
+		_settings#0 pushBack _params;
+		_settings#1 pushBack _value;
+		profileNamespace setVariable [VAR_SETTINGS,_settings];
+	};
+	case "remove":{
+		private _index = _settings#0 find _params;
+		_settings#0 deleteAt _index;
+		_settings#1 deleteAt _index;
 		profileNamespace setVariable [VAR_SETTINGS,_settings];
 	};
 	case "reset":{

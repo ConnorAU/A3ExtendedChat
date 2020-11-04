@@ -38,12 +38,12 @@ _params params [
 	["_message","",[""]],
 	["_sender",objNull,[objNull]],
 	["_channelID",-1,[0]],
-	["_setting",-1,[0]],
+	["_setting","",[""]],
 	["_messageTemplate",[-1],[[]]]
 ];
 
 if (_message == "") exitWith {};
-if (_setting > -1 && {!(["get",_setting] call FUNC(settings))}) exitWith {};
+if (_setting != "" && {!(["get",_setting] call FUNC(settings))}) exitWith {};
 
 // TODO: remove once HCM event is fixed
 if (_messageTemplate#0 > -1) then {

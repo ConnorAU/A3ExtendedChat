@@ -28,7 +28,7 @@ Return:
 #define DIALOG_SECTIONS 3
 #define DIALOG_SECTION_W 75
 #define DIALOG_W (DIALOG_SECTION_W*DIALOG_SECTIONS)
-#define DIALOG_H 90
+#define DIALOG_H 93
 
 
 #define IDC_BUTTON_SAVE_SETTINGS                  1
@@ -60,6 +60,9 @@ Return:
 #define IDC_CB_CHANNEL_VEHICLE                    25
 #define IDC_CB_CHANNEL_DIRECT                     26
 #define IDC_CB_CHANNEL_CUSTOM                     27
+#define IDC_CB_LANGUAGE_FILTER                    28
+#define IDC_BUTTON_LANGUAGE_FILTER_ADD            29
+#define IDC_BUTTON_LANGUAGE_FILTER_REM            30
 
 
 disableSerialization;
@@ -67,10 +70,6 @@ SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "init":{
-		[ QUOTE(THIS_FUNC) ] call BIS_fnc_recompile;
-		["init2",_params] call THIS_FUNC;
-	};
-	case "init2":{
 		USE_DISPLAY(findDisplay 49 createDisplay "RscDisplayEmpty");
 		uiNamespace setVariable [QUOTE(DISPLAY_NAME),_display];
 
@@ -1132,6 +1131,129 @@ switch _mode do {
 					_ctrl ctrlSetText _channelName;
 					_ctrl ctrlSetTooltip format[localize "STR_CAU_xChat_settings_filter_channel_desc",_channelName];
 				}
+			],
+			[
+				"ctrlCheckbox",IDC_CB_LANGUAGE_FILTER,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*14)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					private _terms = ["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call FUNC(settings);
+					_ctrl setVariable ["setting",+_terms];
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings));
+					_ctrl ctrlAddEventHandler ["CheckedChanged",{
+						params ["_ctrlCheckbox","_checked"];
+						_checked = _checked == 1;
+
+						USE_DISPLAY(ctrlParent _ctrlCheckbox);
+						USE_CTRL(_ctrlButtonAdd,IDC_BUTTON_LANGUAGE_FILTER_ADD);
+						USE_CTRL(_ctrlButtonRem,IDC_BUTTON_LANGUAGE_FILTER_REM);
+
+						_ctrlButtonAdd ctrlEnable _checked;
+						_ctrlButtonRem ctrlEnable _checked;
+
+						["CBCheckedChanged"] call THIS_FUNC;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*14)),
+					PXW((DIALOG_W/3)) - PXW(5) - PXW(SIZE_M)*3,
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_bad_language_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_bad_language_desc";
+				}
+			],
+			[
+				"ctrlButtonPicture",IDC_BUTTON_LANGUAGE_FILTER_ADD,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW((DIALOG_W/3)) - PXW(SIZE_M)*3,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*14)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					USE_CTRL(_ctrlCheckbox,IDC_CB_LANGUAGE_FILTER);
+					_ctrl ctrlEnable cbChecked _ctrlCheckbox;
+
+					_ctrl ctrlSetText "\a3\3den\data\cfg3den\history\makenewlayer_ca.paa";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_bad_language_add_tooltip";
+
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						[
+							[],
+							localize "STR_CAU_xChat_settings_filter_bad_language_add_title",
+							{
+								if (_confirmed && {_text != ""}) then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlCheckbox,IDC_CB_LANGUAGE_FILTER);
+
+									private _terms = _ctrlCheckbox getVariable ["setting",[]];
+									if !(toLower _text in _terms) then {
+										_terms pushBackUnique _text;
+										_ctrlCheckbox setVariable ["setting",_terms];
+									};
+
+									["ListModified"] call THIS_FUNC;
+								};
+							},
+							localize "str_single_create",
+							"",_display
+						] call CAU_UserInputMenus_fnc_text;
+					}];
+				}
+			],
+			[
+				"ctrlButtonPicture",IDC_BUTTON_LANGUAGE_FILTER_REM,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW((DIALOG_W/3)) - PXW(SIZE_M)*2,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH((SIZE_M*14)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					USE_CTRL(_ctrlCheckbox,IDC_CB_LANGUAGE_FILTER);
+					_ctrl ctrlEnable cbChecked _ctrlCheckbox;
+
+					_ctrl ctrlSetText "\a3\3den\data\cfg3den\history\removefromlayer_ca.paa";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_bad_language_remove_tooltip";
+
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlCheckbox,IDC_CB_LANGUAGE_FILTER);
+						private _terms = _ctrlCheckbox getVariable ["setting",[]];
+						_terms sort true;
+
+						[
+							[_terms apply {[[_x]]},0,true],
+							localize "STR_CAU_xChat_settings_filter_bad_language_remove_title",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlCheckbox,IDC_CB_LANGUAGE_FILTER);
+
+									if (_index isEqualType 0) then {_index = [_index]};
+									_index sort false;
+
+									private _terms = _ctrlCheckbox getVariable ["setting",[]];
+									{_terms deleteAt _x} forEach _index;
+									_ctrlCheckbox setVariable ["setting",_terms];
+
+									["ListModified"] call THIS_FUNC;
+								};
+							},
+							localize "str_xbox_hint_remove",
+							"",_display
+						] call CAU_UserInputMenus_fnc_listBox;
+					}];
+				}
 			]
 		];
 	};
@@ -1140,9 +1262,9 @@ switch _mode do {
 	case "CBCheckedChanged";
 	case "SliderPosChanged";
 	case "ColorSelected";
+	case "ListModified";
 	case "LBSelChanged":{
 		USE_DISPLAY(THIS_DISPLAY);
-
 		USE_CTRL(_ctrlButtonSave,IDC_BUTTON_SAVE_SETTINGS);
 		_ctrlButtonSave ctrlEnable true;
 	};
@@ -1174,6 +1296,7 @@ switch _mode do {
 		USE_CTRL(_ctrlCBShowVehicle,IDC_CB_CHANNEL_VEHICLE);
 		USE_CTRL(_ctrlCBShowDirect,IDC_CB_CHANNEL_DIRECT);
 		USE_CTRL(_ctrlCBShowCustom,IDC_CB_CHANNEL_CUSTOM);
+		USE_CTRL(_ctrlCBLanguageFilter,IDC_CB_LANGUAGE_FILTER);
 
 		_ctrlButtonSave ctrlEnable false;
 
@@ -1220,6 +1343,12 @@ switch _mode do {
 		["set",[VAL_SETTINGS_KEY_PRINT_VEHICLE,cbChecked _ctrlCBShowVehicle]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_PRINT_DIRECT,cbChecked _ctrlCBShowDirect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_PRINT_CUSTOM,cbChecked _ctrlCBShowCustom]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER,cbChecked _ctrlCBLanguageFilter]] call FUNC(settings);
+
+		private _languageTerms = _ctrlCBLanguageFilter getVariable ["setting",[]];
+		_languageTerms = _languageTerms apply {[count _x,_x]};
+		_languageTerms sort false;
+		["set",[VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS,_languageTerms apply {_x#1}]] call FUNC(settings);
 
 		saveProfileNamespace;
 

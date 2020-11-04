@@ -76,3 +76,5 @@
 #define VAL_SETTINGS_KEY_PRINT_VEHICLE                     "print_vehicle"
 #define VAL_SETTINGS_KEY_PRINT_DIRECT                      "print_direct"
 #define VAL_SETTINGS_KEY_PRINT_CUSTOM                      "print_custom"
+#define VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER               "bad_language_filter"
+#define VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS         "bad_language_filter_terms"

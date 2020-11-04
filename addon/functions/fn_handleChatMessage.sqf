@@ -171,6 +171,41 @@ if _messageContainsMentions then {
 	_message = ["ParseMentions",_message] call FUNC(commonTask);
 };
 
+// Apply bad language filter
+if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
+	private _languageFilters = ["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call FUNC(settings);
+	{
+		private _censored = "";
+		if (" " in _x) then {
+			private _filterSegments = ["stringSplitStringKeep",[_x," "]] call FUNC(commonTask);
+			_filterSegments = _filterSegments apply {toLower _x};
+			private _termStart = toLower(_filterSegments#0);
+			for "_i" from 0 to count _message - 1 do {
+				private _segment = _message#_i;
+				if (_segment isEqualType "" && {_termStart in toLower _segment}) then {
+					private _segments = _message select [_i,count _filterSegments] apply {
+						if (_x isEqualType "") then {toLower _x} else {_x}
+					};
+					if (_segments isEqualTo _filterSegments) then {
+						if (_censored == "") then {_censored = _x splitString "" apply {["*"," "] select (_x == " ")} joinString ""};
+						_message set [_i,_censored];
+						for "_ii" from _i + 1 to _i + count _filterSegments - 1 do {_message set [_ii,""]};
+					};
+				};
+			};
+		} else {
+			private _term = toLower _x;
+			for "_i" from 0 to count _message - 1 do {
+				private _segment = _message#_i;
+				if (_segment isEqualType "" && {_term in toLower _segment}) then {
+					if (_censored == "") then {_censored = _x splitString "" apply {"*"} joinString ""};
+					_message set [_i,["stringReplace",[_segment,_x,_censored]] call FUNC(commonTask)];
+				};
+			};
+		};
+	} forEach _languageFilters;
+};
+
 // Wrap message in quotes if the sentence type is 0
 if (_sentenceType == 0) then {
 	_message = [""""] + _message + [""""];
