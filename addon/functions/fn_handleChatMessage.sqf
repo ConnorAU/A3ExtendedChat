@@ -212,13 +212,44 @@ if (_sentenceType == 0) then {
 };
 
 // Compose message
-_message = composeText _message;
+private _messageComposed = composeText _message;
 
 // Add message to history array
 private _senderUID = getPlayerUID _senderUnit;
 if !_sehBlockHistory then {
+	private _messageHistory = _message;
+
+	// Parse whitelisted websites
+	if (["get",VAL_SETTINGS_KEY_WEBSITE_WHITELIST] call FUNC(settings)) then {
+		private _websiteWhitelist = ["get",VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS] call FUNC(settings);
+		for "_i" from 0 to count _messageHistory - 1 do {
+			private _segment = _messageHistory#_i;
+			if (_segment isEqualType "") then {
+				private _segmentLow = toLower _segment;
+				{
+					if (toLower _x in _segmentLow) exitWith {
+						private _hrefPrefix = "";
+						if (
+							!(["stringPrefix",[_segment,"https://"]] call FUNC(commonTask)) &&
+							!(["stringPrefix",[_segment,"http://"]] call FUNC(commonTask))
+						) then {_hrefPrefix = "https://"};
+
+						_segment = ["stringReplace",[_segment,"&","&amp;"]] call FUNC(commonTask);
+						_segment = ["stringReplace",[_segment,"'","''"]] call FUNC(commonTask);
+						_segment = ["<a href='",_hrefPrefix,_segment,"'>",_segment,"</a>"] joinString "";
+
+						_messageHistory set [_i,parseText _segment];
+					};
+				} forEach _websiteWhitelist;
+			};
+		};
+		_messageHistory = composeText _messageHistory;
+	} else {
+		_messageHistory = _messageComposed;
+	};
+
 	private _historyData = [
-		_message,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,_containsImg,
+		_messageHistory,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,_containsImg,
 		if _messageMentionsSelf then {["get",VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
 	];
 	VAR_HISTORY pushBack _historyData;
@@ -270,7 +301,7 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 
 	private _messageFinal = composeText [
 		text _senderNameSafe setAttributes ["color",_channelColor call BIS_fnc_colorRGBAtoHTML],
-		_message setAttributes ["color",_messageColor]
+		_messageComposed setAttributes ["color",_messageColor]
 	] setAttributes [
 		"size",str((["ScaledFeedTextSize"] call FUNC(commonTask))*(["get",VAL_SETTINGS_KEY_TEXT_SIZE] call FUNC(settings))),
 		"font",["get",VAL_SETTINGS_KEY_TEXT_FONT] call FUNC(settings)

@@ -304,6 +304,30 @@
 				<Original>Remove one or more words and phrases</Original>
 				<English>Remove one or more words and phrases</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_website_whitelist_label">
+				<Original>Website whitelist</Original>
+				<English>Website whitelist</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_website_whitelist_desc">
+				<Original>Whitelist specific websites to be clickable in messages in the history viewer.</Original>
+				<English>Whitelist specific websites to be clickable in messages in the history viewer.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_website_whitelist_add_title">
+				<Original>Add a new domain name to the website whitelist</Original>
+				<English>Add a new domain name to the website whitelist</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_website_whitelist_add_tooltip">
+				<Original>Add new website</Original>
+				<English>Add new website</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_website_whitelist_remove_title">
+				<Original>Remove one or more domain names from the website whitelist</Original>
+				<English>Remove one or more domain names from the website whitelist</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_website_whitelist_remove_tooltip">
+				<Original>Remove one or more websites</Original>
+				<English>Remove one or more websites</English>
+			</Key>
 		</Container>
 	</Package>
 </Project>

@@ -78,3 +78,5 @@
 #define VAL_SETTINGS_KEY_PRINT_CUSTOM                      "print_custom"
 #define VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER               "bad_language_filter"
 #define VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS         "bad_language_filter_terms"
+#define VAL_SETTINGS_KEY_WEBSITE_WHITELIST                 "website_whitelist"
+#define VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS           "website_whitelist_terms"

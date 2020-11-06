@@ -30,10 +30,6 @@ private _settings = profileNameSpace getVariable [VAR_SETTINGS,[[],[]]];
 
 switch _mode do {
 	case "init":{
-		[ QUOTE(THIS_FUNC) ] call BIS_fnc_recompile;
-		["init2",_params] call THIS_FUNC;
-	};
-	case "init2":{
 		// verify the settings array elements
 		private _version = if (_settings isEqualTypeArray [[],[]]) then {
 			_settings#1 param [_settings#0 find VAL_SETTINGS_KEY_VERSION,"v0",[""]];
@@ -215,6 +211,8 @@ switch _mode do {
 					["add",VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE] call THIS_FUNC;
 					["add",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call THIS_FUNC;
 					["add",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_WEBSITE_WHITELIST] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS] call THIS_FUNC;
 
 					_repeatInit = true;
 				};
@@ -290,7 +288,9 @@ switch _mode do {
 			VAL_SETTINGS_KEY_PRINT_DIRECT,
 			VAL_SETTINGS_KEY_PRINT_CUSTOM,
 			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER,
-			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS
+			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS,
+			VAL_SETTINGS_KEY_WEBSITE_WHITELIST,
+			VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS
 		],[
 			"v2.1",
 			"#",
@@ -318,7 +318,9 @@ switch _mode do {
 			true,
 			true,
 			false,
-			_languageFilter
+			_languageFilter,
+			true,
+			["arma3.com","bohemia.net","bistudio.com","youtu.be"]
 		]]
 	};
 

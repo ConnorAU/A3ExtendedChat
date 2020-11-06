@@ -769,7 +769,10 @@ switch _mode do {
 			lineBreak,
 			text(localize "STR_CAU_xChat_history_message") setAttributes ["font",FONT_BOLD],
 			" ",
-			_text setAttributes ["color",["#A6A6A6","#FFFFFF"] select (_sentenceType == 0)]
+			_text setAttributes [
+				"color",["#A6A6A6","#FFFFFF"] select (_sentenceType == 0),
+				"colorLink",["colorConfigToRGBA",[COLOR_ACTIVE_RGB,1]] call FUNC(commonTask) call BIS_fnc_colorRGBAtoHTML
+			]
 		];
 
 		_finalText = composeText _finalText setAttributes ["size","1.15741"];

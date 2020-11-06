@@ -28,7 +28,7 @@ Return:
 #define DIALOG_SECTIONS 3
 #define DIALOG_SECTION_W 75
 #define DIALOG_W (DIALOG_SECTION_W*DIALOG_SECTIONS)
-#define DIALOG_H 93
+#define DIALOG_H 99
 
 
 #define IDC_BUTTON_SAVE_SETTINGS                  1
@@ -63,6 +63,9 @@ Return:
 #define IDC_CB_LANGUAGE_FILTER                    28
 #define IDC_BUTTON_LANGUAGE_FILTER_ADD            29
 #define IDC_BUTTON_LANGUAGE_FILTER_REM            30
+#define IDC_CB_WEBSITE_WHITELIST                  31
+#define IDC_BUTTON_WEBSITE_WHITELIST_ADD          32
+#define IDC_BUTTON_WEBSITE_WHITELIST_REM          33
 
 
 disableSerialization;
@@ -1198,7 +1201,6 @@ switch _mode do {
 									private _terms = _ctrlCheckbox getVariable ["setting",[]];
 									if !(toLower _text in _terms) then {
 										_terms pushBackUnique _text;
-										_ctrlCheckbox setVariable ["setting",_terms];
 									};
 
 									["ListModified"] call THIS_FUNC;
@@ -1244,7 +1246,127 @@ switch _mode do {
 
 									private _terms = _ctrlCheckbox getVariable ["setting",[]];
 									{_terms deleteAt _x} forEach _index;
-									_ctrlCheckbox setVariable ["setting",_terms];
+
+									["ListModified"] call THIS_FUNC;
+								};
+							},
+							localize "str_xbox_hint_remove",
+							"",_display
+						] call CAU_UserInputMenus_fnc_listBox;
+					}];
+				}
+			],
+			[
+				"ctrlCheckbox",IDC_CB_WEBSITE_WHITELIST,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(3) + PXH((SIZE_M*15)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					private _terms = ["get",VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS] call FUNC(settings);
+					_ctrl setVariable ["setting",+_terms];
+					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_WEBSITE_WHITELIST] call FUNC(settings));
+					_ctrl ctrlAddEventHandler ["CheckedChanged",{
+						params ["_ctrlCheckbox","_checked"];
+						_checked = _checked == 1;
+
+						USE_DISPLAY(ctrlParent _ctrlCheckbox);
+						USE_CTRL(_ctrlButtonAdd,IDC_BUTTON_WEBSITE_WHITELIST_ADD);
+						USE_CTRL(_ctrlButtonRem,IDC_BUTTON_WEBSITE_WHITELIST_REM);
+
+						_ctrlButtonAdd ctrlEnable _checked;
+						_ctrlButtonRem ctrlEnable _checked;
+
+						["CBCheckedChanged"] call THIS_FUNC;
+					}];
+				}
+			],
+			[
+				"ctrlStatic",-1,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW(SIZE_M) ,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(3) + PXH((SIZE_M*15)),
+					PXW((DIALOG_W/3)) - PXW(5) - PXW(SIZE_M)*3,
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_website_whitelist_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_website_whitelist_desc";
+				}
+			],
+			[
+				"ctrlButtonPicture",IDC_BUTTON_WEBSITE_WHITELIST_ADD,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW((DIALOG_W/3)) - PXW(SIZE_M)*3,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(3) + PXH((SIZE_M*15)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					USE_CTRL(_ctrlCheckbox,IDC_CB_WEBSITE_WHITELIST);
+					_ctrl ctrlEnable cbChecked _ctrlCheckbox;
+
+					_ctrl ctrlSetText "\a3\3den\data\cfg3den\history\makenewlayer_ca.paa";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_website_whitelist_add_tooltip";
+
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						[
+							[],
+							localize "STR_CAU_xChat_settings_filter_website_whitelist_add_title",
+							{
+								if (_confirmed && {_text != ""}) then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlCheckbox,IDC_CB_WEBSITE_WHITELIST);
+
+									private _terms = _ctrlCheckbox getVariable ["setting",[]];
+									if !(toLower _text in _terms) then {
+										_terms pushBackUnique _text;
+									};
+
+									["ListModified"] call THIS_FUNC;
+								};
+							},
+							localize "str_single_create",
+							"",_display
+						] call CAU_UserInputMenus_fnc_text;
+					}];
+				}
+			],
+			[
+				"ctrlButtonPicture",IDC_BUTTON_WEBSITE_WHITELIST_REM,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW((DIALOG_W/3)) - PXW(SIZE_M)*2,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(3) + PXH((SIZE_M*15)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					USE_CTRL(_ctrlCheckbox,IDC_CB_WEBSITE_WHITELIST);
+					_ctrl ctrlEnable cbChecked _ctrlCheckbox;
+
+					_ctrl ctrlSetText "\a3\3den\data\cfg3den\history\removefromlayer_ca.paa";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_website_whitelist_remove_tooltip";
+
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlCheckbox,IDC_CB_WEBSITE_WHITELIST);
+						private _terms = _ctrlCheckbox getVariable ["setting",[]];
+						_terms sort true;
+
+						[
+							[_terms apply {[[_x]]},0,true],
+							localize "STR_CAU_xChat_settings_filter_website_whitelist_remove_title",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlCheckbox,IDC_CB_WEBSITE_WHITELIST);
+
+									if (_index isEqualType 0) then {_index = [_index]};
+									_index sort false;
+
+									private _terms = _ctrlCheckbox getVariable ["setting",[]];
+									{_terms deleteAt _x} forEach _index;
 
 									["ListModified"] call THIS_FUNC;
 								};
@@ -1297,6 +1419,7 @@ switch _mode do {
 		USE_CTRL(_ctrlCBShowDirect,IDC_CB_CHANNEL_DIRECT);
 		USE_CTRL(_ctrlCBShowCustom,IDC_CB_CHANNEL_CUSTOM);
 		USE_CTRL(_ctrlCBLanguageFilter,IDC_CB_LANGUAGE_FILTER);
+		USE_CTRL(_ctrlCBWebsiteWhitelist,IDC_CB_WEBSITE_WHITELIST);
 
 		_ctrlButtonSave ctrlEnable false;
 
@@ -1344,11 +1467,17 @@ switch _mode do {
 		["set",[VAL_SETTINGS_KEY_PRINT_DIRECT,cbChecked _ctrlCBShowDirect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_PRINT_CUSTOM,cbChecked _ctrlCBShowCustom]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER,cbChecked _ctrlCBLanguageFilter]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_WEBSITE_WHITELIST,cbChecked _ctrlCBWebsiteWhitelist]] call FUNC(settings);
 
 		private _languageTerms = _ctrlCBLanguageFilter getVariable ["setting",[]];
 		_languageTerms = _languageTerms apply {[count _x,_x]};
 		_languageTerms sort false;
 		["set",[VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS,_languageTerms apply {_x#1}]] call FUNC(settings);
+
+		private _websiteWhitelist = _ctrlCBWebsiteWhitelist getVariable ["setting",[]];
+		_websiteWhitelist = _websiteWhitelist apply {[count _x,_x]};
+		_websiteWhitelist sort false;
+		["set",[VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS,_websiteWhitelist apply {_x#1}]] call FUNC(settings);
 
 		saveProfileNamespace;
 
