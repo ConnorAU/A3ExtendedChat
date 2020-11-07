@@ -207,7 +207,7 @@ switch _mode do {
 					private _players = [];
 					{
 						private _unitName = ["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask);
-						private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
+						private _unitID = str(UNIT_OID(_x));
 						if (
 							_ctrlListSearchDisplayAll ||
 							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}

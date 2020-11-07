@@ -13,7 +13,7 @@ Description:
 
 Parameters:
 	_mode   : STRING - The name of the sub-function
-    _params : ANY    - The arguments provided to the sub-function
+	_params : ANY    - The arguments provided to the sub-function
 
 Return:
 	ANY - Return type depends on the _mode specified

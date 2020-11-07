@@ -13,7 +13,7 @@ Description:
 
 Parameters:
 	_mode   : STRING - The name of the sub-function
-    _params : ANY    - The arguments provided to the sub-function
+	_params : ANY    - The arguments provided to the sub-function
 
 Return:
 	ANY - Return type depends on the _mode specified
@@ -38,7 +38,7 @@ switch _mode do {
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 						if (count _messageMentionIDChars == 0) then {
 							{
-								private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
+								private _unitID = str(UNIT_OID(_x));
 								if (_unitID isEqualTo _messageMentionID) exitWith {
 									// Set variable to true in parent scope (HCM event)
 									if (_x isEqualTo player) then {_messageMentionsSelf = true};

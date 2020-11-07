@@ -19,6 +19,7 @@ class CAU_ExtendedChat {
 		class processMessage {};
 		class radioChannelCustom {};
 		class repetitiveTasks {};
+		class role {};
 		class sendMessage {};
 		class settings {};
 		class settingsUI {};

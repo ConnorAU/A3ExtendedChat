@@ -22,6 +22,7 @@
 #define SWITCH_SYS_PARAMS params[["_mode","",[""]],["_params",[]]]
 
 #define UNIT_NAME(unit) unit getVariable [QUOTE(VAR_UNIT_NAME),name unit]
+#define UNIT_OID(unit) unit getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]
 
 #ifdef DISPLAY_NAME
     #define THIS_DISPLAY DISPLAY(DISPLAY_NAME)
