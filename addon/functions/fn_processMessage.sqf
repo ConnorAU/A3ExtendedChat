@@ -66,5 +66,8 @@ if (_commandPrefixFound || _vanillaPrefixFound) exitWith {
 // strip emojis from text if condition is not met
 _text = ["formatCondition",_text] call FUNC(emoji);
 
+// strip group mentions if player is not allowed to mention the target group
+_text = ["filterGroups",_text] call FUNC(mention);
+
 // Set modified text to control
 _ctrl ctrlSetText _text;

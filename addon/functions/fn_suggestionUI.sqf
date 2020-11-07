@@ -117,11 +117,11 @@ switch _mode do {
 
 		// Determine segment types
 		private _ctrlEditTextSegmentTypePrefixed = [
-			":","@",
-			["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings)
+			[":",[0]],["@",[0,1]],
+			[["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings),[0]]
 		];
 		private _ctrlEditTextSegmentTypeForced = _ctrlList getVariable ["ctrlEditTextSegmentTypeForced",-1];
-		private _ctrlEditTextSegmentTypeCond =_ctrlEditTextSegmentTypePrefixed findIf {_ctrlEditTextSegment find _x == 0};
+		private _ctrlEditTextSegmentTypeCond =_ctrlEditTextSegmentTypePrefixed findIf {_ctrlEditTextSegment find (_x#0) in (_x#1)};
 
 		// Force select command type if first char is # (a3 commands)
 		if (_ctrlEditTextSegmentTypeCond == -1 && {_ctrlEditTextSegment find "#" == 0}) then {_ctrlEditTextSegmentTypeCond = 2};
@@ -150,7 +150,7 @@ switch _mode do {
 			_ctrlEditTextSegmentTypeCond == -1 ||
 			_ctrlEditTextSegmentTypeForced != _ctrlEditTextSegmentTypeCond
 		}) then {""} else {
-			toLower(_ctrlEditTextSegment select [count(_ctrlEditTextSegmentTypePrefixed param [_ctrlEditTextSegmentType,""])])
+			toLower(_ctrlEditTextSegment select [count((_ctrlEditTextSegmentTypePrefixed param [_ctrlEditTextSegmentType,[]])#0)])
 		};
 
 		// Trim : off the end of an emoji keyword so it can be easily used again
@@ -197,20 +197,58 @@ switch _mode do {
 				_items = _items call _sortBySearch;
 			};
 			case 1:{
-				{
-					private _unitName = ["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask);
-					private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
-					if (
-						_ctrlListSearchDisplayAll ||
-						{_ctrlEditTextSegmentSearch in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearch == 0}}
-					) then {
-						_items pushBack [
-							[1,0] select (toLower _unitName find _ctrlEditTextSegmentSearch == 0 || {_unitID find _ctrlEditTextSegmentSearch == 0}),
-							[_unitName,_unitID],"","",_unitID,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
-						];
+				private _ctrlEditTextSegmentMentionContainsType = _ctrlEditTextSegment find "@" == 1;
+				private _ctrlEditTextSegmentMentionType = _ctrlEditTextSegment select [0,[0,1] select _ctrlEditTextSegmentMentionContainsType];
+				private _ctrlEditTextSegmentSearchTrimPrefix = _ctrlEditTextSegmentSearch select [[0,1] select _ctrlEditTextSegmentMentionContainsType];
+
+				_ctrlListSearchDisplayAll = _ctrlEditTextSegmentTypeForced == -1 && {_ctrlEditTextSegmentSearchTrimPrefix == ""};
+
+				if (_ctrlEditTextSegmentMentionType in ["","p"] || _ctrlEditTextSegmentSearchTrimPrefix != "") then {
+					private _players = [];
+					{
+						private _unitName = ["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask);
+						private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
+						if (
+							_ctrlListSearchDisplayAll ||
+							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}
+						) then {
+							_players pushBack [
+								[1,0] select (toLower _unitName find _ctrlEditTextSegmentSearchTrimPrefix == 0 || {_unitID find _ctrlEditTextSegmentSearchTrimPrefix == 0}),
+								[_unitName,_unitID],"\a3\3den\data\displays\display3den\panelright\modeobjects_ca.paa",
+								"",_unitID,"['insertItem',[1,_data,0]] call " + QUOTE(THIS_FUNC)
+							];
+						};
+					} forEach allPlayers;
+					_players = _players call _sortBySearch;
+					_items append _players;
+				};
+
+				private _mentionGroupsMode = getMissionConfigValue[QUOTE(VAR(mentionGroups)),1];
+				if (_mentionGroupsMode in [1,2] && {_ctrlEditTextSegmentMentionType in ["","g"] || _ctrlEditTextSegmentSearchTrimPrefix != ""}) then {
+					private _allGroups = allGroups;
+					if (_mentionGroupsMode == 1) then {
+						private _sideGroupPlayer = side group player;
+						_allGroups = _allGroups select {side _x isEqualTo _sideGroupPlayer};
 					};
-				} forEach allPlayers;
-				_items = _items call _sortBySearch;
+
+					private _groups = [];
+					{
+						private _groupName = groupId _x;
+						private _groupID = netId _x;
+						if (
+							_ctrlListSearchDisplayAll ||
+							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _groupName || {_groupID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}
+						) then {
+							_groups pushBack [
+								[1,0] select (toLower _groupName find _ctrlEditTextSegmentSearchTrimPrefix == 0 || {_groupID find _ctrlEditTextSegmentSearchTrimPrefix == 0}),
+								[_groupName,_groupID],"\a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",
+								"",_groupID,"['insertItem',[1,_data,1]] call " + QUOTE(THIS_FUNC)
+							];
+						};
+					} forEach _allGroups;
+					_groups = _groups call _sortBySearch;
+					_items append _groups;
+				};
 			};
 			case 2:{
 				private _votedInAdmin = serverCommandAvailable "#kick";
@@ -220,8 +258,8 @@ switch _mode do {
 					if (_ctrlListSearchDisplayAll || {_ctrlEditTextSegmentSearch in toLower(_x#0)}) then {
 						_items pushBack [
 							[1,0] select (toLower(_x#0) find _ctrlEditTextSegmentSearch == 0),
-							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,"","",
-							_ctrlEditTextSegmentTypePrefixed#2 + _x#0,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
+							_ctrlEditTextSegmentTypePrefixed#2#0 + _x#0,"","",
+							_ctrlEditTextSegmentTypePrefixed#2#0 + _x#0,"['insertItem',[2,_data]] call " + QUOTE(THIS_FUNC)];
 					};
 				} forEach VAR_COMMANDS_ARRAY;
 
@@ -271,7 +309,7 @@ switch _mode do {
 			default {
 				_items = [
 					[
-						"Insert an emoji",
+						"Emojis",
 						"cau\extendedchat\data\images\ico_emoji.paa",
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',0];['updateItems'] call " + QUOTE(THIS_FUNC),
@@ -279,7 +317,7 @@ switch _mode do {
 						{_ctrlEditTextSegmentType == -1 && {["isAvailable"] call FUNC(emoji)}}
 					],
 					[
-						"Mention a player",
+						"Mentions",
 						"cau\extendedchat\data\images\ico_mention.paa",
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',1];['updateItems'] call " + QUOTE(THIS_FUNC),
@@ -287,7 +325,7 @@ switch _mode do {
 						{_ctrlEditTextSegmentType == -1}
 					],
 					[
-						"Insert a command",
+						"Commands",
 						"cau\extendedchat\data\images\ico_command.paa",
 						"","",
 						"_ctrlList setVariable ['ctrlEditTextSegmentTypeForced',2];['updateItems'] call " + QUOTE(THIS_FUNC),
@@ -380,13 +418,13 @@ switch _mode do {
 
 
 	case "insertItem":{
-		_params params ["_type","_data"];
+		_params params ["_type","_data","_data2"];
 
 		private _ctrlEdit = findDisplay 24 displayCtrl 101;
 
 		_data = switch _type do {
 			case 0:{":"+_data+":"};
-			case 1:{"@"+_data};
+			case 1:{(["p","g"]#_data2)+"@"+_data};
 			//case 2:{_data};
 			default {_data};
 		};

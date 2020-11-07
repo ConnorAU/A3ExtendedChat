@@ -63,7 +63,7 @@ switch _mode do {
 		// Parse mentions
 		if (_text find "@" != -1) then {
 			_text = ["stringSplitStringKeep",[_text," "]] call FUNC(commonTask);
-			_text = ["ParseMentions",_text] call FUNC(commonTask);
+			_text = ["parse",_text] call FUNC(mention);
 			_text = _text apply {if (_x isEqualType "") then {_x} else {str _x}} joinString "";
 		};
 

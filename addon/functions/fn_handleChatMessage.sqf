@@ -168,7 +168,7 @@ _message = ["formatImages",[_message]] call FUNC(emoji);
 // Format mentions
 private _messageMentionsSelf = false;
 if _messageContainsMentions then {
-	_message = ["ParseMentions",_message] call FUNC(commonTask);
+	_message = ["parse",_message] call FUNC(mention);
 };
 
 // Apply bad language filter

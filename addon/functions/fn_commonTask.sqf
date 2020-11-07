@@ -240,34 +240,4 @@ switch _mode do {
 		} forEach _segments;
 		_output
 	};
-
-
-	case "ParseMentions":{
-		{
-			if (_x isEqualType "" && {_x find "@" == 0}) then {
-				private _fei = _forEachIndex;
-				private _messageMentionID = _x select [1];
-				private _messageMentionIDChars = _messageMentionID splitString "1234567890";
-				if (count _messageMentionIDChars == 0) then {
-					{
-						private _unitID = str(_x getVariable [QUOTE(VAR_UNIT_OWNER_ID),-1]);
-						if (_unitID isEqualTo _messageMentionID) exitWith {
-							// Set variable to true in parent scope (HCM event)
-							if (_x isEqualTo player) then {_messageMentionsSelf = true};
-
-							private _unitName = "@"+(["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask));
-							_params set [
-								_fei,
-								text _unitName setAttributes [
-									"color",(["get",VAL_SETTINGS_KEY_TEXT_MENTION_COLOR] call FUNC(settings)) call BIS_fnc_colorRGBAtoHTML
-								]
-							];
-						};
-					} forEach allPlayers;
-				};
-			};
-		} forEach _params;
-
-		_params
-	};
 };

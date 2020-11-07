@@ -13,6 +13,7 @@ class CAU_ExtendedChat {
 		class historyUI {};
 		class init {postInit=1;};
 		class log {};
+		class mention {};
 		class motd {};
 		class processCommand {};
 		class processMessage {};
