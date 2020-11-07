@@ -24,6 +24,7 @@ Return:
 
 #include "_macros.inc"
 #include "_defines.inc"
+#include "_dikcodes.inc"
 
 #define DIALOG_SECTIONS 3
 #define DIALOG_SECTION_W 75
@@ -78,6 +79,41 @@ switch _mode do {
 	case "init":{
 		USE_DISPLAY(findDisplay 49 createDisplay "RscDisplayEmpty");
 		uiNamespace setVariable [QUOTE(DISPLAY_NAME),_display];
+
+		_display displayAddEventHandler ["KeyDown",{
+			params ["_display","_key"];
+			private _block = false;
+
+			if (_key == DIK_ESCAPE) then {
+				["closeDisplay",[_display]] call THIS_FUNC;
+				_block = true;
+			};
+
+			USE_CTRL(_ctrlLabel,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
+			private _active = _ctrlLabel getVariable ["active",false];
+			if _active then {
+				_ctrlLabel setVariable ["setting",_key];
+				_ctrlLabel ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_label",keyName _key];
+				["KeyDown"] call THIS_FUNC;
+				_block = true;
+			};
+
+			USE_CTRL(_ctrlLabel,IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND);
+			private _active = _ctrlLabel getVariable ["active",false];
+			if _active then {
+				_ctrlLabel setVariable ["setting",_key];
+				_ctrlLabel ctrlSetText format[
+					localize "STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_label",
+					if (_key == -1) then {
+						localize "str_lib_info_na"
+					} else {keyName _key}
+				];
+				["KeyDown"] call THIS_FUNC;
+				_block = true;
+			};
+
+			_block
+		}];
 
 		{
 			_x params ["_type","_idc","_position",["_init",{}]];
@@ -137,20 +173,7 @@ switch _mode do {
 					_ctrl ctrlAddEventHandler ["ButtonClick",{
 						params ["_ctrl"];
 						USE_DISPLAY(ctrlParent _ctrl);
-						USE_CTRL(_ctrlButton,IDC_BUTTON_SAVE_SETTINGS);
-						if (ctrlEnabled _ctrlButton) then {
-							[
-								[localize "STR_CAU_xChat_settings_pending_changes"],
-								localize "STR_CAU_xChat_settings_title",{
-									if _confirmed then {
-										USE_DISPLAY(THIS_DISPLAY);
-										_display closeDisplay 2;
-									};
-								},"Discard","",_display
-							] call CAU_UserInputMenus_fnc_guiMessage;
-						} else {
-							_display closeDisplay 2
-						};
+						["closeDisplay",[_display]] call THIS_FUNC;
 					}];
 				}
 			],
@@ -410,20 +433,6 @@ switch _mode do {
 							_ctrl ctrlSetTooltip "";
 						};
 					}];
-					_display displayAddEventHandler ["KeyDown",{
-						params  ["_display","_key"];
-						USE_CTRL(_ctrlLabel,IDC_LABEL_AUTOCOMPLETE_KEYBIND);
-
-						private _active = _ctrlLabel getVariable ["active",false];
-						if _active exitWith {
-							_ctrlLabel setVariable ["setting",_key];
-							_ctrlLabel ctrlSetText format[localize "STR_CAU_xChat_settings_configuration_autocomplete_keybind_label",keyName _key];
-							["KeyDown"] call THIS_FUNC;
-							true
-						};
-
-						false
-					}];
 				}
 			],
 			[
@@ -471,25 +480,6 @@ switch _mode do {
 							_ctrl ctrlSetText localize "str_3den_display3den_menubar_edit_text";
 							_ctrl ctrlSetTooltip "";
 						};
-					}];
-					_display displayAddEventHandler ["KeyDown",{
-						params  ["_display","_key"];
-						USE_CTRL(_ctrlLabel,IDC_LABEL_TOGGLE_CHAT_FEED_KEYBIND);
-
-						private _active = _ctrlLabel getVariable ["active",false];
-						if _active exitWith {
-							_ctrlLabel setVariable ["setting",_key];
-							_ctrlLabel ctrlSetText format[
-								localize "STR_CAU_xChat_settings_configuration_toggle_chat_feed_keybind_label",
-								if (_key == -1) then {
-									localize "str_lib_info_na"
-								} else {keyName _key}
-							];
-							["KeyDown"] call THIS_FUNC;
-							true
-						};
-
-						false
 					}];
 				}
 			],
@@ -1244,7 +1234,6 @@ switch _mode do {
 									USE_DISPLAY(THIS_DISPLAY);
 									USE_CTRL(_ctrlCheckbox,IDC_CB_LANGUAGE_FILTER);
 
-									if (_index isEqualType 0) then {_index = [_index]};
 									_index sort false;
 
 									private _terms = _ctrlCheckbox getVariable ["setting",[]];
@@ -1365,7 +1354,6 @@ switch _mode do {
 									USE_DISPLAY(THIS_DISPLAY);
 									USE_CTRL(_ctrlCheckbox,IDC_CB_WEBSITE_WHITELIST);
 
-									if (_index isEqualType 0) then {_index = [_index]};
 									_index sort false;
 
 									private _terms = _ctrlCheckbox getVariable ["setting",[]];
@@ -1554,7 +1542,6 @@ switch _mode do {
 		["set",[VAL_SETTINGS_KEY_TEXT_MENTION_COLOR,_ctrlLabelTextMentionColor getVariable ["setting",[]]]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR,_ctrlLabelMentionBGColor getVariable ["setting",[]]]] call FUNC(settings);
 
-
 		["set",[VAL_SETTINGS_KEY_PRINT_CONNECTED,cbChecked _ctrlCBLogConnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_PRINT_DISCONNECTED,cbChecked _ctrlCBLogDisconnect]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK,cbChecked _ctrlCBLogBattleye]] call FUNC(settings);
@@ -1585,6 +1572,23 @@ switch _mode do {
 		systemChat format["Extended Chat: %1",localize "STR_CAU_xChat_settings_saved_alert"];
 
 		true
+	};
+	case "closeDisplay":{
+		_params params ["_display"];
+		USE_CTRL(_ctrlButton,IDC_BUTTON_SAVE_SETTINGS);
+		if (ctrlEnabled _ctrlButton) then {
+			[
+				[localize "STR_CAU_xChat_settings_pending_changes"],
+				localize "STR_CAU_xChat_settings_title",{
+					if _confirmed then {
+						USE_DISPLAY(THIS_DISPLAY);
+						_display closeDisplay 2;
+					};
+				},"Discard","",_display
+			] call CAU_UserInputMenus_fnc_guiMessage;
+		} else {
+			_display closeDisplay 2
+		};
 	};
 
 };
