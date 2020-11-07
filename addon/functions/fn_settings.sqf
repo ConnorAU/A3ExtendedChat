@@ -213,6 +213,7 @@ switch _mode do {
 					["add",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call THIS_FUNC;
 					["add",VAL_SETTINGS_KEY_WEBSITE_WHITELIST] call THIS_FUNC;
 					["add",VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS] call THIS_FUNC;
+					["add",VAL_SETTINGS_KEY_MUTED_PLAYERS] call THIS_FUNC;
 
 					_repeatInit = true;
 				};
@@ -290,7 +291,8 @@ switch _mode do {
 			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER,
 			VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS,
 			VAL_SETTINGS_KEY_WEBSITE_WHITELIST,
-			VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS
+			VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS,
+			VAL_SETTINGS_KEY_MUTED_PLAYERS
 		],[
 			"v2.1",
 			"#",
@@ -320,7 +322,8 @@ switch _mode do {
 			false,
 			_languageFilter,
 			true,
-			["arma3.com","bohemia.net","bistudio.com","youtu.be"]
+			["arma3.com","bohemia.net","bistudio.com","youtu.be"],
+			[]
 		]]
 	};
 

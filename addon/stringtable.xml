@@ -328,6 +328,22 @@
 				<Original>Remove one or more websites</Original>
 				<English>Remove one or more websites</English>
 			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_muted_players_label">
+				<Original>Muted players</Original>
+				<English>Muted players</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_muted_players_desc">
+				<Original>Mute players to block their messages from printing to the chat feed.</Original>
+				<English>Mute players to block their messages from printing to the chat feed.</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_muted_players_add">
+				<Original>Mute one or more players</Original>
+				<English>Mute one or more players</English>
+			</Key>
+			<Key ID="STR_CAU_xChat_settings_filter_muted_players_remove">
+				<Original>Unmute one or more players</Original>
+				<English>Unmute one or more players</English>
+			</Key>
 		</Container>
 	</Package>
 </Project>

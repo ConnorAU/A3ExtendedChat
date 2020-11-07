@@ -29,30 +29,31 @@ Return:
 #define DIALOG_W ((safezoneW/GRID_W) - 10)
 #define DIALOG_H ((safezoneH/GRID_H) - 10)
 
-#define IDC_STATIC_FILTER   1
-#define IDC_FRAME_FILTER    2
-#define IDC_CB_SYSTEM       3
-#define IDC_CB_GLOBAL       4
-#define IDC_CB_SIDE         5
-#define IDC_CB_COMMAND      6
-#define IDC_CB_GROUP        7
-#define IDC_CB_VEHICLE      8
-#define IDC_CB_DIRECT       9
-#define IDC_CB_CUSTOM_1     10
-#define IDC_CB_CUSTOM_2     11
-#define IDC_CB_CUSTOM_3     12
-#define IDC_CB_CUSTOM_4     13
-#define IDC_CB_CUSTOM_5     14
-#define IDC_CB_CUSTOM_6     15
-#define IDC_CB_CUSTOM_7     16
-#define IDC_CB_CUSTOM_8     17
-#define IDC_CB_CUSTOM_9     18
-#define IDC_CB_CUSTOM_10    19
-#define IDC_EDIT_SEARCH     20
-#define IDC_GROUP_MESSAGES  21
-#define IDC_STATIC_RELOAD   22
-#define IDC_BUTTON_RELOAD   23
-#define IDC_IMAGE_SPINNER   24
+#define IDC_STATIC_FILTER    1
+#define IDC_FRAME_FILTER     2
+#define IDC_CB_MUTED_PLAYERS 3
+#define IDC_CB_SYSTEM        4
+#define IDC_CB_GLOBAL        5
+#define IDC_CB_SIDE          6
+#define IDC_CB_COMMAND       7
+#define IDC_CB_GROUP         8
+#define IDC_CB_VEHICLE       9
+#define IDC_CB_DIRECT        10
+#define IDC_CB_CUSTOM_1      11
+#define IDC_CB_CUSTOM_2      12
+#define IDC_CB_CUSTOM_3      13
+#define IDC_CB_CUSTOM_4      14
+#define IDC_CB_CUSTOM_5      15
+#define IDC_CB_CUSTOM_6      16
+#define IDC_CB_CUSTOM_7      17
+#define IDC_CB_CUSTOM_8      18
+#define IDC_CB_CUSTOM_9      19
+#define IDC_CB_CUSTOM_10     20
+#define IDC_EDIT_SEARCH      21
+#define IDC_GROUP_MESSAGES   22
+#define IDC_STATIC_RELOAD    23
+#define IDC_BUTTON_RELOAD    24
+#define IDC_IMAGE_SPINNER    25
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -127,7 +128,7 @@ switch _mode do {
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
 					PXW(50),
-					PXH(SIZE_M) + PXH(SIZE_M) + PXH(5) + PXH((SIZE_M*7))
+					PXH(SIZE_M) + PXH(SIZE_M) + PXH(5) + PXH((SIZE_M*9))
 				],
 				{
 					_ctrl ctrlSetBackgroundColor [COLOR_OVERLAY_RGB,0.2];
@@ -150,24 +151,8 @@ switch _mode do {
 					PXCX(DIALOG_W) + PXW(2),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2),
 					PXW(50),
-					PXH(SIZE_M) + PXH(SIZE_M) + PXH(5) + PXH((SIZE_M*7))
+					PXH(SIZE_M) + PXH(SIZE_M) + PXH(5) + PXH((SIZE_M*9))
 				]
-			],
-			[
-				"ctrlCheckbox",IDC_CB_SYSTEM,[
-					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5),
-					PXW(SIZE_M),
-					PXH(SIZE_M)
-				],
-				{
-					// system can have hundreds of logs, is best to hide them unless the player wants to see system logs
-					_ctrl cbSetChecked false;
-					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
-
-					// for some reason this ctrl is closing the display when clicked
-					_ctrl ctrlAddEventHandler ["ButtonClick",{true}];
-				}
 			],
 			[
 				"ctrlEdit",IDC_EDIT_SEARCH,[
@@ -192,9 +177,61 @@ switch _mode do {
 				}
 			],
 			[
+				"ctrlCheckbox",IDC_CB_MUTED_PLAYERS,[
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(7),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					// system can have hundreds of logs, is best to hide them unless the player wants to see system logs
+					_ctrl cbSetChecked false;
+					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
+
+					// for some reason this ctrl is closing the display when clicked
+					_ctrl ctrlAddEventHandler ["ButtonClick",{true}];
+				}
+			],
+			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(7),
+					PXW(50) - PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					private _channel = -1;
+					_ctrl ctrlSetStructuredText composeText [text(localize "STR_CAU_xChat_settings_filter_muted_players_label") setAttributes ["size","1.04167"]];
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrlButton"];
+						USE_DISPLAY(ctrlParent _ctrlButton);
+						USE_CTRL(_ctrlCB,IDC_CB_MUTED_PLAYERS);
+						_ctrlCB cbSetChecked !cbChecked _ctrlCB;
+
+						["PopulateList"] spawn THIS_FUNC;
+					}];
+				}
+			],
+			[
+				"ctrlCheckbox",IDC_CB_SYSTEM,[
+					PXCX(DIALOG_W) + PXW(4),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH(SIZE_M),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					// system can have hundreds of logs, is best to hide them unless the player wants to see system logs
+					_ctrl cbSetChecked false;
+					_ctrl ctrlAddEventhandler ["CheckedChanged",{["CBFilterChanged",_this] call THIS_FUNC}];
+
+					// for some reason this ctrl is closing the display when clicked
+					_ctrl ctrlAddEventHandler ["ButtonClick",{true}];
+				}
+			],
+			[
+				"ctrlStructuredText",-1,[
+					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH(SIZE_M),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -208,7 +245,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_GLOBAL,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*2)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -223,7 +260,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH(SIZE_M),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*2)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -237,7 +274,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_SIDE,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*2)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*3)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -249,7 +286,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*2)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*3)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -263,7 +300,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_COMMAND,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*3)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*4)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -275,7 +312,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*3)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*4)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -289,7 +326,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_GROUP,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*4)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*5)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -301,7 +338,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*4)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*5)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -315,7 +352,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_VEHICLE,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*5)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*6)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -327,7 +364,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*5)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*6)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -341,7 +378,7 @@ switch _mode do {
 			[
 				"ctrlCheckbox",IDC_CB_DIRECT,[
 					PXCX(DIALOG_W) + PXW(4),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*6)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*7)),
 					PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -353,7 +390,7 @@ switch _mode do {
 			[
 				"ctrlStructuredText",-1,[
 					PXCX(DIALOG_W) + PXW(4) + PXW(SIZE_M),
-					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(5.5) + PXH((SIZE_M*6)),
+					PXCY(DIALOG_H) + PXH((SIZE_M*3)) + PXH(9) + PXH((SIZE_M*7)),
 					PXW(50) - PXW(SIZE_M),
 					PXH(SIZE_M)
 				],
@@ -368,7 +405,7 @@ switch _mode do {
 			// TODO: remove when issue is fixed (2.01+)
 				"ctrlStatic",IDC_STATIC_RELOAD,[
 					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(5.5) + PXH((SIZE_M*8.5)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(9) + PXH((SIZE_M*8.5)),
 					PXW(50),
 					PXH(SIZE_M)
 				],
@@ -380,7 +417,7 @@ switch _mode do {
 			[// Clear button with hover highlight
 				"ctrlButtonFilter",IDC_BUTTON_RELOAD,[
 					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(5.5) + PXH((SIZE_M*8.5)),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(9) + PXH((SIZE_M*8.5)),
 					PXW(50),
 					PXH(SIZE_M)
 				],
@@ -496,7 +533,7 @@ switch _mode do {
 		} foreach [_ctrlFilterBG,_ctrlFilterFrame];
 
 		{
-			_x ctrlSetPositionY (ctrlPosition _x#1 + _ctrlPosAdd);
+			_x ctrlSetPositionY (ctrlPosition _ctrlFilterBG#1 + ctrlPosition _ctrlFilterBG#3 + PXH(2));
 			_x ctrlCommit 0;
 		} foreach [_ctrlNewMessageStatic,_ctrlNewMessageButton];
 
@@ -583,6 +620,7 @@ switch _mode do {
 		if (_display getVariable ["populating",false]) exitWith {};
 		_display setVariable ["populating",true];
 
+		USE_CTRL(_ctrlCBMutedPlayers,IDC_CB_MUTED_PLAYERS);
 		USE_CTRL(_ctrlCBSystem,IDC_CB_SYSTEM);
 		USE_CTRL(_ctrlCBGlobal,IDC_CB_GLOBAL);
 		USE_CTRL(_ctrlCBSide,IDC_CB_SIDE);
@@ -635,25 +673,14 @@ switch _mode do {
 
 		private _searchTerm = ctrlText _ctrlEditSearch;
 		private _doSearchStrings = _searchTerm != "";
+		private _mutedPlayers = ["get",VAL_SETTINGS_KEY_MUTED_PLAYERS] call FUNC(settings);
+		private _showMutedPlayers = cbChecked _ctrlCBMutedPlayers;
 
 		private _getTimePast = {
 			private _elapsed = diag_tickTime - _this;
 			private _hours = floor(_elapsed / 3600);
 			private _minutes = floor((_elapsed / 60) % 60);
 			format[localize "STR_CAU_xChat_history_time_past",_hours,_minutes];
-		};
-		private _formatDate = {
-			params ["_year","_month","_day","_hour","_minute"];
-
-			private _meridiem = ["AM","PM"] select (_hour >= 12);
-			_hour = if (_hour == 0) then {12} else {if (_hour > 12) then {_hour - 12} else {_hour}};
-			if (_minute < 10) then {_minute = "0" + str _minute};
-
-			format [
-				"%1 %2, %3, %4:%5 %6",
-				localize format["str_3den_attributes_date_month%1_text",_month],
-				_day,_year,_hour,_minute,_meridiem
-			];
 		};
 
 		private _oldMessageCtrls = _ctrlGroupMessages getVariable ["controls",[]];
@@ -669,7 +696,7 @@ switch _mode do {
 				terminate _thisScript;
 			};
 
-			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_receivedTickGame","_receivedDateSys","_sentenceType","_containsImg","_mentionBGColor"];
+			(VAR_HISTORY#_i) params ["_text","_channel","_senderName","_senderUID","_receivedTickGame","_receivedDateSys","_sentenceType","_containsImg","_senderIsMuted","_mentionBGColor"];
 
 			private _canSeeChannel = _shownChatChannels param [_channel,_shownSystemChannel];
 			private _containsSearchTerm = !_doSearchStrings || {
@@ -679,16 +706,17 @@ switch _mode do {
 					}
 				}
 			};
+			private _notMuted = _mutedPlayers findIf {_x#1 isEqualTo _senderUID} == -1;
 
-			if (_canSeeChannel && _containsSearchTerm) then {
-				private _channelName = ["ChannelName",_channel] call FUNC(commonTask);;
-				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);;
+			if (_canSeeChannel && _containsSearchTerm && (_notMuted || {!_notMuted && _showMutedPlayers})) then {
+				private _channelName = ["ChannelName",_channel] call FUNC(commonTask);
+				private _channelColour = ["ChannelColour",_channel] call FUNC(commonTask);
 				_senderName = ["StreamSafeName",[_senderUID,_senderName]] call FUNC(commonTask);
 
 				private _ctrlMessageContainer = ["CreateMessageCard",[
 					_ctrlGroupMessages,_channel,_channelName,_channelColour,
-					_receivedTickGame call _getTimePast,_receivedDateSys call _formatDate,
-					_senderName,_text,_sentenceType,_containsImg,_mentionBGColor
+					_receivedTickGame call _getTimePast,["formatSystemDate",_receivedDateSys] call FUNC(commonTask),
+					_senderName,_text,_sentenceType,_containsImg,_senderIsMuted,_mentionBGColor
 				]] call THIS_FUNC;
 
 				private _ctrlMessageContainerPos = ctrlPosition _ctrlMessageContainer;
@@ -716,7 +744,7 @@ switch _mode do {
 	};
 
 	case "CreateMessageCard":{
-		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_receivedTickGame","_receivedDateSys","_senderName","_text","_sentenceType","_containsImg","_mentionBGColor"];
+		_params params ["_ctrlGroupMessages","_channel","_channelName","_channelColour","_receivedTickGame","_receivedDateSys","_senderName","_text","_sentenceType","_containsImg","_senderIsMuted","_mentionBGColor"];
 
 		disableSerialization;
 		USE_DISPLAY(THIS_DISPLAY);
@@ -751,6 +779,9 @@ switch _mode do {
 				text(localize "STR_CAU_xChat_history_sent_by") setAttributes ["font",FONT_BOLD],
 				" ",
 				_senderName,
+				if _senderIsMuted then {
+					composeText["  ",image "\a3\ui_f\data\igui\rscingameui\rscdisplaychannel\mutechat_crossed_ca.paa" setAttributes ["color","#707070"]]
+				} else {""},
 				lineBreak
 			];
 		};

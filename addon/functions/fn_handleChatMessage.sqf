@@ -214,8 +214,12 @@ if (_sentenceType == 0) then {
 // Compose message
 private _messageComposed = composeText _message;
 
-// Add message to history array
+// Check if sender is muted
 private _senderUID = getPlayerUID _senderUnit;
+private _mutedPlayers = ["get",VAL_SETTINGS_KEY_MUTED_PLAYERS] call FUNC(settings);
+private _senderIsMuted = !isNull _senderUnit && {_mutedPlayers findIf {_x#1 isEqualTo _senderUID} != -1};
+
+// Add message to history array
 if !_sehBlockHistory then {
 	private _messageHistory = _message;
 
@@ -249,24 +253,24 @@ if !_sehBlockHistory then {
 	};
 
 	private _historyData = [
-		_messageHistory,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,_containsImg,
+		_messageHistory,_channelID,_senderNameF,_senderUID,diag_tickTime,systemTime,_sentenceType,_containsImg,_senderIsMuted,
 		if _messageMentionsSelf then {["get",VAL_SETTINGS_KEY_FEED_MENTION_BG_COLOR] call FUNC(settings)} else {[0,0,0,0]}
 	];
 	VAR_HISTORY pushBack _historyData;
-};
 
-// Delete old messages if the array had exceeded the limit
-private _maxHistorySize = ["get",VAL_SETTINGS_KEY_MAX_SAVED] call FUNC(settings);
-if (count VAR_HISTORY > _maxHistorySize) then {
-	// remove oldest entry to keep well within array limit
-	for "_i" from 0 to 1 step 0 do {
-		if (count VAR_HISTORY <= _maxHistorySize) exitWith {};
-		VAR_HISTORY deleteAt 0;
+	// Delete old messages if the array had exceeded the limit
+	private _maxHistorySize = ["get",VAL_SETTINGS_KEY_MAX_SAVED] call FUNC(settings);
+	if (count VAR_HISTORY > _maxHistorySize) then {
+		// remove oldest entry to keep well within array limit
+		for "_i" from 0 to (count VAR_HISTORY) - _maxHistorySize do {VAR_HISTORY deleteAt 0};
 	};
 };
 
 // Scripted event return blocked printing message
 if _sehBlockPrint exitWith {};
+
+// Don't print message if sender is blocked
+if _senderIsMuted exitWith {};
 
 // Get channel filter setting
 private _isChannelPrintEnabled = switch _channelID do {

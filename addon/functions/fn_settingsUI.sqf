@@ -28,7 +28,7 @@ Return:
 #define DIALOG_SECTIONS 3
 #define DIALOG_SECTION_W 75
 #define DIALOG_W (DIALOG_SECTION_W*DIALOG_SECTIONS)
-#define DIALOG_H 99
+#define DIALOG_H 105
 
 
 #define IDC_BUTTON_SAVE_SETTINGS                  1
@@ -66,6 +66,9 @@ Return:
 #define IDC_CB_WEBSITE_WHITELIST                  31
 #define IDC_BUTTON_WEBSITE_WHITELIST_ADD          32
 #define IDC_BUTTON_WEBSITE_WHITELIST_REM          33
+#define IDC_LABEL_MUTED_PLAYERS                   34
+#define IDC_BUTTON_MUTED_PLAYERS_ADD              35
+#define IDC_BUTTON_MUTED_PLAYERS_REM              36
 
 
 disableSerialization;
@@ -1376,6 +1379,102 @@ switch _mode do {
 						] call CAU_UserInputMenus_fnc_listBox;
 					}];
 				}
+			],
+			[
+				"ctrlStatic",IDC_LABEL_MUTED_PLAYERS,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2),
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(4) + PXH((SIZE_M*16)),
+					PXW((DIALOG_W/3)) - PXW(5) - PXW(SIZE_M)*2,
+					PXH(SIZE_M)
+				],
+				{
+					private _terms = ["get",VAL_SETTINGS_KEY_MUTED_PLAYERS] call FUNC(settings);
+					_ctrl setVariable ["setting",+_terms];
+
+					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_muted_players_label";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_muted_players_desc";
+				}
+			],
+			[
+				"ctrlButtonPicture",IDC_BUTTON_MUTED_PLAYERS_ADD,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW((DIALOG_W/3)) - PXW(SIZE_M)*3,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(4) + PXH((SIZE_M*16)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText "\a3\3den\data\cfg3den\history\makenewlayer_ca.paa";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_muted_players_add";
+
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_MUTED_PLAYERS);
+						private _terms = _ctrlLabel getVariable ["setting",[]];
+						_terms = _terms apply {_x#1};
+
+						private _players = (allPlayers-[player]) select {!(getPlayerUID _x in _terms)} apply {[UNIT_NAME(_x),getPlayerUID _x]};
+						_players sort true;
+
+						[
+							[_players apply {[[_x#0],nil,nil,nil,nil,str _x]},0,true],
+							localize "STR_CAU_xChat_settings_filter_muted_players_add",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_MUTED_PLAYERS);
+
+									private _terms = _ctrlLabel getVariable ["setting",[]];
+									_terms append (_data apply {(parseSimpleArray _x) + [["formatSystemDate",systemTime] call FUNC(commonTask)]});
+
+									["ListModified"] call THIS_FUNC;
+								};
+							},
+							localize "str_single_create",
+							"",_display
+						] call CAU_UserInputMenus_fnc_listBox;
+					}];
+				}
+			],
+			[
+				"ctrlButtonPicture",IDC_BUTTON_MUTED_PLAYERS_REM,[
+					PXCX(DIALOG_W) + PXW((DIALOG_W/3))*2 + PXW(2) + PXW((DIALOG_W/3)) - PXW(SIZE_M)*2,
+					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(4) + PXH((SIZE_M*16)),
+					PXW(SIZE_M),
+					PXH(SIZE_M)
+				],
+				{
+					_ctrl ctrlSetText "\a3\3den\data\cfg3den\history\removefromlayer_ca.paa";
+					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_muted_players_remove";
+
+					_ctrl ctrlAddEventHandler ["ButtonClick",{
+						params ["_ctrl"];
+						USE_DISPLAY(ctrlParent _ctrl);
+						USE_CTRL(_ctrlLabel,IDC_LABEL_MUTED_PLAYERS);
+						private _terms = _ctrlLabel getVariable ["setting",[]];
+						_terms sort true;
+
+						[
+							[_terms apply {[[_x#0],[_x#2,[0.75,0.75,0.75,1]],nil,nil,nil,_x#1]},0,true],
+							localize "STR_CAU_xChat_settings_filter_muted_players_remove",
+							{
+								if _confirmed then {
+									USE_DISPLAY(THIS_DISPLAY);
+									USE_CTRL(_ctrlLabel,IDC_LABEL_MUTED_PLAYERS);
+
+									_index sort false;
+
+									private _terms = _ctrlLabel getVariable ["setting",[]];
+									{_terms deleteAt _x} forEach _index;
+
+									["ListModified"] call THIS_FUNC;
+								};
+							},
+							localize "str_xbox_hint_remove",
+							"",_display
+						] call CAU_UserInputMenus_fnc_listBox;
+					}];
+				}
 			]
 		];
 	};
@@ -1420,6 +1519,7 @@ switch _mode do {
 		USE_CTRL(_ctrlCBShowCustom,IDC_CB_CHANNEL_CUSTOM);
 		USE_CTRL(_ctrlCBLanguageFilter,IDC_CB_LANGUAGE_FILTER);
 		USE_CTRL(_ctrlCBWebsiteWhitelist,IDC_CB_WEBSITE_WHITELIST);
+		USE_CTRL(_ctrlLabelMutedPlayers,IDC_LABEL_MUTED_PLAYERS);
 
 		_ctrlButtonSave ctrlEnable false;
 
@@ -1468,6 +1568,7 @@ switch _mode do {
 		["set",[VAL_SETTINGS_KEY_PRINT_CUSTOM,cbChecked _ctrlCBShowCustom]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER,cbChecked _ctrlCBLanguageFilter]] call FUNC(settings);
 		["set",[VAL_SETTINGS_KEY_WEBSITE_WHITELIST,cbChecked _ctrlCBWebsiteWhitelist]] call FUNC(settings);
+		["set",[VAL_SETTINGS_KEY_MUTED_PLAYERS,_ctrlLabelMutedPlayers getVariable ["setting",[]]]] call FUNC(settings);
 
 		private _languageTerms = _ctrlCBLanguageFilter getVariable ["setting",[]];
 		_languageTerms = _languageTerms apply {[count _x,_x]};

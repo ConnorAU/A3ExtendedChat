@@ -80,3 +80,4 @@
 #define VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS         "bad_language_filter_terms"
 #define VAL_SETTINGS_KEY_WEBSITE_WHITELIST                 "website_whitelist"
 #define VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS           "website_whitelist_terms"
+#define VAL_SETTINGS_KEY_MUTED_PLAYERS                     "muted_players"

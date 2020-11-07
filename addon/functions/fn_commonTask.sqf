@@ -121,6 +121,19 @@ switch _mode do {
 		*/
 		_params apply {_x call BIS_fnc_parseNumber};
 	};
+	case "formatSystemDate":{
+		_params params ["_year","_month","_day","_hour","_minute"];
+
+		private _meridiem = ["AM","PM"] select (_hour >= 12);
+		_hour = if (_hour == 0) then {12} else {if (_hour > 12) then {_hour - 12} else {_hour}};
+		if (_minute < 10) then {_minute = "0" + str _minute};
+
+		format [
+			"%1 %2, %3, %4:%5 %6",
+			localize format["str_3den_attributes_date_month%1_text",_month],
+			_day,_year,_hour,_minute,_meridiem
+		];
+	};
 
 
 	case "stringPrefix":{
