@@ -71,6 +71,21 @@ switch _mode do {
 							};
 						};
 					};
+					case "r":{
+						private _messageMentionID = _x select [2];
+						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
+						if (count _messageMentionIDChars == 0) then {
+							private _role = ["getRole",parseNumber _messageMentionID] call FUNC(role);
+							if !(_role isEqualTo []) then {
+								if (clientOwner in _role#3) then {_messageMentionsSelf = true};
+
+								_params set [
+									_fei,
+									text("@" + _role#1) setAttributes ["color",_role#2]
+								];
+							};
+						};
+					};
 				};
 			};
 		} forEach _params;

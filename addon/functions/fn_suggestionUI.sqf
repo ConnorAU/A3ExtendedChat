@@ -203,7 +203,7 @@ switch _mode do {
 
 				_ctrlListSearchDisplayAll = _ctrlEditTextSegmentTypeForced == -1 && {_ctrlEditTextSegmentSearchTrimPrefix == ""};
 
-				if (_ctrlEditTextSegmentMentionType in ["","p"] || _ctrlEditTextSegmentSearchTrimPrefix != "") then {
+				if (_ctrlEditTextSegmentMentionType in ["","p"]) then {
 					private _players = [];
 					{
 						private _unitName = ["StreamSafeName",[getPlayerUID _x,UNIT_NAME(_x)]] call FUNC(commonTask);
@@ -224,7 +224,7 @@ switch _mode do {
 				};
 
 				private _mentionGroupsMode = getMissionConfigValue[QUOTE(VAR(mentionGroups)),1];
-				if (_mentionGroupsMode in [1,2] && {_ctrlEditTextSegmentMentionType in ["","g"] || _ctrlEditTextSegmentSearchTrimPrefix != ""}) then {
+				if (_mentionGroupsMode in [1,2] && {_ctrlEditTextSegmentMentionType in ["","g"]}) then {
 					private _allGroups = allGroups;
 					if (_mentionGroupsMode == 1) then {
 						private _sideGroupPlayer = side group player;
@@ -248,6 +248,26 @@ switch _mode do {
 					} forEach _allGroups;
 					_groups = _groups call _sortBySearch;
 					_items append _groups;
+				};
+
+				if (_ctrlEditTextSegmentMentionType in ["","r"]) then {
+					private _roles = [];
+					{
+						_x params ["_roleID","_roleName"];
+						_roleID = str _roleID;
+						if (
+							_ctrlListSearchDisplayAll ||
+							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _roleName || {_roleID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}
+						) then {
+							_roles pushBack [
+								[1,0] select (toLower _roleName find _ctrlEditTextSegmentSearchTrimPrefix == 0 || {_roleID find _ctrlEditTextSegmentSearchTrimPrefix == 0}),
+								[_roleName,_roleID],"\a3\3den\data\displays\display3den\statusbar\server_ca.paa",
+								"",_roleID,"['insertItem',[1,_data,2]] call " + QUOTE(THIS_FUNC)
+							];
+						};
+					} forEach (["getAllRoles"] call FUNC(role));
+					_roles = _roles call _sortBySearch;
+					_items append _roles;
 				};
 			};
 			case 2:{
@@ -424,7 +444,7 @@ switch _mode do {
 
 		_data = switch _type do {
 			case 0:{":"+_data+":"};
-			case 1:{(["p","g"]#_data2)+"@"+_data};
+			case 1:{(["p","g","r"]#_data2)+"@"+_data};
 			//case 2:{_data};
 			default {_data};
 		};
