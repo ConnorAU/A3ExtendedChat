@@ -100,11 +100,13 @@ if hasInterface then {
 			};
 
 			params ["_target"];
-			private _message = _this select [1,count _this] joinString " ";
+			if (_target find "@" != 1) exitWith {
+				systemChat "No whisper target mention provided";
+			};
 
 			private _targetParsed = ["extractTargets",_target] call FUNC(mention);
 			if (_targetParsed isEqualTo []) exitWith {
-				systemChat "No whisper target mention provided";
+				systemChat "No whisper target found";
 			};
 			if (_targetParsed isEqualTo [clientOwner]) exitWith {
 				systemChat "You cannot whisper yourself";

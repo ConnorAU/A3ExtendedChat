@@ -130,7 +130,10 @@ switch _mode do {
 					case "p":{
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 						if (count _messageMentionIDChars == 0) then {
-							_mentions pushBack parseNumber _messageMentionID;
+							{
+								private _unitID = UNIT_OID(_x);
+								if (str _unitID isEqualTo _messageMentionID) exitWith {_mentions pushBack _unitID};
+							} forEach allPlayers;
 						};
 					};
 					case "g":{
