@@ -259,8 +259,7 @@ switch _mode do {
 
 
 	case "default":{
-		private _languageFilter = loadFile "cau\extendedchat\data\profanity.txt" splitString endl;
-		_languageFilter deleteAt 0; // List source URL
+		private _languageFilter = loadFile "cau\extendedchat\data\profanity\list.txt" splitString endl;
 
 		[[
 			VAL_SETTINGS_KEY_VERSION,

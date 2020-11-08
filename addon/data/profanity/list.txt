@@ -1,4 +1,3 @@
-Source: https://github.com/RobertJGabriel/Google-profanity-words
 4r5e
 5h1t
 5hit
