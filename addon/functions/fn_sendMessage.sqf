@@ -6,9 +6,7 @@ Author:
 	ConnorAU - https://github.com/ConnorAU
 
 Warning:
-	This function is deprecated as of A3 1.99+ and only exists
-	to maintain backwards compatibility. Please use the native
-	chat sqf commands.
+	As of A3 1.99+ you can use native chat sqf commands instead of this function if desired.
 
 Function:
 	CAU_xChat_fnc_sendMessage

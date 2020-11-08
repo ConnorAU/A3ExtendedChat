@@ -93,6 +93,34 @@ if hasInterface then {
 		}] call BIS_fnc_addScriptedEventHandler;
 	};
 
+	if (getMissionConfigValue[QUOTE(VAR(whisperCommand)),1] isEqualTo 1) then {
+		["whisper",{
+			if (count _this == 1) exitWith {
+				systemChat "No whisper message provided";
+			};
+
+			params ["_target"];
+			private _message = _this select [1,count _this] joinString " ";
+
+			private _targetParsed = ["extractTargets",_target] call FUNC(mention);
+			if (_targetParsed isEqualTo []) exitWith {
+				systemChat "No whisper target mention provided";
+			};
+			if (_targetParsed isEqualTo [clientOwner]) exitWith {
+				systemChat "You cannot whisper yourself";
+			};
+
+			_argumentsRaw = _argumentsRaw select [count _target + 1];
+
+			[
+				"systemChat",
+				["p@",clientOwner," whispers to you ",_target," : ",_argumentsRaw] joinString ""
+			] remoteExecCall [QUOTE(FUNC(sendMessage)),_targetParsed#0];
+
+			systemChat (["You whispered to ",_target," : ",_argumentsRaw] joinString "");
+		}] call FUNC(addCommand);
+	};
+
 	addMissionEventHandler ["HandleChatMessage",{call FUNC(handleChatMessage)}];
 
 	[] spawn {

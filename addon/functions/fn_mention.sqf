@@ -32,9 +32,9 @@ switch _mode do {
 			if (_x isEqualType "" && {_x find "@" == 1}) then {
 				private _fei = _forEachIndex;
 				private _messageMentionType = _x select [0,1];
+				private _messageMentionID = _x select [2];
 				switch _messageMentionType do {
 					case "p":{
-						private _messageMentionID = _x select [2];
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 						if (count _messageMentionIDChars == 0) then {
 							{
@@ -55,7 +55,6 @@ switch _mode do {
 						};
 					};
 					case "g":{
-						private _messageMentionID = _x select [2];
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890:";
 						if (count _messageMentionIDChars == 0) then {
 							private _group = groupFromNetId _messageMentionID;
@@ -72,7 +71,6 @@ switch _mode do {
 						};
 					};
 					case "r":{
-						private _messageMentionID = _x select [2];
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 						if (count _messageMentionIDChars == 0) then {
 							private _role = ["getRole",parseNumber _messageMentionID] call FUNC(role);
@@ -117,5 +115,42 @@ switch _mode do {
 		} forEach _params;
 
 		_params joinString ""
+	};
+	case "extractTargets":{
+		if !("@" in _params) exitWith {[]};
+
+		private _mentions = [];
+		_params = ["stringSplitStringKeep",[_params," "]] call FUNC(commonTask);
+
+		{
+			if (_x find "@" == 1) then {
+				private _messageMentionType = _x select [0,1];
+				private _messageMentionID = _x select [2];
+				switch _messageMentionType do {
+					case "p":{
+						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
+						if (count _messageMentionIDChars == 0) then {
+							_mentions pushBack parseNumber _messageMentionID;
+						};
+					};
+					case "g":{
+						private _messageMentionIDChars = _messageMentionID splitString "1234567890:";
+						if (count _messageMentionIDChars == 0) then {
+							private _group = groupFromNetId _messageMentionID;
+							if (!isNull _group) then {_mentions pushBack _group};
+						};
+					};
+					case "r":{
+						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
+						if (count _messageMentionIDChars == 0) then {
+							private _role = ["getRole",parseNumber _messageMentionID] call FUNC(role);
+							if !(_role isEqualTo []) then {_mentions pushBack _role#3};
+						};
+					};
+				};
+			};
+		} forEach _params;
+
+		_mentions
 	};
 };
