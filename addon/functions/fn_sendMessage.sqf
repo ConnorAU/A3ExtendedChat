@@ -33,7 +33,6 @@ Return:
 
 SWITCH_SYS_PARAMS;
 
-private _arguments = [];
 _params params [
 	["_message","",[""]],
 	["_sender",objNull,[objNull]],
@@ -60,7 +59,7 @@ if (_messageTemplate#0 > -1) then {
 	};
 };
 
-private _arguments = switch (tolower _mode) do {
+switch (tolower _mode) do {
 	case "systemchat":{systemChat _message};
 	case "globalchat":{_sender globalChat _message};
 	case "sidechat":{_sender sideChat _message};

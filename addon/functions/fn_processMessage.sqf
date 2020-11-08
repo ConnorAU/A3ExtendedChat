@@ -28,14 +28,11 @@ params ["_ctrl"];
 private _text = ctrlText _ctrl;
 if (_text == "") exitWith {};
 
-// muted text check that works even with custom channels
-USE_DISPLAY(findDisplay 63);
-USE_CTRL(_ctrlMuteChat,104);
-if (ctrlText _ctrlMuteChat == getText(configfile >> "RscDisplayChannel" >> "controls" >> "MuteChat" >> "textMuted")) exitWith {};
+// strip emojis from text if condition is not met
+_text = ["formatCondition",_text] call FUNC(emoji);
 
-private _currentChannel = currentChannel;
-private _command = ["globalChat","sideChat","commandChat","groupChat","vehicleChat","directChat","customChat"] param [_currentChannel min 6,""];
-if (_command == "") exitWith {};
+// strip group mentions if player is not allowed to mention the target group
+_text = ["filterGroups",_text] call FUNC(mention);
 
 private _pid = getPlayerUID player;
 
@@ -62,12 +59,6 @@ if (_commandPrefixFound || _vanillaPrefixFound) exitWith {
 		_ctrl ctrlSetText "";
 	};
 };
-
-// strip emojis from text if condition is not met
-_text = ["formatCondition",_text] call FUNC(emoji);
-
-// strip group mentions if player is not allowed to mention the target group
-_text = ["filterGroups",_text] call FUNC(mention);
 
 // Set modified text to control
 _ctrl ctrlSetText _text;

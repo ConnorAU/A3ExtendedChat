@@ -212,10 +212,11 @@ switch _mode do {
 							_ctrlListSearchDisplayAll ||
 							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _unitName || {_unitID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}
 						) then {
+							private _unitIDMention = "p@"+_unitID;
 							_players pushBack [
 								[1,0] select (toLower _unitName find _ctrlEditTextSegmentSearchTrimPrefix == 0 || {_unitID find _ctrlEditTextSegmentSearchTrimPrefix == 0}),
-								[_unitName,_unitID],"\a3\3den\data\displays\display3den\panelright\modeobjects_ca.paa",
-								"",_unitID,"['insertItem',[1,_data,0]] call " + QUOTE(THIS_FUNC)
+								[_unitName,_unitIDMention],"\a3\3den\data\displays\display3den\panelright\modeobjects_ca.paa",
+								"",_unitIDMention,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
 							];
 						};
 					} forEach allPlayers;
@@ -239,10 +240,11 @@ switch _mode do {
 							_ctrlListSearchDisplayAll ||
 							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _groupName || {_groupID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}
 						) then {
+							private _groupIDMention = "g@"+_groupID;
 							_groups pushBack [
 								[1,0] select (toLower _groupName find _ctrlEditTextSegmentSearchTrimPrefix == 0 || {_groupID find _ctrlEditTextSegmentSearchTrimPrefix == 0}),
-								[_groupName,_groupID],"\a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",
-								"",_groupID,"['insertItem',[1,_data,1]] call " + QUOTE(THIS_FUNC)
+								[_groupName,_groupIDMention],"\a3\3den\data\displays\display3den\panelright\modegroups_ca.paa",
+								"",_groupIDMention,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
 							];
 						};
 					} forEach _allGroups;
@@ -259,10 +261,11 @@ switch _mode do {
 							_ctrlListSearchDisplayAll ||
 							{_ctrlEditTextSegmentSearchTrimPrefix in toLower _roleName || {_roleID find _ctrlEditTextSegmentSearchTrimPrefix == 0}}
 						) then {
+							private _roleIDMention = "r@"+_roleID;
 							_roles pushBack [
 								[1,0] select (toLower _roleName find _ctrlEditTextSegmentSearchTrimPrefix == 0 || {_roleID find _ctrlEditTextSegmentSearchTrimPrefix == 0}),
-								[_roleName,_roleID],"\a3\3den\data\displays\display3den\statusbar\server_ca.paa",
-								"",_roleID,"['insertItem',[1,_data,2]] call " + QUOTE(THIS_FUNC)
+								[_roleName,_roleIDMention],"\a3\3den\data\displays\display3den\statusbar\server_ca.paa",
+								"",_roleIDMention,"['insertItem',[1,_data]] call " + QUOTE(THIS_FUNC)
 							];
 						};
 					} forEach (["getAllRoles"] call FUNC(role));
@@ -438,16 +441,11 @@ switch _mode do {
 
 
 	case "insertItem":{
-		_params params ["_type","_data","_data2"];
+		_params params ["_type","_data"];
 
 		private _ctrlEdit = findDisplay 24 displayCtrl 101;
 
-		_data = switch _type do {
-			case 0:{":"+_data+":"};
-			case 1:{(["p","g","r"]#_data2)+"@"+_data};
-			//case 2:{_data};
-			default {_data};
-		};
+		if (_type == 0) then {_data = ":"+_data+":"};
 
 		private _ctrlEditText = ctrlText _ctrlEdit;
 		ctrlTextSelection _ctrlEdit params ["_ctrlEditSelIndexStart"/*,"_ctrlEditSelIndexLength"*/];
