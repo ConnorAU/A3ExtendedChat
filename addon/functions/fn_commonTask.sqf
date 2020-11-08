@@ -206,6 +206,34 @@ switch _mode do {
 		};
 		_output
 	};
+	case "stringTrim":{
+		_params params ["_input","_trim"];
+		_input = ["stringTrimLeft",[_input,_trim]] call THIS_FUNC;
+		_input = ["stringTrimRight",[_input,_trim]] call THIS_FUNC;
+		_input
+	};
+	case "stringTrimLeft":{
+		_params params ["_input","_trim"];
+
+		private _split = _input splitString "";
+		{
+			if !(_x in _trim) exitWith {_input = _input select [_forEachIndex]};
+		} forEach _split;
+
+		_input
+	};
+	case "stringTrimRight":{
+		_params params ["_input","_trim"];
+
+		private _split = _input splitString "";
+		reverse _split;
+
+		{
+			if !(_x in _trim) exitWith {_input = _input select [0,count _input - _forEachIndex]};
+		} forEach _split;
+
+		_input
+	};
 
 	// TODO: remove once HCM is fixed and I no longer need to replace system formats
 	case "stringConvert%sToFormat":{

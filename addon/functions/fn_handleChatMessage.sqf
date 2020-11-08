@@ -174,6 +174,7 @@ if _messageContainsMentions then {
 // Apply bad language filter
 if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 	private _languageFilters = ["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call FUNC(settings);
+	private _trim = "`~!@#$%^&*()[]{}-_=+\|/?,.;:'""" + toString[9];
 	{
 		private _censored = "";
 		if (" " in _x) then {
@@ -182,13 +183,37 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 			private _termStart = toLower(_filterSegments#0);
 			for "_i" from 0 to count _message - 1 do {
 				private _segment = _message#_i;
-				if (_segment isEqualType "" && {_termStart in toLower _segment}) then {
-					private _segments = _message select [_i,count _filterSegments] apply {
+				private _segmentLow = toLower(_message#_i);
+				private _segmentMatch = _segmentLow isEqualTo _termStart;
+				private _segmentStartTrim = _segmentLow;
+				private _segmentStartTrimed = "";
+				if !_segmentMatch then {
+					_segmentStartTrim = ["stringTrimLeft",[_segmentLow,_trim]] call FUNC(commonTask);
+					_segmentMatch = _segmentStartTrim isEqualTo _termStart;
+					if _segmentMatch then {
+						_segmentStartTrimed = _segment select [0,_segmentLow find _segmentStartTrim];
+					};
+				};
+				if _segmentMatch then {
+					private _segments = ([_segmentStartTrim] + (_message select [_i + 1,count _filterSegments - 1])) apply {
 						if (_x isEqualType "") then {toLower _x} else {_x}
 					};
-					if (_segments isEqualTo _filterSegments) then {
+					private _segmentsMatch = _segments isEqualTo _filterSegments;
+					private _segmentLastTrimed = "";
+					if !_segmentsMatch then {
+						private _segmentLast = _segments#(count _segments - 1);
+						if (_segmentLast isEqualType "") then {
+							private _segmentLastTrim = ["stringTrimRight",[_segmentLast,_trim]] call FUNC(commonTask);
+							_segments set [count _segments - 1,_segmentLastTrim];
+							_segmentsMatch = _segments isEqualTo _filterSegments;
+							if _segmentsMatch then {
+								_segmentLastTrimed = _segmentLast select [count _segmentLastTrim];
+							};
+						};
+					};
+					if _segmentsMatch then {
 						if (_censored == "") then {_censored = _x splitString "" apply {["*"," "] select (_x == " ")} joinString ""};
-						_message set [_i,_censored];
+						_message set [_i,_segmentStartTrimed + _censored + _segmentLastTrimed];
 						for "_ii" from _i + 1 to _i + count _filterSegments - 1 do {_message set [_ii,""]};
 					};
 				};
@@ -197,9 +222,17 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 			private _term = toLower _x;
 			for "_i" from 0 to count _message - 1 do {
 				private _segment = _message#_i;
-				if (_segment isEqualType "" && {_term in toLower _segment}) then {
+				private _segmentLow = toLower(_message#_i);
+				if (_term in _segmentLow) then {
 					if (_censored == "") then {_censored = _x splitString "" apply {"*"} joinString ""};
-					_message set [_i,["stringReplace",[_segment,_x,_censored]] call FUNC(commonTask)];
+					if (_segmentLow isEqualTo _term) then {
+						_message set [_i,_censored];
+					} else {
+						private _segmentTrim = ["stringTrim",[_segmentLow,_trim]] call FUNC(commonTask);
+						if (_segmentTrim isEqualTo _term) then {
+							_message set [_i,["stringReplace",[_segment,_x,_censored]] call FUNC(commonTask)];
+						};
+					};
 				};
 			};
 		};
