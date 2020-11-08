@@ -142,6 +142,29 @@ if (!isNull _display) then {
 	};
 };
 
+// Detect curator display to move chat feed
+#define VAR_CURATOR_INITIALIZED QUOTE(FUNC_SUBVAR(curatorInitialized))
+#define VAR_CURATOR_XPOS_UPDATE QUOTE(FUNC_SUBVAR(curatorXPosUpdate))
+USE_DISPLAY(findDisplay 312);
+if (isNull _display) then {
+	if !(missionNamespace getVariable [VAR_CURATOR_INITIALIZED,false]) exitWith {};
+	missionNamespace setVariable [VAR_CURATOR_INITIALIZED,false];
+
+	VAR_MESSAGE_FEED_POS_X = VAR_MESSAGE_FEED_POS#0;
+	VAR_NEW_MESSAGE_PENDING = true;
+	VAR_MESSAGE_FEED_INSTANT_COMMIT = true;
+} else {
+	if (missionNamespace getVariable [VAR_CURATOR_INITIALIZED,false]) exitWith {};
+	missionNamespace setVariable [VAR_CURATOR_INITIALIZED,true];
+
+	USE_CTRL(_ctrlGroupLeft,16809);
+	USE_CTRL(_ctrlEditButton,16104);
+
+	VAR_MESSAGE_FEED_POS_X = ctrlPosition _ctrlGroupLeft#0 + ctrlPosition _ctrlEditButton#2 + PXW(5);
+	VAR_NEW_MESSAGE_PENDING = true;
+	VAR_MESSAGE_FEED_INSTANT_COMMIT = true;
+};
+
 // Handle message controls
 #define VAR_UPDATE_MESSAGES_TICK FUNC_SUBVAR(messagesUpdateTick)
 #define VAR_UPDATE_MESSAGES_CTRL_STATE QUOTE(FUNC_SUBVAR(ctrlState))
@@ -151,8 +174,16 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 	VAR_NEW_MESSAGE_PENDING = false;
 
 	USE_DISPLAY(DISPLAY(VAR_MESSAGE_FEED_DISPLAY));
+
+	private _x = VAR_MESSAGE_FEED_POS_X;
 	private _y = (VAR_MESSAGE_FEED_POS#1)+(VAR_MESSAGE_FEED_POS#3);
 	private _activeMessageCtrls = count VAR_MESSAGE_FEED_CTRLS - 1;
+
+	private _commitDuration = 0.2;
+	if VAR_MESSAGE_FEED_INSTANT_COMMIT then {
+		VAR_MESSAGE_FEED_INSTANT_COMMIT = false;
+		_commitDuration = 0;
+	};
 
 	private _maxMsgsShown = ["get",VAL_SETTINGS_KEY_MAX_PRINTED] call FUNC(settings);
 	private _maxMsgTTL = ["get",VAL_SETTINGS_KEY_TTL_PRINTED] call FUNC(settings);
@@ -163,10 +194,10 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 		private _state = _ctrl getVariable [VAR_UPDATE_MESSAGES_CTRL_STATE,0];
 		private _tick = _ctrl getVariable [VAR_UPDATE_MESSAGES_CTRL_TICK,0];
 
-		private _ctrlPos = ctrlPosition _ctrl;
-		_y = _y - _ctrlPos#3 - PXH(0.5);
-		_ctrlPos set [1,_y];
-		_ctrl ctrlSetPosition _ctrlPos;
+		private _ctrlPosition = ctrlPosition _ctrl;
+		_y = _y - _ctrlPosition#3 - PXH(0.5);
+		if ((_ctrlPosition#0) != _x) then {_ctrl ctrlSetPositionX _x};
+		if ((_ctrlPosition#1) != _y) then {_ctrl ctrlSetPositionY _y};
 
 		if ((_activeMessageCtrls - _i) >= _maxMsgsShown) then {
 			_tick = diag_tickTime;
@@ -198,7 +229,7 @@ if (VAR_NEW_MESSAGE_PENDING || {diag_tickTime >= (missionNameSpace getVariable [
 		if !VAR_MESSAGE_FEED_SHOWN then {
 			_ctrl ctrlSetFade 1;
 		};
-		_ctrl ctrlCommit 0.2;
+		_ctrl ctrlCommit _commitDuration;
 	};
 };
 

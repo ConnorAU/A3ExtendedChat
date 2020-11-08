@@ -36,6 +36,7 @@ isNil {
 		getText(configFile >> "RscChatListMission" >> "w") call BIS_fnc_parseNumber,
 		getText(configFile >> "RscChatListMission" >> "h") call BIS_fnc_parseNumber
 	];
+	VAR_MESSAGE_FEED_POS_X = VAR_MESSAGE_FEED_POS#0;
 
 	VAR_MESSAGE_FEED_POS set [3,
 		(VAR_MESSAGE_FEED_POS#1 - safezoney) + ((VAR_MESSAGE_FEED_POS#3)*6)

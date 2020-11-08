@@ -39,6 +39,7 @@ if !(getMissionConfigValue[QUOTE(VAR(enabled)),1] isEqualTo 1) exitWith {
 if hasInterface then {
 	VAR_HISTORY = [];
 	VAR_MESSAGE_FEED_CTRLS = [];
+	VAR_MESSAGE_FEED_INSTANT_COMMIT = false;
 	VAR_COMMANDS_ARRAY = [];
 	VAR_MESSAGE_FEED_SHOWN = !isStreamFriendlyUIEnabled || {!(["get",VAL_SETTINGS_KEY_HIDE_CHAT_FEED_ONLOAD_STREAMSAFE] call FUNC(settings))};
 	VAR_NEW_MESSAGE_PENDING = false;

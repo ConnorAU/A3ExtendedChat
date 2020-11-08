@@ -30,7 +30,7 @@ if (isNull _display) exitWith {};
 private _ctrlMessageContainer = _display ctrlCreate ["ctrlControlsGroupNoScrollbars",-1];
 _ctrlMessageContainer ctrlSetFade 1;
 _ctrlMessageContainer ctrlSetPosition [
-	VAR_MESSAGE_FEED_POS#0,
+	VAR_MESSAGE_FEED_POS_X,
 	(VAR_MESSAGE_FEED_POS#1) + (VAR_MESSAGE_FEED_POS#3),
 	VAR_MESSAGE_FEED_POS#2,
 	0
