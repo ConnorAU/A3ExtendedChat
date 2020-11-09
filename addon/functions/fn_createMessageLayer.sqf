@@ -26,7 +26,7 @@ Return:
 
 waitUntil {!isNull(findDisplay 46)};
 
-// Execute the remainder of the script in unscheduled environment
+// Execute this section of script in unscheduled environment
 isNil {
 	QUOTE(VAR_MESSAGE_FEED_DISPLAY) cutRsc [QUOTE(VAR_MESSAGE_FEED_DISPLAY),"PLAIN",0,true];
 
@@ -78,8 +78,12 @@ isNil {
 			"Visit the github for setup instructions: https://github.com/ConnorAU/A3ExtendedChat"
 		];
 	};
-
-	[] spawn FUNC(motd);
 };
+
+{
+	_x params [["_delay",0,[0]],["_message","",[""]]];
+	uiSleep _delay;
+	systemChat _message;
+} forEach getArray(missionConfigFile >> QUOTE(VAR(MOTD)));
 
 nil

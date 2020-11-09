@@ -15,7 +15,6 @@ class CAU_ExtendedChat {
 		class init {postInit=1;};
 		class log {};
 		class mention {};
-		class motd {};
 		class processCommand {};
 		class processMessage {};
 		class radioChannelCustom {};

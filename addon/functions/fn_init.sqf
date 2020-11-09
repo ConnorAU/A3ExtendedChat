@@ -122,7 +122,6 @@ if hasInterface then {
 			false
 		}];
 	};
-
 };
 
 if isServer then {
