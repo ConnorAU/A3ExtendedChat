@@ -45,7 +45,6 @@ if hasInterface then {
 	VAR_NEW_MESSAGE_PENDING = false;
 	VAR_ENABLE_LOGGING = missionNamespace getVariable [QUOTE(VAR_ENABLE_LOGGING),false]; // Done like this to use publicVariable before default value
 	VAR_ENABLE_VON_CTRL = difficultyOption "vonID" > 0;
-
 	VAR_ENABLE_EMOJIS =  getMissionConfigValue[QUOTE(VAR(emojis)),1] isEqualTo 1;
 
 	["init"] call FUNC(settings);
@@ -94,34 +93,11 @@ if hasInterface then {
 		}] call BIS_fnc_addScriptedEventHandler;
 	};
 
+	// Add inbuild commands
+	["mute",{["mute",_this] call FUNC(command)}] call FUNC(addCommand);
+	["unmute",{["unmute",_this] call FUNC(command)}] call FUNC(addCommand);
 	if (getMissionConfigValue[QUOTE(VAR(whisperCommand)),1] isEqualTo 1) then {
-		["whisper",{
-			if (count _this == 1) exitWith {
-				systemChat "No whisper message provided";
-			};
-
-			params ["_target"];
-			if (_target find "@" != 1) exitWith {
-				systemChat "No whisper target mention provided";
-			};
-
-			private _targetParsed = ["extractTargets",_target] call FUNC(mention);
-			if (_targetParsed isEqualTo []) exitWith {
-				systemChat "No whisper target found";
-			};
-			if (_targetParsed isEqualTo [clientOwner]) exitWith {
-				systemChat "You cannot whisper yourself";
-			};
-
-			_argumentsRaw = _argumentsRaw select [count _target + 1];
-
-			[
-				"systemChat",
-				["p@",clientOwner," whispers to you ",_target," : ",_argumentsRaw] joinString ""
-			] remoteExecCall [QUOTE(FUNC(sendMessage)),_targetParsed#0];
-
-			systemChat (["You whispered to ",_target," : ",_argumentsRaw] joinString "");
-		}] call FUNC(addCommand);
+		["whisper",{["whisper",_this] call FUNC(command)}] call FUNC(addCommand);
 	};
 
 	addMissionEventHandler ["HandleChatMessage",{call FUNC(handleChatMessage)}];

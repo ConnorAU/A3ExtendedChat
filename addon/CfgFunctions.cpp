@@ -5,6 +5,7 @@ class CAU_ExtendedChat {
 	class Functions {
         file = "cau\extendedchat\functions";
 		class addCommand {};
+		class command {};
 		class commonTask {};
 		class createMessageLayer {};
 		class createMessageUI {};
