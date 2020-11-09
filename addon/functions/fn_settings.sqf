@@ -329,8 +329,9 @@ switch _mode do {
 
 	case "get":{
 		private _default = ["default"] call THIS_FUNC;
-		private _value = _default#1 param [_default#0 find _params,nil];
-		_settings#1 param [_settings#0 find _params,_value,[_value]];
+		private _dValue = _default#1 param [_default#0 find _params,nil];
+		private _value = _settings#1 param [_settings#0 find _params,_dValue,[_dValue]];
+		if (_value isEqualType []) then {+_value} else {_value}
 	};
 	case "set":{
 		_params params ["_key","_value"];

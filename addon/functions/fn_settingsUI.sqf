@@ -1137,7 +1137,7 @@ switch _mode do {
 				],
 				{
 					private _terms = ["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER_TERMS] call FUNC(settings);
-					_ctrl setVariable ["setting",+_terms];
+					_ctrl setVariable ["setting",_terms];
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{
 						params ["_ctrlCheckbox","_checked"];
@@ -1257,7 +1257,7 @@ switch _mode do {
 				],
 				{
 					private _terms = ["get",VAL_SETTINGS_KEY_WEBSITE_WHITELIST_TERMS] call FUNC(settings);
-					_ctrl setVariable ["setting",+_terms];
+					_ctrl setVariable ["setting",_terms];
 					_ctrl cbSetChecked (["get",VAL_SETTINGS_KEY_WEBSITE_WHITELIST] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["CheckedChanged",{
 						params ["_ctrlCheckbox","_checked"];
@@ -1377,7 +1377,7 @@ switch _mode do {
 				],
 				{
 					private _terms = ["get",VAL_SETTINGS_KEY_MUTED_PLAYERS] call FUNC(settings);
-					_ctrl setVariable ["setting",+_terms];
+					_ctrl setVariable ["setting",_terms];
 
 					_ctrl ctrlSetText localize "STR_CAU_xChat_settings_filter_muted_players_label";
 					_ctrl ctrlSetTooltip localize "STR_CAU_xChat_settings_filter_muted_players_desc";
