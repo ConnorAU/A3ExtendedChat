@@ -77,7 +77,7 @@ SWITCH_SYS_PARAMS;
 
 switch _mode do {
 	case "init":{
-		USE_DISPLAY(findDisplay 49 createDisplay "RscDisplayEmpty");
+		USE_DISPLAY(_params createDisplay "RscDisplayEmpty");
 		uiNamespace setVariable [QUOTE(DISPLAY_NAME),_display];
 
 		_display displayAddEventHandler ["KeyDown",{
@@ -205,13 +205,14 @@ switch _mode do {
 							localize "STR_CAU_xChat_settings_title",{
 								if _confirmed then {
 									USE_DISPLAY(THIS_DISPLAY);
+									private _parent = displayParent _display;
 									_display closeDisplay 2;
 									["reset"] call FUNC(settings);
 									systemChat format["Extended Chat: %1",localize "STR_CAU_xChat_settings_reset_alert"];
 									// Can't close one display and open another in the same frame
-									[] spawn {
+									_parent spawn {
 										// execute unscheduled
-										isNil {["init"] call THIS_FUNC};
+										isNil {["init",_this] call THIS_FUNC};
 									};
 								};
 							},"Reset","",THIS_DISPLAY

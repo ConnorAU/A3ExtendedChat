@@ -119,4 +119,7 @@ switch _mode do {
 
 		systemChat (["You whispered to ",_target," : ",_message] joinString "");
 	};
+
+	case "history":{["init",findDisplay 46] call FUNC(historyUI)};
+	case "settings":{["init",findDisplay 46] call FUNC(settingsUI)};
 };

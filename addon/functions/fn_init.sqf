@@ -61,7 +61,7 @@ if hasInterface then {
 		] call WW2_InterruptMenu_fnc_addButton;
 		[
 			"cau_extendedchat",localize "STR_CAU_xChat_interrupt_settings_ww2","",
-			{},{["init"] call FUNC(settingsUI)}
+			{},{["init",ctrlParent(_this#0)] call FUNC(settingsUI)}
 		] call WW2_InterruptMenu_fnc_addButton;
 	} else {
 		// Add via scripted eh, fires during onLoad
@@ -88,7 +88,7 @@ if hasInterface then {
 			_ctrlSettings ctrlSetFont FONT_SEMIBOLD;
 			_ctrlSettings ctrlSetBackgroundColor _buttonColour;
 			_ctrlSettings ctrlSetPosition _buttonPos;
-			_ctrlSettings ctrlAddEventHandler ["ButtonClick",{["init"] call FUNC(settingsUI)}];
+			_ctrlSettings ctrlAddEventHandler ["ButtonClick",{["init",ctrlParent(_this#0)] call FUNC(settingsUI)}];
 			_ctrlSettings ctrlCommit 0;
 		}] call BIS_fnc_addScriptedEventHandler;
 	};
@@ -96,6 +96,8 @@ if hasInterface then {
 	// Add inbuild commands
 	["mute",{["mute",_this] call FUNC(command)}] call FUNC(addCommand);
 	["unmute",{["unmute",_this] call FUNC(command)}] call FUNC(addCommand);
+	["chat-history",{["history",_this] call FUNC(command)}] call FUNC(addCommand);
+	["chat-settings",{["settings",_this] call FUNC(command)}] call FUNC(addCommand);
 	if (getMissionConfigValue[QUOTE(VAR(whisperCommand)),1] isEqualTo 1) then {
 		["whisper",{["whisper",_this] call FUNC(command)}] call FUNC(addCommand);
 	};
