@@ -326,7 +326,7 @@ switch _mode do {
 					"#logout","#restart","#mission","#missions","#reassign","#monitor","#init", // voted/logged in admin
 					"#lock","#unlock","#maxping","#maxdesync","#maxpacketloss", // logged in admin/host
 					"#shutdown","#restartserver","#exec","#beserver","#monitords","#logentities","#exportjipqueue", // logged in admin
-					"#captureframe","#enabletest","#disabletest" // certain game builds
+					"#captureframe","#captureslowframe","#enabletest","#disabletest" // certain game builds
 				];
 
 				_items = _items call _sortBySearch;
