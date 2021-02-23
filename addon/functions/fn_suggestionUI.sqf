@@ -96,7 +96,7 @@ switch _mode do {
 		private _ctrlEditSelection = ctrlTextSelection _ctrlEdit;
 		private _ctrlEditSelectionLast = _ctrlEdit getVariable [QUOTE(VAR_CTRL_EDIT_SEL_LAST),[]];
 
-		if !(_ctrlEditSelection isEqualTo _ctrlEditSelectionLast) then {
+		if (_ctrlEditSelection isNotEqualTo _ctrlEditSelectionLast) then {
 			_ctrlEdit setVariable [QUOTE(VAR_CTRL_EDIT_SEL_LAST),_ctrlEditSelection];
 
 			(DISPLAY(VAR_CHAT_OVERLAY_DISPLAY) getVariable ["tasks",[]]) pushBack [

@@ -27,7 +27,7 @@ Return:
 params [["_command","",[""]],["_code",{},[{}]],["_preventOverwrite",true,[true]]];
 
 private _success = false;
-if (_command != "" && !(_code isEqualTo {})) then {
+if (_command != "" && _code isNotEqualTo {}) then {
 	private _commands = VAR_COMMANDS_ARRAY;
 	private _index = _commands findIf {_x#0 == _command};
 

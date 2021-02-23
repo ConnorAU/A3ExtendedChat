@@ -74,7 +74,7 @@ switch _mode do {
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 						if (count _messageMentionIDChars == 0) then {
 							private _role = ["getRole",parseNumber _messageMentionID] call FUNC(role);
-							if !(_role isEqualTo []) then {
+							if (_role isNotEqualTo []) then {
 								if (clientOwner in _role#3) then {_messageMentionsSelf = true};
 
 								_params set [
@@ -147,7 +147,7 @@ switch _mode do {
 						private _messageMentionIDChars = _messageMentionID splitString "1234567890";
 						if (count _messageMentionIDChars == 0) then {
 							private _role = ["getRole",parseNumber _messageMentionID] call FUNC(role);
-							if !(_role isEqualTo []) then {_mentions pushBack _role#3};
+							if (_role isNotEqualTo []) then {_mentions pushBack _role#3};
 						};
 					};
 				};

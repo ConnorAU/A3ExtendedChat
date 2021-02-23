@@ -86,7 +86,7 @@ switch _mode do {
 
 		["set",[VAL_SETTINGS_KEY_MUTED_PLAYERS,_setting]] call FUNC(settings);
 
-		if !(_found isEqualTo []) then {
+		if (_found isNotEqualTo []) then {
 			private _action = ["Unmuted ","Muted "] select (_mode isEqualTo "mute");
 			systemChat (_action+(_found joinString " "));
 		};

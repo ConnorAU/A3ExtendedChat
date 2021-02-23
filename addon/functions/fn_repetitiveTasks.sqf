@@ -282,7 +282,7 @@ if (VAR_ENABLE_VON_CTRL && {diag_tickTime >= (missionNameSpace getVariable [QUOT
 	};
 
 	private _isSpeaking = missionNamespace getVariable [QUOTE(VAR_UPDATE_VON_ISSPEAKING),false];
-	if !(_isSpeaking isEqualTo _playerIsSpeaking) then {
+	if (_isSpeaking isNotEqualTo _playerIsSpeaking) then {
 		VAR_UPDATE_VON_ISSPEAKING = !_isSpeaking;
 		[
 			"voice",
