@@ -24,14 +24,6 @@ Return:
 #include "_macros.inc"
 #include "_defines.inc"
 
-#define DIALOG_W ((BUTTON_W*(EMOJI_W-1)) + 2 + (SIZE_M*2) + 4)
-#define DIALOG_H ((BUTTON_H*6) + (SIZE_M*2) + 6)
-
-#define BUTTON_W (SIZE_M*2)
-#define BUTTON_H (SIZE_M*2)
-
-#define EMOJI_W 8
-
 SWITCH_SYS_PARAMS;
 
 switch _mode do {
