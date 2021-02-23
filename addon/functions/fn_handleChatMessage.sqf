@@ -83,24 +83,7 @@ reverse _eventReturns;
 } forEach _eventReturns;
 
 // Trim whitespace
-private _whitespace = [9,32];
-private _messageChars = toArray _message;
-private _trimIndex = 0;
-
-// Trim start
-{
-	_trimIndex = _forEachIndex;
-	if !(_x in _whitespace) exitWith {};
-} forEach _messageChars;
-_message = _message select [_trimIndex];
-
-// Trim end
-reverse _messageChars;
-{
-	_trimIndex = _forEachIndex;
-	if !(_x in _whitespace) exitWith {};
-} forEach _messageChars;
-_message = _message select [0,count _message - _trimIndex];
+_message = trim _message;
 
 // Do nothing if the message is empty
 if (_message in [""," "]) exitWith {};
@@ -188,7 +171,7 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 				private _segmentStartTrim = _segmentLow;
 				private _segmentStartTrimed = "";
 				if !_segmentMatch then {
-					_segmentStartTrim = ["stringTrimLeft",[_segmentLow,_trim]] call FUNC(commonTask);
+					_segmentStartTrim = _segmentLow trim [_trim,1];
 					_segmentMatch = _segmentStartTrim isEqualTo _termStart;
 					if _segmentMatch then {
 						_segmentStartTrimed = _segment select [0,_segmentLow find _segmentStartTrim];
@@ -203,7 +186,7 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 					if !_segmentsMatch then {
 						private _segmentLast = _segments#(count _segments - 1);
 						if (_segmentLast isEqualType "") then {
-							private _segmentLastTrim = ["stringTrimRight",[_segmentLast,_trim]] call FUNC(commonTask);
+							private _segmentLastTrim = _segmentLast trim [_trim,2];
 							_segments set [count _segments - 1,_segmentLastTrim];
 							_segmentsMatch = _segments isEqualTo _filterSegments;
 							if _segmentsMatch then {
@@ -228,7 +211,7 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 					if (_segmentLow isEqualTo _term) then {
 						_message set [_i,_censored];
 					} else {
-						private _segmentTrim = ["stringTrim",[_segmentLow,_trim]] call FUNC(commonTask);
+						private _segmentTrim = _segmentLow trim [_trim,0];
 						if (_segmentTrim isEqualTo _term) then {
 							_message set [_i,["stringReplace",[_segment,_x,_censored]] call FUNC(commonTask)];
 						};
