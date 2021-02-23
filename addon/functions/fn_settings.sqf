@@ -212,12 +212,12 @@ switch _mode do {
 					_resetSettings = true;
 				} else {
 					_settings set [0,"v2"];
-					_settings = [_settings,[
+					_settings insert [9/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/,[
 						[0.545098,0.65098,0.894118,1],
 						[0.984,0.655,0.071,0.2],
 						DIK_TAB
-					],9/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
-					_settings = [_settings,[true],14/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/] call BIS_fnc_arrayInsert;
+					],false];
+					_settings insert [14/*VAL_SETTINGS_INDEX_TEXT_MENTION_COLOR*/,[true],false];
 					_settings deleteAt 16; // unsupported mission log
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
@@ -248,10 +248,10 @@ switch _mode do {
 					_resetSettings = true;
 				} else {
 					_settings set [0,"v1.2"];
-					_settings = [_settings,[
+					_settings insert [5/*VAL_SETTINGS_INDEX_TEXT_FONT*/,[
 						"RobotoCondensedLight",1,
 						[0.651,0.651,0.651,1],[0.1,0.1,0.1,0.5]
-					],5/*VAL_SETTINGS_INDEX_TEXT_FONT*/] call BIS_fnc_arrayInsert;
+					],false];
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
@@ -280,7 +280,7 @@ switch _mode do {
 					_resetSettings = true;
 				} else {
 					_settings set [0,"v1.1"];
-					_settings = [_settings,[true],8/*VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION*/] call BIS_fnc_arrayInsert;
+					_settings insert [8/*VAL_SETTINGS_INDEX_PRINT_UNSUPPORTED_MISSION*/,[true],false];
 
 					profileNameSpace setVariable [VAR_SETTINGS,_settings];
 					_repeatInit = true;
