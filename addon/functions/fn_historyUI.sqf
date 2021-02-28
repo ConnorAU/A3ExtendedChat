@@ -51,9 +51,8 @@ Return:
 #define IDC_CB_CUSTOM_10     20
 #define IDC_EDIT_SEARCH      21
 #define IDC_GROUP_MESSAGES   22
-#define IDC_STATIC_RELOAD    23
-#define IDC_BUTTON_RELOAD    24
-#define IDC_IMAGE_SPINNER    25
+#define IDC_BUTTON_RELOAD    23
+#define IDC_IMAGE_SPINNER    24
 
 disableSerialization;
 SWITCH_SYS_PARAMS;
@@ -401,19 +400,6 @@ switch _mode do {
 					_ctrl ctrlAddEventHandler ["ButtonClick",format["['CBLabelClicked',%1] call %2",_channel,QUOTE(THIS_FUNC)]];
 				}
 			],
-			[// Can't colour ctrlButton so doing this as alternative
-			// TODO: remove when issue is fixed (2.01+)
-				"ctrlStatic",IDC_STATIC_RELOAD,[
-					PXCX(DIALOG_W) + PXW(2),
-					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(SIZE_M) + PXH(9) + PXH((SIZE_M*8.5)),
-					PXW(50),
-					PXH(SIZE_M)
-				],
-				{
-					_ctrl ctrlShow false;
-					_ctrl ctrlSetBackgroundColor [COLOR_NOTE_ERROR_RGBA];
-				}
-			],
 			[// Clear button with hover highlight
 				"ctrlButtonFilter",IDC_BUTTON_RELOAD,[
 					PXCX(DIALOG_W) + PXW(2),
@@ -423,6 +409,7 @@ switch _mode do {
 				],
 				{
 					_ctrl ctrlShow false;
+					_ctrl ctrlSetBackgroundColor [COLOR_NOTE_ERROR_RGBA];
 					_ctrl ctrlAddEventHandler ["ButtonClick",{["ButtonNewMessageClicked"] call THIS_FUNC}];
 				}
 			],
@@ -522,7 +509,6 @@ switch _mode do {
 
 		USE_CTRL(_ctrlFilterBG,IDC_STATIC_FILTER);
 		USE_CTRL(_ctrlFilterFrame,IDC_FRAME_FILTER);
-		USE_CTRL(_ctrlNewMessageStatic,IDC_STATIC_RELOAD);
 		USE_CTRL(_ctrlNewMessageButton,IDC_BUTTON_RELOAD);
 
 		private _ctrlPosAdd = PXH((SIZE_M*_customChannels));
@@ -532,10 +518,8 @@ switch _mode do {
 			_x ctrlCommit 0;
 		} foreach [_ctrlFilterBG,_ctrlFilterFrame];
 
-		{
-			_x ctrlSetPositionY (ctrlPosition _ctrlFilterBG#1 + ctrlPosition _ctrlFilterBG#3 + PXH(2));
-			_x ctrlCommit 0;
-		} foreach [_ctrlNewMessageStatic,_ctrlNewMessageButton];
+		_ctrlNewMessageButton ctrlSetPositionY (ctrlPosition _ctrlFilterBG#1 + ctrlPosition _ctrlFilterBG#3 + PXH(2));
+		_ctrlNewMessageButton ctrlCommit 0;
 
 
 		["PopulateList"] spawn THIS_FUNC;
@@ -551,7 +535,6 @@ switch _mode do {
 		USE_DISPLAY(THIS_DISPLAY);
 		if (isNull _display) exitWith {};
 
-		USE_CTRL(_ctrlNewMessageStatic,IDC_STATIC_RELOAD);
 		USE_CTRL(_ctrlNewMessageButton,IDC_BUTTON_RELOAD);
 
 		private _newMessages = _ctrlNewMessageButton getVariable ["newMessages",0];
@@ -563,7 +546,6 @@ switch _mode do {
 			_newMessages,
 			["s",""] select (_newMessages == 1)
 		];
-		_ctrlNewMessageStatic ctrlShow true;
 		_ctrlNewMessageButton ctrlShow true;
 	};
 	case "CBLabelClicked":{
@@ -640,14 +622,12 @@ switch _mode do {
 		USE_CTRL(_ctrlCBCustom10,IDC_CB_CUSTOM_10);
 		USE_CTRL(_ctrlEditSearch,IDC_EDIT_SEARCH);
 		USE_CTRL(_ctrlGroupMessages,IDC_GROUP_MESSAGES);
-		USE_CTRL(_ctrlNewMessageStatic,IDC_STATIC_RELOAD);
 		USE_CTRL(_ctrlNewMessageButton,IDC_BUTTON_RELOAD);
 		USE_CTRL(_ctrlImageSpinner,IDC_IMAGE_SPINNER);
 
 		_ctrlGroupMessages ctrlShow false;
 		_ctrlImageSpinner ctrlShow true;
 
-		_ctrlNewMessageStatic ctrlShow false;
 		_ctrlNewMessageButton ctrlShow false;
 		_ctrlNewMessageButton setVariable ["newMessages",0];
 

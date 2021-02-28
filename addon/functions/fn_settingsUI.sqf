@@ -266,18 +266,13 @@ switch _mode do {
 				}
 			],
 			[
-				// TODO: change to ctrlEdit when fixed
-				"RscEdit",IDC_EDIT_COMMAND_PREFIX,[
+				"ctrlEdit",IDC_EDIT_COMMAND_PREFIX,[
 					PXCX(DIALOG_W) + PXW(4),
 					PXCY(DIALOG_H) + PXH(SIZE_M) + PXH(2) + PXH(2) + PXH((SIZE_M*2)),
 					PXW((DIALOG_W/3)) - PXW(6.5),
 					PXH(SIZE_M)
 				],
 				{
-					_ctrl ctrlSetFont FONT_NORMAL;
-					_ctrl ctrlSetFontHeight PXH(4.32);
-					_ctrl ctrlSetBackgroundColor [COLOR_TAB_RGBA];
-
 					_ctrl ctrlSetText (["get",VAL_SETTINGS_KEY_COMMAND_PREFIX] call FUNC(settings));
 					_ctrl ctrlAddEventHandler ["KeyDown",{["KeyDown"] call THIS_FUNC}];
 				}
