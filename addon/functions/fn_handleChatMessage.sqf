@@ -166,38 +166,40 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 			private _termStart = toLower(_filterSegments#0);
 			for "_i" from 0 to count _message - 1 do {
 				private _segment = _message#_i;
-				private _segmentLow = toLower(_message#_i);
-				private _segmentMatch = _segmentLow isEqualTo _termStart;
-				private _segmentStartTrim = _segmentLow;
-				private _segmentStartTrimed = "";
-				if !_segmentMatch then {
-					_segmentStartTrim = _segmentLow trim [_trim,1];
-					_segmentMatch = _segmentStartTrim isEqualTo _termStart;
-					if _segmentMatch then {
-						_segmentStartTrimed = _segment select [0,_segmentLow find _segmentStartTrim];
-					};
-				};
-				if _segmentMatch then {
-					private _segments = ([_segmentStartTrim] + (_message select [_i + 1,count _filterSegments - 1])) apply {
-						if (_x isEqualType "") then {toLower _x} else {_x}
-					};
-					private _segmentsMatch = _segments isEqualTo _filterSegments;
-					private _segmentLastTrimed = "";
-					if !_segmentsMatch then {
-						private _segmentLast = _segments#(count _segments - 1);
-						if (_segmentLast isEqualType "") then {
-							private _segmentLastTrim = _segmentLast trim [_trim,2];
-							_segments set [count _segments - 1,_segmentLastTrim];
-							_segmentsMatch = _segments isEqualTo _filterSegments;
-							if _segmentsMatch then {
-								_segmentLastTrimed = _segmentLast select [count _segmentLastTrim];
-							};
+				if (_segment isEqualType "") then {
+					private _segmentLow = toLower _segment;
+					private _segmentMatch = _segmentLow isEqualTo _termStart;
+					private _segmentStartTrim = _segmentLow;
+					private _segmentStartTrimed = "";
+					if !_segmentMatch then {
+						_segmentStartTrim = _segmentLow trim [_trim,1];
+						_segmentMatch = _segmentStartTrim isEqualTo _termStart;
+						if _segmentMatch then {
+							_segmentStartTrimed = _segment select [0,_segmentLow find _segmentStartTrim];
 						};
 					};
-					if _segmentsMatch then {
-						if (_censored == "") then {_censored = _x splitString "" apply {["*"," "] select (_x == " ")} joinString ""};
-						_message set [_i,_segmentStartTrimed + _censored + _segmentLastTrimed];
-						for "_ii" from _i + 1 to _i + count _filterSegments - 1 do {_message set [_ii,""]};
+					if _segmentMatch then {
+						private _segments = ([_segmentStartTrim] + (_message select [_i + 1,count _filterSegments - 1])) apply {
+							if (_x isEqualType "") then {toLower _x} else {_x}
+						};
+						private _segmentsMatch = _segments isEqualTo _filterSegments;
+						private _segmentLastTrimed = "";
+						if !_segmentsMatch then {
+							private _segmentLast = _segments#(count _segments - 1);
+							if (_segmentLast isEqualType "") then {
+								private _segmentLastTrim = _segmentLast trim [_trim,2];
+								_segments set [count _segments - 1,_segmentLastTrim];
+								_segmentsMatch = _segments isEqualTo _filterSegments;
+								if _segmentsMatch then {
+									_segmentLastTrimed = _segmentLast select [count _segmentLastTrim];
+								};
+							};
+						};
+						if _segmentsMatch then {
+							if (_censored == "") then {_censored = _x splitString "" apply {["*"," "] select (_x == " ")} joinString ""};
+							_message set [_i,_segmentStartTrimed + _censored + _segmentLastTrimed];
+							for "_ii" from _i + 1 to _i + count _filterSegments - 1 do {_message set [_ii,""]};
+						};
 					};
 				};
 			};
@@ -205,15 +207,17 @@ if (["get",VAL_SETTINGS_KEY_BAD_LANGUAGE_FILTER] call FUNC(settings)) then {
 			private _term = toLower _x;
 			for "_i" from 0 to count _message - 1 do {
 				private _segment = _message#_i;
-				private _segmentLow = toLower(_message#_i);
-				if (_term in _segmentLow) then {
-					if (_censored == "") then {_censored = _x splitString "" apply {"*"} joinString ""};
-					if (_segmentLow isEqualTo _term) then {
-						_message set [_i,_censored];
-					} else {
-						private _segmentTrim = _segmentLow trim [_trim,0];
-						if (_segmentTrim isEqualTo _term) then {
-							_message set [_i,["stringReplace",[_segment,_x,_censored]] call FUNC(commonTask)];
+				if (_segment isEqualType "") then {
+					private _segmentLow = toLower _segment;
+					if (_term in _segmentLow) then {
+						if (_censored == "") then {_censored = _x splitString "" apply {"*"} joinString ""};
+						if (_segmentLow isEqualTo _term) then {
+							_message set [_i,_censored];
+						} else {
+							private _segmentTrim = _segmentLow trim [_trim,0];
+							if (_segmentTrim isEqualTo _term) then {
+								_message set [_i,["stringReplace",[_segment,_x,_censored]] call FUNC(commonTask)];
+							};
 						};
 					};
 				};
