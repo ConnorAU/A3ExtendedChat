@@ -79,7 +79,7 @@ switch _mode do {
 						diag_log [_x,typeName _dValue,typeName _value,_value];
 						[_value] param [0,_dValue,[_dValue]]; // Used to show script error
 					};
-				} forEach _default#0;
+				} forEach keys _default;
 
 				if (!_correctSize || !_correctFormat) then {
 					_resetSettings = true;
