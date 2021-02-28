@@ -88,22 +88,18 @@ _message = trim _message;
 // Do nothing if the message is empty
 if (_message in [""," "]) exitWith {};
 
-// TODO: remove
-// Debug log to find out what exactly causes !_forceDisplay and _playerMessage
-if (!_forceDisplay || _playerMessage) then {
-	diag_log text(QUOTE(THIS_FUNC) + " - '!_forceDisplay || _playerMessage' : " + str _this);
-	if (getPlayerUID player == "76561198090361580") then {
-		hint format["%1 : '!_forceDisplay || _playerMessage' anomoly",QUOTE(THIS_FUNC)];
-	};
-};
-
-// TODO: Delete once HCM EH is fixed and fires kill messages for everyone, not just the victim owner
-// Broadcasts kill messages to everyone as the event handler currently only fires for the victim owner
-if (_channelID == 0 && _chatMessageType == 2) exitWith {
-	if (_senderID == clientOwner && getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isEqualTo 1) then {
-		// Extract player name(s) from message to apply localization on each player receiving the message
-		{
-			private _xSplit = ["stringSplitString",[_x,"%s"]] call FUNC(commonTask);
+// Detect system message type and block from printing if related setting is disabled
+private _settingsBlockPrint = false;
+if (_channelID in [0,16]) then {
+	if (_channelID == 0) then {
+		if (_chatMessageType == 2) then {
+			_channelID = 16;
+			_settingsBlockPrint = getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isNotEqualTo 1 || !(["get",VAL_SETTINGS_KEY_PRINT_DEATH] call FUNC(settings));
+		};
+	} else {
+		_settingsBlockPrint = {
+			_x params ["_string","_setting"];
+			private _xSplit = ["stringSplitString",[_string,"%s"]] call FUNC(commonTask);
 			private _match = true;
 			private _inIndex = -1;
 
@@ -122,14 +118,31 @@ if (_channelID == 0 && _chatMessageType == 2) exitWith {
 			} forEach _xSplit;
 
 			if _match exitWith {
-				private _names = ["stringExtractFromSegments",[_message,_xSplit]] call FUNC(commonTask);
-				["systemChat",[_message,nil,nil,VAL_SETTINGS_KEY_PRINT_DEATH,[_forEachIndex,_names]]] remoteExecCall [QUOTE(FUNC(sendMessage)),0];
+				private _return = !(["get",_setting] call FUNC(settings));
+				if !_return then {
+					_return = switch _setting do {
+						case VAL_SETTINGS_KEY_PRINT_CONNECTED:{getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isNotEqualTo 1};
+						case VAL_SETTINGS_KEY_PRINT_DISCONNECTED:{getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isNotEqualTo 1};
+						default {_return};
+					};
+				};
+				_return
 			};
+			false
 		} forEach [
-			localize "str_killed_friendly",
-			localize "str_killed",
-			localize "str_killed_by_friendly",
-			localize "str_killed_by"
+			[localize "str_mp_connecting",VAL_SETTINGS_KEY_PRINT_CONNECTED],
+			[localize "str_mp_connect",VAL_SETTINGS_KEY_PRINT_CONNECTED],
+			[localize "str_mp_validerror_2",VAL_SETTINGS_KEY_PRINT_CONNECTED],
+			[localize "str_mp_disconnect",VAL_SETTINGS_KEY_PRINT_DISCONNECTED],
+			//[localize "str_mp_banned" + ": %s",],
+			//[localize "str_mp_banned",],
+			//[localize "str_mp_kicked" + ": %s",],
+			//[localize "str_mp_kicked",],
+			//[localize "str_signature_wrong",],
+			//[localize "str_signature_missing",],
+			//[localize "str_signature_check_timed_out",],
+			//[localize "str_mp_connection_loosing",],
+			["Player %s kicked off by BattlEye: %s",VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK]
 		];
 	};
 };
@@ -288,6 +301,9 @@ if !_sehBlockHistory then {
 
 // Scripted event return blocked printing message
 if _sehBlockPrint exitWith {};
+
+// Setting for system message type blocked printing message
+if _settingsBlockPrint exitWith {};
 
 // Don't print message if sender is blocked
 if _senderIsMuted exitWith {};

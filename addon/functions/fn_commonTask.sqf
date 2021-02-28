@@ -206,38 +206,4 @@ switch _mode do {
 		};
 		_output
 	};
-
-	// TODO: remove once HCM is fixed and I no longer need to replace system formats
-	case "stringConvert%sToFormat":{
-		_params params ["_input"];
-		private _output = [];
-		private _index = -1;
-		private _s = 1;
-		for "_i" from 0 to 1 step 0 do {
-			_index = _input find "%s";
-			if (_index < 0) exitwith {_output pushback _input;};
-			_output pushback (_input select [0,_index]);
-			_output pushback ("%"+str _s);
-			_s = _s + 1;
-			_input = _input select [_index + 2,count _input];
-		};
-		_output joinString ""
-	};
-	// TODO: remove once HCM is fixed and I no longer need to replace system formats
-	case "stringExtractFromSegments":{
-		_params params ["_input","_segments"];
-
-		private _output = [];
-		private _index = -1;
-		{
-			_index = _input find _x;
-			if (_foreachindex > 0) then {
-				if (count _x == 0) then {_index = count _input};
-				_output pushback (_input select [0,_index]);
-			};
-			if (_index < 0) exitWith {};
-			_input = _input select [_index + count _x];
-		} forEach _segments;
-		_output
-	};
 };
