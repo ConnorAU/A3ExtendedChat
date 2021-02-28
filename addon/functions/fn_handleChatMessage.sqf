@@ -323,6 +323,10 @@ if (_isChannelPrintEnabled && {call _printCondition}) then {
 		_senderNameSafe = _senderNameSafe + ": ";
 	};
 
+	if (_channelID in [16,17]) then {
+		_channelColor = ["ChannelColour",[_channelID,false]] call FUNC(commonTask);
+	};
+
 	private _messageFinal = composeText [
 		text _senderNameSafe setAttributes ["color",_channelColor call BIS_fnc_colorRGBAtoHTML],
 		_messageComposed setAttributes ["color",_messageColor]
