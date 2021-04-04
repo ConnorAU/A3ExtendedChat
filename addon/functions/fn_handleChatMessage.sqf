@@ -97,8 +97,8 @@ if (_channelID in [0,16]) then {
 			_settingsBlockPrint = getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isNotEqualTo 1 || !(["get",VAL_SETTINGS_KEY_PRINT_DEATH] call FUNC(settings));
 		};
 	} else {
-		_settingsBlockPrint = {
-			_x params ["_string","_setting"];
+		private _matchString = {
+			params ["_string","_setting"];
 			private _xSplit = ["stringSplitString",[_string,"%s"]] call FUNC(commonTask);
 			private _match = true;
 			private _inIndex = -1;
@@ -123,13 +123,16 @@ if (_channelID in [0,16]) then {
 					_return = switch _setting do {
 						case VAL_SETTINGS_KEY_PRINT_CONNECTED:{getMissionConfigValue[QUOTE(VAR(connectMessages)),1] isNotEqualTo 1};
 						case VAL_SETTINGS_KEY_PRINT_DISCONNECTED:{getMissionConfigValue[QUOTE(VAR(disconnectMessages)),1] isNotEqualTo 1};
+						case VAL_SETTINGS_KEY_PRINT_DEATH:{getMissionConfigValue[QUOTE(VAR(deathMessages)),1] isNotEqualTo 1};
 						default {_return};
 					};
 				};
 				_return
 			};
 			false
-		} forEach [
+		};
+
+		_settingsBlockPrint = [
 			[localize "str_mp_connecting",VAL_SETTINGS_KEY_PRINT_CONNECTED],
 			[localize "str_mp_connect",VAL_SETTINGS_KEY_PRINT_CONNECTED],
 			[localize "str_mp_validerror_2",VAL_SETTINGS_KEY_PRINT_CONNECTED],
@@ -143,7 +146,36 @@ if (_channelID in [0,16]) then {
 			//[localize "str_signature_check_timed_out",],
 			//[localize "str_mp_connection_loosing",],
 			["Player %s kicked off by BattlEye: %s",VAL_SETTINGS_KEY_PRINT_BATTLEYE_KICK]
-		];
+		] findIf { _x call _matchString } != -1;
+
+		if _settingsBlockPrint exitWith {};
+		if (missionNamespace getVariable ["bis_revive_killfeedShow",false]) then {
+			private _replaceFormatIndecies = {
+				_this = ["stringReplace",[_this,"%1","%s"]] call FUNC(commonTask);
+				_this = ["stringReplace",[_this,"%2","%s"]] call FUNC(commonTask);
+				_this
+			};
+			_settingsBlockPrint = [
+				{localize "STR_A3_Revive_MSG_INCAPACITATED" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_INCAPACITATED_BY" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_INCAPACITATED_BY_FF" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_KILLED" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_KILLED_BY" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_KILLED_BY_FF" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_EXECUTED" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_EXECUTED_BY" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_EXECUTED_BY_FF" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_BLEDOUT" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_DROWNED" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_DIED" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_SUICIDED" call _replaceFormatIndecies}/*,
+				{localize "STR_A3_Revive_MSG_REVIVED" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_REVIVED_BY" call _replaceFormatIndecies},
+				{localize "STR_A3_Revive_MSG_FORCED_RESPAWN" call _replaceFormatIndecies},
+				{"%s was secured"},
+				{"%s was secured by %s"}*/
+			] findIf { [call _x,VAL_SETTINGS_KEY_PRINT_DEATH] call _matchString } != -1;
+		};
 	};
 };
 

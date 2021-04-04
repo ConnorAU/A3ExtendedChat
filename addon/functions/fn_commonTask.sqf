@@ -173,7 +173,7 @@ switch _mode do {
 			if (_findPrefix != "") then {_index = _index + _findPLen};
 			_output pushback (_input select [0,_index]);
 			_output pushback _replace;
-			_input = _input select [_index + _findLen,count _input];
+			_input = _input select [_index + _findLen];
 		};
 		_output joinString ""
 	};
@@ -187,7 +187,7 @@ switch _mode do {
 			_index = tolower _input find _find;
 			if (_index < 0) exitwith {_output pushback _input;};
 			_output pushback (_input select [0,_index]);
-			_input = _input select [_index + _findLen,count _input];
+			_input = _input select [_index + _findLen];
 		};
 		_output
 	};
@@ -202,7 +202,7 @@ switch _mode do {
 			if (_index < 0) exitwith {_output pushback _input;};
 			_output pushback (_input select [0,_index]);
 			_output pushBack _find;
-			_input = _input select [_index + _findLen,count _input];
+			_input = _input select [_index + _findLen];
 		};
 		_output
 	};
