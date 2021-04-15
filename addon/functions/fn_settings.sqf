@@ -26,7 +26,7 @@ Return:
 
 SWITCH_SYS_PARAMS;
 
-private _settings = profileNameSpace getVariable [VAR_SETTINGS,[[],[]]];
+private _settings = profileNameSpace getVariable [VAR_SETTINGS,createHashMap];
 
 switch _mode do {
 	case "init":{
@@ -355,16 +355,32 @@ switch _mode do {
 	};
 	case "set":{
 		_params params ["_key","_value"];
-		_settings set [_key,_value];
+		if (_settings isEqualType createHashMap) then {
+			_settings set [_key,_value];
+		} else {
+			_settings#1 set [_settings#0 find _key,_value];
+		};
 		profileNamespace setVariable [VAR_SETTINGS,_settings];
 	};
 	case "add":{
 		private _default = ["default"] call THIS_FUNC;
-		_settings set [_params,_default get _params];
+		if (_settings isEqualType createHashMap) then {
+			_settings set [_params,_default get _params];
+		} else {
+			private _value = _default get _params;
+			_settings#0 pushBack _params;
+			_settings#1 pushBack _value;
+		};
 		profileNamespace setVariable [VAR_SETTINGS,_settings];
 	};
 	case "remove":{
-		_settings deleteAt _params;
+		if (_settings isEqualType createHashMap) then {
+			_settings deleteAt _params;
+		} else {
+			private _index = _settings#0 find _params;
+			_settings#0 deleteAt _index;
+			_settings#1 deleteAt _index;
+		};
 		profileNamespace setVariable [VAR_SETTINGS,_settings];
 	};
 	case "reset":{
