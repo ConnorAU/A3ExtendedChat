@@ -298,7 +298,12 @@ switch _mode do {
 			// repeat when updating to a new version format.
 			// will save the settings in the next version format then repeat the init to verify/update again if multiple versions behind.
 			diag_log text "Extended Chat: Repeating settings initialization";
-			_this call THIS_FUNC;
+			if (productVersion#2 isEqualTo 202) then {
+				// Temporary workaround for some bug causing game crash in 2.02 when updating from v1.1
+				addMissionEventHandler ["EachFrame",format["removeMissionEventHandler ['EachFrame',_thisEventhandler];%1 call %2",_this,QUOTE(THIS_FUNC)]];
+			} else {
+				_this call THIS_FUNC;
+			};
 		} else {
 			saveProfileNamespace;
 		};
