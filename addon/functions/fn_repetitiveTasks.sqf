@@ -62,7 +62,14 @@ if (!isNull _display) then {
 		private _ctrlChatBG = (allControls _display) select (allControls _display findIf {ctrlClassName _x == "CA_Background"});
 		_ctrlChatBG ctrlShow false;
 
-		private _displayOverlay = findDisplay 46 createDisplay "RscDisplayEmpty";
+		// Create on zeus display if open
+		private _display312 = findDisplay 312;
+		private _displayOverlay = if (!isNull _display312) then {
+			_display312 createDisplay "RscDisplayEmpty";
+		} else {
+			findDisplay 46 createDisplay "RscDisplayEmpty";
+		};
+
 		uiNamespace setVariable [QUOTE(VAR_CHAT_OVERLAY_DISPLAY),_displayOverlay];
 
 		// set up per frame unscheduled task handler
