@@ -128,9 +128,9 @@ if (!isNull _display) then {
 			if (!isNull _ctrlCharCount) then {
 				(_displayOverlay getVariable ["tasks",[]]) pushBack [
 					[_ctrlEdit,_ctrlCharCount],{
-						// Added to as a task to delay execution by at least a frame as the modification to text input doesn't occur until after keyDown
+						// Added as a task to delay execution by at least a frame as the modification to text input doesn't occur until after keyDown
 						params ["_ctrlEdit","_ctrlCharCount"];
-						private _charCount = count ctrlText _ctrlEdit;
+						private _charCount = count toArray ctrlText _ctrlEdit;
 						_ctrlCharCount ctrlSetText format[localize "STR_CAU_xChat_chat_character_count",_charCount];
 						_ctrlCharCount ctrlSetTextColor [
 							linearConversion[100,150,_charCount,1,[COLOR_NOTE_ERROR_RGB]#0,true],
